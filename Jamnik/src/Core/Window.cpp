@@ -2,7 +2,7 @@
 
 #include "Window.h"
 
-bool Window::Init()
+bool Jamnik::Window::Init()
 {
     glfwInit();
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
@@ -26,9 +26,11 @@ bool Window::Init()
 
     glViewport(320, 0, 1280, 720);
     glClearColor(0.15f, 0.5f, 1.0f, 1.0f);
+
+    return true;
 }
 
-void Window::ShutDown()
+void Jamnik::Window::ShutDown()
 {
     glfwTerminate();
 }

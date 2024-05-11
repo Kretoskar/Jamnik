@@ -2,7 +2,7 @@
 
 int main()
 {
-    Application application;
+    Jamnik::Application application;
     
     if (application.Init())
     {

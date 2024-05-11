@@ -3,14 +3,17 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
-class Window
+namespace Jamnik
 {
-public:
-    bool Init();
-    void ShutDown();
+    class Window
+    {
+    public:
+        bool Init();
+        void ShutDown();
 
-    GLFWwindow* GetGlfwWindow() const { return _window; }
+        GLFWwindow* GetGlfwWindow() const { return _window; }
     
-private:
-    GLFWwindow* _window;
-};
+    private:
+        GLFWwindow* _window;
+    };
+}

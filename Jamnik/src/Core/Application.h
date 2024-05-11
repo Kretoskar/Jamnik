@@ -4,18 +4,19 @@
 
 #include "Window.h"
 
-
-class Application
+namespace Jamnik
 {
-public:
-    bool Init();
-    void Update();
-    void ShutDown();
+    class Application
+    {
+    public:
+        bool Init();
+        void Update();
+        void ShutDown();
 
-    bool GetShouldClose() const { return _shouldClose; }
+        bool GetShouldClose() const { return _shouldClose; }
     
-private:
-    std::unique_ptr<Window> _window;
-    bool _shouldClose = false;
-};
-
+    private:
+        std::unique_ptr<Jamnik::Window> _window;
+        bool _shouldClose = false;
+    };
+}

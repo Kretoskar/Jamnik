@@ -7,7 +7,7 @@
 #include "imgui/imgui.h"
 
 
-bool Application::Init()
+bool Jamnik::Application::Init()
 {
     _window = std::make_unique<Window>();
     if (!_window->Init())
@@ -25,7 +25,7 @@ bool Application::Init()
     return true;
 }
 
-void Application::Update()
+void Jamnik::Application::Update()
 {
     _shouldClose = glfwWindowShouldClose(_window->GetGlfwWindow());
 
@@ -48,7 +48,7 @@ void Application::Update()
     glfwPollEvents();
 }
 
-void Application::ShutDown()
+void Jamnik::Application::ShutDown()
 {
     ImGui_ImplOpenGL3_Shutdown();
     ImGui_ImplGlfw_Shutdown();

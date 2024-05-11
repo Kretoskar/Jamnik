@@ -158,6 +158,7 @@
       <AdditionalIncludeDirectories>C:\_Projekty\Jamnik\Jamnik\src;C:\_Projekty\Jamnik\Jamnik\vendor;</AdditionalIncludeDirectories>
       <LinkCompiled>true</LinkCompiled>
     </ClCompile>
+    <ClCompile Include="src\Core\Logger.cpp" />
     <ClCompile Include="src\Core\Window.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="vendor\glad.c" />
@@ -172,6 +173,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Core\Application.h" />
+    <ClInclude Include="src\Core\Logger.h" />
     <ClInclude Include="src\Core\Window.h" />
     <ClInclude Include="vendor\imgui\imconfig.h" />
     <ClInclude Include="vendor\imgui\imgui.h" />
