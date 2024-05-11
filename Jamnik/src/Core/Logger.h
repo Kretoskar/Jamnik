@@ -7,17 +7,17 @@
 
 #define LOG_ERROR(...) \
 std::printf("[Error] [%s] ", __FUNCTION__); \
-Henio::Logger::Log(Henio::LogVerbosity::Error, __VA_ARGS__);
+Jamnik::Logger::Log(Jamnik::LogVerbosity::Error, __VA_ARGS__);
 
 #define LOG_WARNING(...) \
 std::printf("[Warning] [%s] ", __FUNCTION__); \
-Henio::Logger::Log(Henio::LogVerbosity::Warning, args ... );
+Jamnik::Logger::Log(Jamnik::LogVerbosity::Warning, args ... );
 
 #define LOG_MESSAGE(...) \
 std::printf("[Message] [%s] ", __FUNCTION__); \
-Henio::Logger::Log(Henio::LogVerbosity::Message, __VA_ARGS__);
+Jamnik::Logger::Log(Jamnik::LogVerbosity::Message, __VA_ARGS__);
 
-namespace Henio
+namespace Jamnik
 {
     enum LogVerbosity
     {

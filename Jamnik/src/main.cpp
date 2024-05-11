@@ -1,18 +1,18 @@
-#include "Core/Application.h"
+#include "Core/Logger.h"
+#include "Core/Window.h"
 
 int main()
 {
-    Jamnik::Application application;
+    Jamnik::Window window {};
     
-    if (application.Init())
+    if (!window.Init())
     {
-        while (!application.GetShouldClose())
-        {
-            application.Update();
-        }    
+        LOG_ERROR("Failed to initialize window")
+        return -1;
     }
-    
-    application.ShutDown();
+
+    window.MainLoop();
+    window.ShutDown();
     
     return 0;
 }

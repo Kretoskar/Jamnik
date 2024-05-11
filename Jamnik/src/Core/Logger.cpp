@@ -1,6 +1,6 @@
 ﻿#include "Logger.h"
 
-namespace Henio
+namespace Jamnik
 {
     unsigned int Logger::logLevel = 3;
 

@@ -9,11 +9,22 @@ namespace Jamnik
     {
     public:
         bool Init();
+        void MainLoop();
         void ShutDown();
-
-        GLFWwindow* GetGlfwWindow() const { return _window; }
     
     private:
-        GLFWwindow* _window;
+        void BindWindowEvents();
+
+        void HandleWindowMoveEvents(int xpos, int ypos);
+        void HandleWindowMinimizedEvents(int minimized);
+        void HandleWindowMaximizedEvents(int maximized);
+        void HandleWindowCloseEvents();
+
+        void HandleKeyEvents(int key, int scancode, int action, int mods);
+        void HandleMouseButtonEvents(int button, int action, int mods);
+        void HandleMousePositionEvents(double xpos, double ypos);
+        void HandleMouseEnterLeaveEvents(int enter);
+        
+        GLFWwindow* _GLFWWindow = nullptr;
     };
 }
