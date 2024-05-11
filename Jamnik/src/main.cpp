@@ -4,7 +4,7 @@ int main()
 {
     Application application;
     
-    if (application.Start())
+    if (application.Init())
     {
         while (!application.GetShouldClose())
         {

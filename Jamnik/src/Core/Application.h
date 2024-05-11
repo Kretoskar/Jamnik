@@ -1,19 +1,21 @@
 #pragma once
 
-#include "imgui/imgui_impl_glfw.h"
+#include <memory>
+
+#include "Window.h"
 
 
 class Application
 {
 public:
-    bool Start();
+    bool Init();
     void Update();
     void ShutDown();
 
     bool GetShouldClose() const { return _shouldClose; }
     
 private:
+    std::unique_ptr<Window> _window;
     bool _shouldClose = false;
-    GLFWwindow* _window;
 };
 
