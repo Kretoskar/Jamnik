@@ -11,7 +11,7 @@ Jamnik::Logger::Log(Jamnik::LogVerbosity::Error, __VA_ARGS__);
 
 #define LOG_WARNING(...) \
 std::printf("[Warning] [%s] ", __FUNCTION__); \
-Jamnik::Logger::Log(Jamnik::LogVerbosity::Warning, args ... );
+Jamnik::Logger::Log(Jamnik::LogVerbosity::Warning, __VA_ARGS__);
 
 #define LOG_MESSAGE(...) \
 std::printf("[Message] [%s] ", __FUNCTION__); \

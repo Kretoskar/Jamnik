@@ -4,6 +4,7 @@
 #include "Rendering/UserInterface.h"
 
 #include "Logger.h"
+#include "Rendering/Shaders/Shader.h"
 
 bool Jamnik::Window::Init()
 {
@@ -48,6 +49,8 @@ bool Jamnik::Window::Init()
         LOG_ERROR("Failed to initialize user interface")
         return false;
     }
+
+    Shader shader("src/Rendering/Shaders/basic.frag", "src/Rendering/Shaders/basic.vert");
     
     return true;
 }
