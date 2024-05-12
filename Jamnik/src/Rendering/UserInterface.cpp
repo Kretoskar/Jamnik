@@ -1,5 +1,6 @@
 ﻿#include "UserInterface.h"
 
+#include "Core/Logger.h"
 #include "imgui/imgui.h"
 #include "imgui/imgui_impl_glfw.h"
 #include "imgui/imgui_impl_opengl3.h"
@@ -24,9 +25,9 @@ void UserInterface::CreateFrame()
 
     ImGuiWindowFlags flags = 0;
     ImGui::SetNextWindowBgAlpha(0.8f);
-    ImGui::Begin("Stats", nullptr, flags);
+    ImGui::Begin("Log", nullptr, flags);
     
-    ImGui::Text("chasdasdasdasdasddauj");
+    ImGui::Text(Jamnik::Logger::GetLoggedLines().c_str());
 
     ImGui::End();
 }

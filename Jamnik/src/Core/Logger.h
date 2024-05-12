@@ -1,5 +1,6 @@
 ﻿#pragma once
 
+#include <sstream>
 #include <iostream>
 #include <cstdio>
 #include <fstream>
@@ -55,6 +56,21 @@ namespace Jamnik
                     ofile << buffer << '\n';
                     ofile.close();
                 }
+
+                if (loggedLineBufferCurrCount >= loggedLineBufferMaxCount)
+                {
+                    for (int i = 0; i < loggedLineBufferMaxCount - 1; i++)
+                    {
+                        logLines[i] = logLines[i+1];
+                    }
+
+                    logLines[loggedLineBufferMaxCount - 1] = buffer;
+                }
+                else
+                {
+                    logLines[loggedLineBufferCurrCount] = buffer;
+                    loggedLineBufferCurrCount++;
+                }
             }
         }
     
@@ -62,11 +78,27 @@ namespace Jamnik
         {
             logLevel = inLogLevel;
         }
-    
+
+        static std::string GetLoggedLines()
+        {
+            std::stringstream ss;
+
+            for (int i = 0; i < loggedLineBufferCurrCount; i++)
+            {
+                ss << logLines[i] << '\n';
+            }
+            
+            return ss.str();
+        }
+        
         static unsigned int logLevel;
         static unsigned int logError;
         static unsigned int logWarning;
         static unsigned int logMessage;
         static bool logToFile;
+
+        static constexpr unsigned int loggedLineBufferMaxCount = 20;
+        static std::string logLines[loggedLineBufferMaxCount];
+        static unsigned int loggedLineBufferCurrCount;
     };
 }
