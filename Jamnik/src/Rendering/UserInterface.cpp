@@ -23,13 +23,34 @@ void UserInterface::CreateFrame()
     ImGui_ImplGlfw_NewFrame();
     ImGui::NewFrame();
 
-    ImGuiWindowFlags flags = 0;
-    ImGui::SetNextWindowBgAlpha(0.8f);
-    ImGui::Begin("Log", nullptr, flags);
-    
-    ImGui::Text(Jamnik::Logger::GetLoggedLines().c_str());
+    if (Jamnik::Logger::loggedLineBufferCurrCount > 0)
+    {
+        ImGuiWindowFlags flags = 0;
+        ImGui::SetNextWindowBgAlpha(0.8f);
+        ImGui::Begin("Console", nullptr, flags);
+        
+        for (unsigned int i = 0; i < Jamnik::Logger::loggedLineBufferCurrCount; i++)
+        {
+            switch (Jamnik::Logger::logLinesVerbosity[i]) {
+            case Jamnik::Error:
+                ImGui::PushStyleColor(ImGuiCol_Text, IM_COL32(255, 0, 0, 255));
+                break;
+            case Jamnik::Warning:
+                ImGui::PushStyleColor(ImGuiCol_Text, IM_COL32(255, 255, 0, 255));
+                break;
+            case Jamnik::Message:
+                ImGui::PushStyleColor(ImGuiCol_Text, IM_COL32(255, 255, 255, 255));
+                break;
+                //TODO: Add checknoentry
+            }
+        
+            ImGui::Text(Jamnik::Logger::logLines[i].c_str());
+            ImGui::PopStyleColor();
+        }
 
-    ImGui::End();
+        ImGui::End();
+    }
+
 }
 
 void UserInterface::Render()

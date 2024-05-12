@@ -32,7 +32,7 @@ namespace Jamnik
     public:
         /* log if input log level is equal or smaller to log level set */
         template <typename... Args>
-        static void Log(unsigned int inLogLevel, Args ... args)
+        static void Log(LogVerbosity inLogLevel, Args ... args)
         {
             if (logToFile)
             {
@@ -61,13 +61,16 @@ namespace Jamnik
                 {
                     for (int i = 0; i < loggedLineBufferMaxCount - 1; i++)
                     {
+                        logLinesVerbosity[i] = logLinesVerbosity[i+1];
                         logLines[i] = logLines[i+1];
                     }
 
+                    logLinesVerbosity[loggedLineBufferMaxCount - 1] = inLogLevel;
                     logLines[loggedLineBufferMaxCount - 1] = buffer;
                 }
                 else
                 {
+                    logLinesVerbosity[loggedLineBufferCurrCount] = inLogLevel;
                     logLines[loggedLineBufferCurrCount] = buffer;
                     loggedLineBufferCurrCount++;
                 }
@@ -78,18 +81,6 @@ namespace Jamnik
         {
             logLevel = inLogLevel;
         }
-
-        static std::string GetLoggedLines()
-        {
-            std::stringstream ss;
-
-            for (int i = 0; i < loggedLineBufferCurrCount; i++)
-            {
-                ss << logLines[i] << '\n';
-            }
-            
-            return ss.str();
-        }
         
         static unsigned int logLevel;
         static unsigned int logError;
@@ -97,8 +88,9 @@ namespace Jamnik
         static unsigned int logMessage;
         static bool logToFile;
 
-        static constexpr unsigned int loggedLineBufferMaxCount = 20;
+        static constexpr unsigned int loggedLineBufferMaxCount = 16;
         static std::string logLines[loggedLineBufferMaxCount];
+        static LogVerbosity logLinesVerbosity[loggedLineBufferMaxCount];
         static unsigned int loggedLineBufferCurrCount;
     };
 }
