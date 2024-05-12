@@ -3,6 +3,9 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
+#include <memory>
+#include "Rendering/UserInterface.h"
+
 namespace Jamnik
 {
     class Window
@@ -26,5 +29,7 @@ namespace Jamnik
         void HandleMouseEnterLeaveEvents(int enter);
         
         GLFWwindow* _GLFWWindow = nullptr;
+
+        std::unique_ptr<UserInterface> _ui;
     };
 }

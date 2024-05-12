@@ -87,6 +87,7 @@
     <ClCompile Include="src\Core\Logger.cpp" />
     <ClCompile Include="src\Core\Window.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\Rendering\UserInterface.cpp" />
     <ClCompile Include="vendor\glad.c" />
     <ClCompile Include="vendor\imgui\imgui.cpp" />
     <ClCompile Include="vendor\imgui\imgui_demo.cpp" />
@@ -100,6 +101,7 @@
   <ItemGroup>
     <ClInclude Include="src\Core\Logger.h" />
     <ClInclude Include="src\Core\Window.h" />
+    <ClInclude Include="src\Rendering\UserInterface.h" />
     <ClInclude Include="vendor\imgui\imconfig.h" />
     <ClInclude Include="vendor\imgui\imgui.h" />
     <ClInclude Include="vendor\imgui\imgui_impl_glfw.h" />

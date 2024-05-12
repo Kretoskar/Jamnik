@@ -1,11 +1,9 @@
 ﻿#include <iostream>
 
 #include "Window.h"
+#include "Rendering/UserInterface.h"
 
 #include "Logger.h"
-#include "imgui/imgui.h"
-#include "imgui/imgui_impl_glfw.h"
-#include "imgui/imgui_impl_opengl3.h"
 
 bool Jamnik::Window::Init()
 {
@@ -39,17 +37,17 @@ bool Jamnik::Window::Init()
         return false;
     }
 
-    glViewport(320, 0, 1280, 720);
+    glViewport(0, 0, 1920, 1080);
     glClearColor(0.15f, 0.5f, 1.0f, 1.0f);
-
-    IMGUI_CHECKVERSION();
-    ImGui::CreateContext();
-
-    ImGui_ImplGlfw_InitForOpenGL( _GLFWWindow, true);
-    const char* glslVersion = "#version 440 core";
-    ImGui_ImplOpenGL3_Init(glslVersion);
     
     LOG_MESSAGE("Window successfully initialized")
+
+    _ui = std::make_unique<UserInterface>();
+    if (!_ui->Init(_GLFWWindow))
+    {
+        LOG_ERROR("Failed to initialize user interface")
+        return false;
+    }
     
     return true;
 }
@@ -63,19 +61,9 @@ void Jamnik::Window::MainLoop()
     {
         glClear(GL_COLOR_BUFFER_BIT);
 
-        ImGui_ImplOpenGL3_NewFrame();
-        ImGui_ImplGlfw_NewFrame();
-        ImGui::NewFrame();
-
-        ImGuiWindowFlags flags = 0;
-        ImGui::SetNextWindowBgAlpha(0.8f);
-        ImGui::Begin("chuj", nullptr, flags);
-        ImGui::Text("chasdasdasdasdasddauj");
-
-        ImGui::End();
-        ImGui::Render();
-        ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
-
+        _ui->CreateFrame();
+        _ui->Render();
+        
         glfwSwapBuffers(_GLFWWindow);
         glfwPollEvents();   
     }
@@ -83,10 +71,7 @@ void Jamnik::Window::MainLoop()
 
 void Jamnik::Window::ShutDown()
 {
-    ImGui_ImplOpenGL3_Shutdown();
-    ImGui_ImplGlfw_Shutdown();
-    ImGui::DestroyContext();
-    
+    _ui->Cleanup();
     glfwTerminate();
 }
 
