@@ -21,9 +21,9 @@ void Jamnik::Shader::Bind() const
     glUseProgram(_id);
 }
 
-void Jamnik::Shader::Unbind() const
+void Jamnik::Shader::Delete()
 {
-    glUseProgram(0);
+    glDeleteProgram(_id);
 }
 
 void Jamnik::Shader::SetUniform4f(const std::string& name, float v0, float v1, float v2, float v3)
@@ -59,7 +59,7 @@ int Jamnik::Shader::GetUniformLocation(const std::string& name)
 
     if (location < 0)
     {
-        LOG_WARNING("Trying to retrieve invalid uniform location of name %s", name);
+        LOG_WARNING("Trying to retrieve invalid uniform location of name %s", name)
     }
     
     return location;

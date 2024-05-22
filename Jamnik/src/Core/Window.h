@@ -4,6 +4,8 @@
 #include <GLFW/glfw3.h>
 
 #include <memory>
+
+#include "Rendering/Renderer.h"
 #include "Rendering/UserInterface.h"
 
 namespace Jamnik
@@ -31,5 +33,6 @@ namespace Jamnik
         GLFWwindow* _GLFWWindow = nullptr;
 
         std::unique_ptr<UserInterface> _ui;
+        std::unique_ptr<Renderer> _renderer;
     };
 }

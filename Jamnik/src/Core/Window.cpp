@@ -50,7 +50,8 @@ bool Jamnik::Window::Init()
         return false;
     }
 
-    Shader shader("src/Rendering/Shaders/basic.frag", "src/Rendering/Shaders/basic.vert");
+    _renderer = std::make_unique<Renderer>();
+    _renderer->Init();
     
     return true;
 }
@@ -64,6 +65,8 @@ void Jamnik::Window::MainLoop()
     {
         glClear(GL_COLOR_BUFFER_BIT);
 
+        _renderer->Render();
+        
         _ui->CreateFrame();
         _ui->Render();
         
@@ -75,6 +78,7 @@ void Jamnik::Window::MainLoop()
 void Jamnik::Window::ShutDown()
 {
     _ui->Cleanup();
+    _renderer->Cleanup();
     glfwTerminate();
 }
 
