@@ -36,6 +36,11 @@ void Jamnik::Shader::SetUniform1f(const std::string& name, float v0)
     glUniform1f(GetUniformLocation(name), v0);
 }
 
+void Jamnik::Shader::SetUniform2f(const std::string& name, float v0, float v1)
+{
+    glUniform2f(GetUniformLocation(name), v0, v1);
+}
+
 void Jamnik::Shader::SetUniform1i(const std::string& name, int v0)
 {
     glUniform1f(GetUniformLocation(name), v0);

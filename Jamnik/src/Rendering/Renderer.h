@@ -2,6 +2,7 @@
 #include <memory>
 
 #include "EBO.h"
+#include "Texture.h"
 #include "VAO.h"
 #include "VBO.h"
 #include "Shaders/Shader.h"
@@ -19,5 +20,6 @@ namespace Jamnik
         std::unique_ptr<VBO> vbo;
         std::unique_ptr<EBO> ebo;
         std::unique_ptr<VAO> vao;
+        std::unique_ptr<Texture> texture;
     };
 }

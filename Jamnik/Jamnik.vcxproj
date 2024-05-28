@@ -90,6 +90,7 @@
     <ClCompile Include="src\Rendering\EBO.cpp" />
     <ClCompile Include="src\Rendering\Renderer.cpp" />
     <ClCompile Include="src\Rendering\Shaders\Shader.cpp" />
+    <ClCompile Include="src\Rendering\Texture.cpp" />
     <ClCompile Include="src\Rendering\UserInterface.cpp" />
     <ClCompile Include="src\Rendering\VAO.cpp" />
     <ClCompile Include="src\Rendering\VBO.cpp" />
@@ -109,6 +110,7 @@
     <ClInclude Include="src\Rendering\EBO.h" />
     <ClInclude Include="src\Rendering\Renderer.h" />
     <ClInclude Include="src\Rendering\Shaders\Shader.h" />
+    <ClInclude Include="src\Rendering\Texture.h" />
     <ClInclude Include="src\Rendering\UserInterface.h" />
     <ClInclude Include="src\Rendering\VAO.h" />
     <ClInclude Include="src\Rendering\VBO.h" />
