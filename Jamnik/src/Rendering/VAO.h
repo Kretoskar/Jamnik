@@ -8,7 +8,7 @@ public:
     unsigned int _id;
     VAO();
 
-    void LinkVBO(const VBO& vbo, unsigned int layout);
+    void LinkAttrib(const VBO& vbo, unsigned layout, int numComponents, unsigned type, int stride, void* offset);
     void Bind();
     void Delete();
 };
