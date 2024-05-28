@@ -20,12 +20,12 @@ unsigned indices[] =
 
 void Jamnik::Renderer::Init()
 {
-    texture = std::make_unique<Texture>("content/base.png");
+    texture = std::make_unique<Texture>("content/base.png", GL_TEXTURE0, GL_RGB);
     texture->Bind();
     
     shader = std::make_unique<Shader>("src/Rendering/Shaders/basic.frag", "src/Rendering/Shaders/basic.vert");
     shader->Bind();
-    shader->SetUniform1i("tex0", 0);
+    shader->AssignBaseTexture(*texture);
     
     vao = std::make_unique<VAO>();
     vao->Bind();

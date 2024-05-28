@@ -4,6 +4,7 @@
 #include <glad/glad.h>
 
 #include "Core/Logger.h"
+#include "Rendering/Texture.h"
 
 Jamnik::Shader::Shader(std::string fragmentFilePath, std::string vertexFilePath)
     : _fragmentFilePath(std::move(fragmentFilePath)), _vertexFilePath(std::move(vertexFilePath))
@@ -50,6 +51,12 @@ void Jamnik::Shader::SetUniformMat4f(const std::string& name, const glm::mat4& m
 {
     // pass with no transpose bcs both glm and opengl use column major matrices
     glUniformMatrix4fv(GetUniformLocation(name), 1, GL_FALSE, &mat[0][0]);   
+}
+
+void Jamnik::Shader::AssignBaseTexture(Texture& texture)
+{
+    texture.Bind();
+    SetUniform1i("tex0", 0);
 }
 
 int Jamnik::Shader::GetUniformLocation(const std::string& name)

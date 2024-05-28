@@ -3,33 +3,34 @@
 #include <glad/glad.h>
 
 #include "stb_image.h"
+#include "Shaders/Shader.h"
 
-Texture::Texture(std::string path)
+Texture::Texture(std::string path, unsigned slot, unsigned format, unsigned pixelType, unsigned texType)
+    : _type(texType)
 {
     stbi_set_flip_vertically_on_load(true);
     unsigned char* _bytes = stbi_load(path.c_str(), &_width, &_height, &_numColCh, 0);
     glGenTextures(1, &_id);
 
-    glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D, _id);
+    glActiveTexture(slot);
+    glBindTexture(_type, _id);
     
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    glTexParameteri(_type, GL_TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_LINEAR);
+    glTexParameteri(_type, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
     
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    glTexParameteri(_type, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTexParameteri(_type, GL_TEXTURE_WRAP_T, GL_REPEAT);
 
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, _width, _height, 0, GL_RGB, GL_UNSIGNED_BYTE, _bytes);
-    glGenerateMipmap(GL_TEXTURE_2D);
+    glTexImage2D(_type, 0, GL_RGBA, _width, _height, 0, format, pixelType, _bytes);
+    glGenerateMipmap(_type);
 
     stbi_image_free(_bytes);
-    glBindTexture(GL_TEXTURE_2D, 0);
+    glBindTexture(_type, 0);
 }
 
 void Texture::Bind()
 {
-    glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D, _id);
+    glBindTexture(_type, _id);
 }
 
 void Texture::Delete()

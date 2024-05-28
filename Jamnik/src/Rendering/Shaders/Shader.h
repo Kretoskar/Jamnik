@@ -5,6 +5,8 @@
 
 #include "glm/glm.hpp"
 
+class Texture;
+
 namespace Jamnik
 {
     class Shader
@@ -30,6 +32,8 @@ namespace Jamnik
 
         void SetUniformMat4f(const std::string& name, const glm::mat4& mat);
 
+        void AssignBaseTexture(Texture& texture);
+        // TODO: Add the same for normal, specular etc.
 
     private:
         int GetUniformLocation(const std::string& name);
