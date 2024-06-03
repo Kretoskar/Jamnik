@@ -2,6 +2,7 @@
 
 #include <sstream>
 #include <glad/glad.h>
+#include <glm/gtc/type_ptr.hpp>
 
 #include "Core/Logger.h"
 #include "Rendering/Texture.h"
@@ -25,6 +26,11 @@ void Jamnik::Shader::Bind() const
 void Jamnik::Shader::Delete()
 {
     glDeleteProgram(_id);
+}
+
+void Jamnik::Shader::SetUniformMatrix4f(const std::string& name, glm::mat4 mat)
+{
+    glUniformMatrix4fv(GetUniformLocation(name), 1, GL_FALSE, glm::value_ptr(mat));
 }
 
 void Jamnik::Shader::SetUniform4f(const std::string& name, float v0, float v1, float v2, float v3)
@@ -57,6 +63,13 @@ void Jamnik::Shader::AssignBaseTexture(Texture& texture)
 {
     texture.Bind();
     SetUniform1i("tex0", 0);
+}
+
+void Jamnik::Shader::SetMVPMatrices(glm::mat4 model, glm::mat4 view, glm::mat4 proj)
+{
+    SetUniformMatrix4f("model", model);
+    SetUniformMatrix4f("view", view);
+    SetUniformMatrix4f("proj", proj);
 }
 
 int Jamnik::Shader::GetUniformLocation(const std::string& name)

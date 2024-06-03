@@ -63,8 +63,6 @@ void Jamnik::Window::MainLoop()
     
     while (!glfwWindowShouldClose(_GLFWWindow))
     {
-        glClear(GL_COLOR_BUFFER_BIT);
-
         _renderer->Render();
         
         _ui->CreateFrame();
