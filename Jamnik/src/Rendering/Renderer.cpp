@@ -52,6 +52,9 @@ void Jamnik::Renderer::Init()
     vao->LinkAttrib(*vbo, 1, 3, GL_FLOAT, 8 * sizeof(float), (void*)(3 * sizeof(float)));
     // UV
     vao->LinkAttrib(*vbo, 2, 2, GL_FLOAT, 8 * sizeof(float), (void*)(6 * sizeof(float)));
+
+    camera = std::make_unique<Camera>();
+    camera->Init();
     
     glEnable(GL_DEPTH_TEST);
 }
