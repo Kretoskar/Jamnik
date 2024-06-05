@@ -31,11 +31,6 @@ unsigned indices[] =
     3, 0, 4
 };
 
-void OnEvent(const Event& event)
-{
-    LOG_WARNING(event.Type().c_str())
-}
-
 void Jamnik::Renderer::Init()
 {
     texture = std::make_unique<Texture>("content/base.png", GL_TEXTURE0, GL_RGB);
@@ -57,8 +52,6 @@ void Jamnik::Renderer::Init()
     vao->LinkAttrib(*vbo, 1, 3, GL_FLOAT, 8 * sizeof(float), (void*)(3 * sizeof(float)));
     // UV
     vao->LinkAttrib(*vbo, 2, 2, GL_FLOAT, 8 * sizeof(float), (void*)(6 * sizeof(float)));
-
-    Dispatcher::GetInstance().Subscribe(MouseButtonEvent(GLFW_MOUSE_BUTTON_LEFT, GLFW_PRESS,0).Type(), OnEvent);
     
     glEnable(GL_DEPTH_TEST);
 }

@@ -7,7 +7,7 @@
 class Event
 {
 public:
-
+    virtual ~Event() {}
     
     virtual std::string Type() const = 0;
 };
@@ -19,8 +19,6 @@ class MouseButtonEvent : public Event
 public:
     MouseButtonEvent(int inButton, int inAction, int inMods)
         : button(inButton), action(inAction), mods(inMods) {}
-
-
     
     std::string Type() const override
     {
