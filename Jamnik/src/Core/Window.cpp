@@ -1,6 +1,8 @@
 ﻿#include <iostream>
 
 #include "Window.h"
+
+#include "EventSystem.h"
 #include "Rendering/UserInterface.h"
 
 #include "Logger.h"
@@ -229,7 +231,9 @@ void Jamnik::Window::HandleMouseButtonEvents(int button, int action, int mods)
         break;
     }
 
-    LOG_MESSAGE("%s mouse button (%i) %s", mouseButtonName.c_str(), button, actionName.c_str())
+    Dispatcher::GetInstance().Post(MouseButtonEvent(button,action,mods));
+    
+    LOG_MESSAGE("%s mouse button (%i) %s with mod %i", mouseButtonName.c_str(), button, actionName.c_str(), mods)
 }
 
 void Jamnik::Window::HandleMousePositionEvents(double xpos, double ypos)
