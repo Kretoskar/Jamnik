@@ -53,7 +53,7 @@ void Jamnik::Renderer::Init()
     // UV
     vao->LinkAttrib(*vbo, 2, 2, GL_FLOAT, 8 * sizeof(float), (void*)(6 * sizeof(float)));
 
-    camera = std::make_unique<Camera>();
+    camera = std::make_unique<Camera>(1920, 1080, glm::vec3(0.0f, 0.0f, 2.0f));
     camera->Init();
     
     glEnable(GL_DEPTH_TEST);
@@ -69,11 +69,8 @@ void Jamnik::Renderer::Render()
     glm::mat4 model = glm::mat4(1.0f);
     model = glm::rotate(model, glm::radians(rot), glm::vec3(0.0f, 1.0f, 0.0f));
     
-    glm::mat4 view = glm::mat4(1.0f);
-    glm::mat4 projection = glm::mat4(1.0f);
-    view = glm::translate(view, glm::vec3(0.0f, -0.5f, -2.0f));
-    projection = glm::perspective(glm::radians(45.0f), (float)1920/1080, 0.1f, 100.0f);
-    shader->SetMVPMatrices(model, view, projection);
+    shader->SetModelMatrix(model);
+    camera->SetVPMatricesInShader(*shader);
     
     shader->Bind();
     texture->Bind();

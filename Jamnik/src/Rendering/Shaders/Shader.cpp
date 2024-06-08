@@ -28,11 +28,6 @@ void Jamnik::Shader::Delete()
     glDeleteProgram(_id);
 }
 
-void Jamnik::Shader::SetUniformMatrix4f(const std::string& name, glm::mat4 mat)
-{
-    glUniformMatrix4fv(GetUniformLocation(name), 1, GL_FALSE, glm::value_ptr(mat));
-}
-
 void Jamnik::Shader::SetUniform4f(const std::string& name, float v0, float v1, float v2, float v3)
 {
     glUniform4f(GetUniformLocation(name), v0, v1, v2, v3);
@@ -65,11 +60,19 @@ void Jamnik::Shader::AssignBaseTexture(Texture& texture)
     SetUniform1i("tex0", 0);
 }
 
-void Jamnik::Shader::SetMVPMatrices(glm::mat4 model, glm::mat4 view, glm::mat4 proj)
+void Jamnik::Shader::SetModelMatrix(glm::mat4 m)
 {
-    SetUniformMatrix4f("model", model);
-    SetUniformMatrix4f("view", view);
-    SetUniformMatrix4f("proj", proj);
+    SetUniformMat4f("model", m);
+}
+
+void Jamnik::Shader::SetViewMatrix(glm::mat4 m)
+{
+    SetUniformMat4f("view", m);
+}
+
+void Jamnik::Shader::SetProjectionMatrix(glm::mat4 m)
+{
+    SetUniformMat4f("proj", m);
 }
 
 int Jamnik::Shader::GetUniformLocation(const std::string& name)

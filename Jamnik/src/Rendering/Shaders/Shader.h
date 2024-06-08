@@ -24,8 +24,7 @@ namespace Jamnik
         void Bind() const;
 
         void Delete();
-
-        void SetUniformMatrix4f(const std::string& name, glm::mat4 mat);
+        
         void SetUniform4f(const std::string& name, float v0, float v1, float v2, float v3);
         void SetUniform1f(const std::string& name, float v0);
         void SetUniform2f(const std::string& name, float v0, float v1);
@@ -36,7 +35,9 @@ namespace Jamnik
         void AssignBaseTexture(Texture& texture);
         // TODO: Add the same for normal, specular etc.
 
-        void SetMVPMatrices(glm::mat4 model, glm::mat4 view, glm::mat4 proj);
+        void SetModelMatrix(glm::mat4 m);
+        void SetViewMatrix(glm::mat4 m);
+        void SetProjectionMatrix(glm::mat4 m);
         
     private:
         int GetUniformLocation(const std::string& name);
