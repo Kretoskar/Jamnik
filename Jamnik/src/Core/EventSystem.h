@@ -8,6 +8,7 @@ class Event
 {
 public:
     virtual ~Event() = default;
+    
 private:
     virtual std::string Type() const = 0;
 
@@ -106,3 +107,10 @@ public:
 private:
     std::map<std::string, std::vector<std::function<void(const Event&)>>> _observers;
 };
+
+#define JAMNIK_BIND_EVENT(type, event) \
+    Dispatcher::GetInstance().Subscribe(type, \
+    [this](auto&& PH1) \
+    { \
+        event(std::forward<decltype(PH1)>(PH1)); \
+    });

@@ -84,7 +84,7 @@ int Jamnik::Shader::GetUniformLocation(const std::string& name)
 
     if (location < 0)
     {
-        LOG_WARNING("Trying to retrieve invalid uniform location of name %s", name)
+        JAMNIK_LOG_WARNING("Trying to retrieve invalid uniform location of name %s", name)
     }
     
     return location;
@@ -133,7 +133,7 @@ unsigned Jamnik::Shader::CompileShader(unsigned type, const std::string& source)
         char* message = static_cast<char*>(alloca(length * sizeof(char)));
         glGetShaderInfoLog(id, length, &length, message);
         
-        LOG_ERROR(message)
+        JAMNIK_LOG_ERROR(message)
         glDeleteShader(id);
         
         return 0;

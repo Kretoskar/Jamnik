@@ -12,7 +12,7 @@ bool Jamnik::Window::Init()
 {
     if (!glfwInit())
     {
-        LOG_ERROR("glfwInit() error")
+        JAMNIK_LOG_ERROR("glfwInit() error")
         return false;
     }
 
@@ -25,7 +25,7 @@ bool Jamnik::Window::Init()
     
     if (!_GLFWWindow)
     {
-        LOG_ERROR("Failed to create GLFW window")
+        JAMNIK_LOG_ERROR("Failed to create GLFW window")
         glfwTerminate();
         return false;
     }
@@ -36,19 +36,19 @@ bool Jamnik::Window::Init()
     
     if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
     {
-        LOG_ERROR("Failed to initialize GLAD")
+        JAMNIK_LOG_ERROR("Failed to initialize GLAD")
         return false;
     }
 
     glViewport(0, 0, 1920, 1080);
     glClearColor(0.15f, 0.5f, 1.0f, 1.0f);
     
-    LOG_MESSAGE("Window successfully initialized")
+    JAMNIK_LOG_MESSAGE("Window successfully initialized")
 
     _ui = std::make_unique<UserInterface>();
     if (!_ui->Init(_GLFWWindow))
     {
-        LOG_ERROR("Failed to initialize user interface")
+        JAMNIK_LOG_ERROR("Failed to initialize user interface")
         return false;
     }
 
@@ -139,18 +139,18 @@ void Jamnik::Window::BindWindowEvents()
 
 void Jamnik::Window::HandleWindowMoveEvents(int xpos, int ypos)
 {
-    LOG_MESSAGE("Window moved: x: %i y: %i", xpos, ypos)
+    JAMNIK_LOG_MESSAGE("Window moved: x: %i y: %i", xpos, ypos)
 }
 
 void Jamnik::Window::HandleWindowMinimizedEvents(int minimized)
 {
     if (minimized)
     {
-        LOG_MESSAGE("Window has been minimized")
+        JAMNIK_LOG_MESSAGE("Window has been minimized")
     }
     else
     {
-        LOG_MESSAGE("Window has been restored")
+        JAMNIK_LOG_MESSAGE("Window has been restored")
     }
 }
 
@@ -158,17 +158,17 @@ void Jamnik::Window::HandleWindowMaximizedEvents(int maximized)
 {
     if (maximized)
     {
-        LOG_MESSAGE("Window has been maximized")
+        JAMNIK_LOG_MESSAGE("Window has been maximized")
     }
     else
     {
-        LOG_MESSAGE("Window has been restored")
+        JAMNIK_LOG_MESSAGE("Window has been restored")
     }
 }
 
 void Jamnik::Window::HandleWindowCloseEvents()
 {
-    LOG_MESSAGE("Window has been closed")
+    JAMNIK_LOG_MESSAGE("Window has been closed")
 }
 
 void Jamnik::Window::HandleKeyEvents(int key, int scancode, int action, int mods)
@@ -194,7 +194,7 @@ void Jamnik::Window::HandleKeyEvents(int key, int scancode, int action, int mods
     Dispatcher::GetInstance().Post(KeyboardEvent(key,action,mods));
     
     const char *keyName = glfwGetKeyName(key, 0);
-    LOG_MESSAGE("key %s (key %i, scancode %i) %s", keyName, key, scancode, actionName.c_str())
+    JAMNIK_LOG_MESSAGE("key %s (key %i, scancode %i) %s", keyName, key, scancode, actionName.c_str())
 }
 
 void Jamnik::Window::HandleMouseButtonEvents(int button, int action, int mods)
@@ -235,7 +235,7 @@ void Jamnik::Window::HandleMouseButtonEvents(int button, int action, int mods)
 
     Dispatcher::GetInstance().Post(MouseButtonEvent(button,action,mods));
     
-    LOG_MESSAGE("%s mouse button (%i) %s with mod %i", mouseButtonName.c_str(), button, actionName.c_str(), mods)
+    JAMNIK_LOG_MESSAGE("%s mouse button (%i) %s with mod %i", mouseButtonName.c_str(), button, actionName.c_str(), mods)
 }
 
 void Jamnik::Window::HandleMousePositionEvents(double xpos, double ypos)
@@ -247,10 +247,10 @@ void Jamnik::Window::HandleMouseEnterLeaveEvents(int enter)
 {
     if (enter)
     {
-        LOG_MESSAGE("Mouse entered window")
+        JAMNIK_LOG_MESSAGE("Mouse entered window")
     }
     else
     {
-        LOG_MESSAGE("Mouse left window")
+        JAMNIK_LOG_MESSAGE("Mouse left window")
     }
 }

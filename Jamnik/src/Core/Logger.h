@@ -6,15 +6,15 @@
 #include <fstream>
 #include <ostream>
 
-#define LOG_ERROR(...) \
+#define JAMNIK_LOG_ERROR(...) \
 std::printf("[Error] [%s] ", __FUNCTION__); \
 Jamnik::Logger::Log(Jamnik::LogVerbosity::Error, __VA_ARGS__);
 
-#define LOG_WARNING(...) \
+#define JAMNIK_LOG_WARNING(...) \
 std::printf("[Warning] [%s] ", __FUNCTION__); \
 Jamnik::Logger::Log(Jamnik::LogVerbosity::Warning, __VA_ARGS__);
 
-#define LOG_MESSAGE(...) \
+#define JAMNIK_LOG_MESSAGE(...) \
 std::printf("[Message] [%s] ", __FUNCTION__); \
 Jamnik::Logger::Log(Jamnik::LogVerbosity::Message, __VA_ARGS__);
 

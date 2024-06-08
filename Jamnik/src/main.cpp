@@ -7,7 +7,7 @@ int main()
     
     if (!window.Init())
     {
-        LOG_ERROR("Failed to initialize window")
+        JAMNIK_LOG_ERROR("Failed to initialize window")
         return -1;
     }
 
