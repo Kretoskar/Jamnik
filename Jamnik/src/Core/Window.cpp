@@ -53,7 +53,7 @@ bool Jamnik::Window::Init()
     }
 
     _renderer = std::make_unique<Renderer>();
-    _renderer->Init();
+    _renderer->Init(this);
     
     return true;
 }
@@ -240,7 +240,7 @@ void Jamnik::Window::HandleMouseButtonEvents(int button, int action, int mods)
 
 void Jamnik::Window::HandleMousePositionEvents(double xpos, double ypos)
 {
-    //LOG_MESSAGE(1, "%s: Mouse is at position %lf/%lf\n", __FUNCTION__, xpos, ypos);
+    Dispatcher::GetInstance().Post(MousePositionEvent(xpos, ypos));
 }
 
 void Jamnik::Window::HandleMouseEnterLeaveEvents(int enter)

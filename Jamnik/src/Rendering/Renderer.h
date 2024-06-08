@@ -8,12 +8,14 @@
 #include "VBO.h"
 #include "Shaders/Shader.h"
 
+class Window;
+
 namespace Jamnik
 {
     class Renderer
     {
     public:
-        void Init();
+        void Init(Window* inWindow);
         void Render();
         void Cleanup();
 
@@ -23,5 +25,7 @@ namespace Jamnik
         std::unique_ptr<VAO> vao;
         std::unique_ptr<Texture> texture;
         std::unique_ptr<Camera> camera;
+
+        Window* window;
     };
 }

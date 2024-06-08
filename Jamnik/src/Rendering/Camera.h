@@ -4,6 +4,11 @@
 
 namespace Jamnik
 {
+    class Window;
+}
+
+namespace Jamnik
+{
     class Shader;
 }
 
@@ -15,8 +20,8 @@ class Camera
     
     bool firstClick = true;
     
-    int width;
-    int height;
+    int width = 1920;
+    int height = 1080;
     
     float speed = 0.01f;
     float sensitivity = 100.0f;
@@ -25,16 +30,26 @@ class Camera
     float nearPlane = 0.1f;
     float farPlane = 1000;
 
-    glm::vec3 Velocity = glm::vec3(0.0f, 0.0f, 0.0f);
+    Jamnik::Window* window;
+    bool bCanMove = false;
+    bool bCanLook = false;
+    
+    bool bMovingForward = false;
+    bool bMovingBackward = false;
+    bool bMovingLeft = false;
+    bool bMovingRight = false;
+
+    glm::vec3 GetVelocity() const;
     
 public:
-    Camera(int width, int height, glm::vec3 position)
-        : width(width), height(height), Position(position) {}
+    Camera(Jamnik::Window* inWindow, glm::vec3 position)
+        : window(inWindow), Position(position) {}
     void Init();
 
     glm::vec3 GetRightVector() const;
     
-    void OnLeftMouseButtonClick(const Event& event);
+    void OnRightMouseButtonClick(const Event& event);
+    void OnRightMouseButtonRelease(const Event& event);
     
     void OnForwardPressed(const Event& event);
     void OnForwardReleased(const Event& event);
@@ -47,6 +62,8 @@ public:
 
     void OnLeftPressed(const Event& event);
     void OnLeftReleased(const Event& event);
+
+    void OnMouseMoved(const Event& event);
     
     // Updates and exports the camera matrix to the Vertex Shader
     void SetVPMatricesInShader(Jamnik::Shader& shader);

@@ -13,10 +13,14 @@ namespace Jamnik
     class Window
     {
     public:
+
+        //TODO: width, height
         bool Init();
         void MainLoop();
         void ShutDown();
-    
+
+        GLFWwindow* GetGLFWWindow() const { return _GLFWWindow; }
+        
     private:
         void BindWindowEvents();
 

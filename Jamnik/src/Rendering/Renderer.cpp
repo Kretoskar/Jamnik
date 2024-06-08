@@ -4,8 +4,6 @@
 #include<glm/glm.hpp>
 #include<glm/gtc/matrix_transform.hpp>
 #include<glm/gtc/type_ptr.hpp>
-#include <glad/glad.h>
-#include <GLFW/glfw3.h>
 
 #include "Core/EventSystem.h"
 #include "Core/Logger.h"
@@ -31,8 +29,10 @@ unsigned indices[] =
     3, 0, 4
 };
 
-void Jamnik::Renderer::Init()
+void Jamnik::Renderer::Init(Window* inWindow)
 {
+    window = inWindow;
+    
     texture = std::make_unique<Texture>("content/base.png", GL_TEXTURE0, GL_RGB);
     texture->Bind();
     
@@ -53,7 +53,7 @@ void Jamnik::Renderer::Init()
     // UV
     vao->LinkAttrib(*vbo, 2, 2, GL_FLOAT, 8 * sizeof(float), (void*)(6 * sizeof(float)));
 
-    camera = std::make_unique<Camera>(1920, 1080, glm::vec3(0.0f, 0.0f, 2.0f));
+    camera = std::make_unique<Camera>(window, glm::vec3(0.0f, 0.0f, 2.0f));
     camera->Init();
     
     glEnable(GL_DEPTH_TEST);

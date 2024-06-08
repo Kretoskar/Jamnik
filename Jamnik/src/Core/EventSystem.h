@@ -131,3 +131,26 @@ private:
         return KeyboardEvent::Type(key, action, mods);
     }
 };
+
+class MousePositionEvent : public Event
+{
+    double posX, posY;
+
+public:
+    MousePositionEvent(double posX, double posY)
+        : posX(posX), posY(posY) {}
+    
+    static std::string StaticType()
+    {
+        return "MousePos";
+    }
+
+    double GetPosX() const { return posX; }
+    double GetPosY() const { return posY; }
+
+private:
+    std::string Type() const override
+    {
+        return StaticType();
+    }
+};
