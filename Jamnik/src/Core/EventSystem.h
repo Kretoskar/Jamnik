@@ -7,9 +7,11 @@
 class Event
 {
 public:
-    virtual ~Event() {}
-    
+    virtual ~Event() = default;
+private:
     virtual std::string Type() const = 0;
+
+    friend class Dispatcher;
 };
 
 class MouseButtonEvent : public Event
@@ -19,12 +21,48 @@ class MouseButtonEvent : public Event
 public:
     MouseButtonEvent(int inButton, int inAction, int inMods)
         : button(inButton), action(inAction), mods(inMods) {}
-    
-    std::string Type() const override
+
+    static std::string Type(int button, int action, int mods)
     {
         char buffer[100];
         int size = sprintf_s(buffer, "MouseButton%i%i%i", button, action, mods);
         return buffer;
+    }
+
+    int GetButton() const { return button; }
+    int GetAction() const { return action; }
+    int GetMods() const { return mods; }
+
+private:
+    std::string Type() const override
+    {
+        return MouseButtonEvent::Type(button, action, mods);
+    }
+};
+
+class KeyboardEvent : public Event
+{
+    int key, action, mods;
+
+public:
+    KeyboardEvent(int inKey, int inAction, int inMods)
+        : key(inKey), action(inAction), mods(inMods) {}
+    
+    static std::string Type(int key, int action, int mods)
+    {
+        char buffer[100];
+        int size = sprintf_s(buffer, "Key%i%i%i", key, action, mods);
+        return buffer;
+    }
+
+    int GetKey() const { return key; }
+    int GetAction() const { return action; }
+    int GetMods() const { return mods; }
+
+private:
+    std::string Type() const override
+    {
+        return KeyboardEvent::Type(key, action, mods);
     }
 };
 

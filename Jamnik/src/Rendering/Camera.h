@@ -7,4 +7,5 @@ public:
     void Init();
 
     void OnLeftMouseButtonClick(const Event& event);
+    void OnForwardPressed(const Event& event);
 };

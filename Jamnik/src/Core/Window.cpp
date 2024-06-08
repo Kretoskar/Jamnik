@@ -191,6 +191,8 @@ void Jamnik::Window::HandleKeyEvents(int key, int scancode, int action, int mods
         break;
     }
 
+    Dispatcher::GetInstance().Post(KeyboardEvent(key,action,mods));
+    
     const char *keyName = glfwGetKeyName(key, 0);
     LOG_MESSAGE("key %s (key %i, scancode %i) %s", keyName, key, scancode, actionName.c_str())
 }
