@@ -1,4 +1,5 @@
 ﻿#pragma once
+
 #include <functional>
 #include <map>
 #include <string>
@@ -36,28 +37,9 @@ public:
         return instance;
     }
     
-    void Subscribe(std::string Type, std::function<void(const Event&)>&& Slot)
-    {
-        _observers[Type].push_back(Slot);
-    }
+    void Subscribe(std::string Type, std::function<void(const Event&)>&& Slot);
     
-    void Post(const Event& Event) const
-    {
-        const auto type = Event.Type();
-
-        // Ignore events for which we do not have an observer (yet).
-        if( _observers.find( type ) == _observers.end() )
-        {
-            return;
-        }
-
-        auto&& observers = _observers.at( type );
-
-        for( auto&& observer : observers )
-        {
-            observer( Event );
-        }
-    }
+    void Post(const Event& Event) const;
 
 private:
     std::map<std::string, std::vector<std::function<void(const Event&)>>> _observers;
@@ -74,17 +56,9 @@ public:
     MouseButtonEvent(int inButton, int inAction)
         : button(inButton), action(inAction), mods(0) {}
 
-    static std::string Type(int button, int action, int mods)
-    {
-        char buffer[100];
-        int size = sprintf_s(buffer, "MouseButton%i%i%i", button, action, mods);
-        return buffer;
-    }
+    static std::string StaticType(int button, int action, int mods);
 
-    static std::string Type(int button, int action)
-    {
-        return Type(button, action, 0);
-    }
+    static std::string StaticType(int button, int action);
 
 
     int GetButton() const { return button; }
@@ -92,10 +66,7 @@ public:
     int GetMods() const { return mods; }
 
 private:
-    std::string Type() const override
-    {
-        return MouseButtonEvent::Type(button, action, mods);
-    }
+    std::string Type() const override;
 };
 
 class KeyboardEvent : public Event
@@ -109,27 +80,16 @@ public:
     KeyboardEvent(int inKey, int inAction)
         : key(inKey), action(inAction), mods(0) {}
     
-    static std::string Type(int key, int action, int mods)
-    {
-        char buffer[100];
-        int size = sprintf_s(buffer, "Key%i%i%i", key, action, mods);
-        return buffer;
-    }
+    static std::string StaticType(int key, int action, int mods);
 
-    static std::string Type(int key, int action)
-    {
-        return Type(key, action, 0);
-    }
+    static std::string StaticType(int key, int action);
 
     int GetKey() const { return key; }
     int GetAction() const { return action; }
     int GetMods() const { return mods; }
 
 private:
-    std::string Type() const override
-    {
-        return KeyboardEvent::Type(key, action, mods);
-    }
+    std::string Type() const override;
 };
 
 class MousePositionEvent : public Event
@@ -149,8 +109,5 @@ public:
     double GetPosY() const { return posY; }
 
 private:
-    std::string Type() const override
-    {
-        return StaticType();
-    }
+    std::string Type() const override;
 };

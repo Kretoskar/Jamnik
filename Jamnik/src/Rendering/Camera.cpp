@@ -62,20 +62,20 @@ glm::vec3 Camera::GetVelocity() const
 
 void Camera::Init()
 {
-    JAMNIK_BIND_EVENT(MouseButtonEvent::Type(GLFW_MOUSE_BUTTON_RIGHT, GLFW_PRESS), OnRightMouseButtonClick)
-    JAMNIK_BIND_EVENT(MouseButtonEvent::Type(GLFW_MOUSE_BUTTON_RIGHT, GLFW_RELEASE), OnRightMouseButtonRelease)
+    JAMNIK_BIND_EVENT(MouseButtonEvent::StaticType(GLFW_MOUSE_BUTTON_RIGHT, GLFW_PRESS), OnRightMouseButtonClick)
+    JAMNIK_BIND_EVENT(MouseButtonEvent::StaticType(GLFW_MOUSE_BUTTON_RIGHT, GLFW_RELEASE), OnRightMouseButtonRelease)
     
-    JAMNIK_BIND_EVENT(KeyboardEvent::Type(GLFW_KEY_W, GLFW_PRESS), OnForwardPressed)
-    JAMNIK_BIND_EVENT(KeyboardEvent::Type(GLFW_KEY_W, GLFW_RELEASE), OnForwardReleased)
+    JAMNIK_BIND_EVENT(KeyboardEvent::StaticType(GLFW_KEY_W, GLFW_PRESS), OnForwardPressed)
+    JAMNIK_BIND_EVENT(KeyboardEvent::StaticType(GLFW_KEY_W, GLFW_RELEASE), OnForwardReleased)
 
-    JAMNIK_BIND_EVENT(KeyboardEvent::Type(GLFW_KEY_S, GLFW_PRESS), OnBackwardPressed)
-    JAMNIK_BIND_EVENT(KeyboardEvent::Type(GLFW_KEY_S, GLFW_RELEASE), OnBackwardReleased)
+    JAMNIK_BIND_EVENT(KeyboardEvent::StaticType(GLFW_KEY_S, GLFW_PRESS), OnBackwardPressed)
+    JAMNIK_BIND_EVENT(KeyboardEvent::StaticType(GLFW_KEY_S, GLFW_RELEASE), OnBackwardReleased)
 
-    JAMNIK_BIND_EVENT(KeyboardEvent::Type(GLFW_KEY_D, GLFW_PRESS), OnRightPressed)
-    JAMNIK_BIND_EVENT(KeyboardEvent::Type(GLFW_KEY_D, GLFW_RELEASE), OnRightReleased)
+    JAMNIK_BIND_EVENT(KeyboardEvent::StaticType(GLFW_KEY_D, GLFW_PRESS), OnRightPressed)
+    JAMNIK_BIND_EVENT(KeyboardEvent::StaticType(GLFW_KEY_D, GLFW_RELEASE), OnRightReleased)
 
-    JAMNIK_BIND_EVENT(KeyboardEvent::Type(GLFW_KEY_A, GLFW_PRESS), OnLeftPressed)
-    JAMNIK_BIND_EVENT(KeyboardEvent::Type(GLFW_KEY_A, GLFW_RELEASE), OnLeftReleased)
+    JAMNIK_BIND_EVENT(KeyboardEvent::StaticType(GLFW_KEY_A, GLFW_PRESS), OnLeftPressed)
+    JAMNIK_BIND_EVENT(KeyboardEvent::StaticType(GLFW_KEY_A, GLFW_RELEASE), OnLeftReleased)
 
     JAMNIK_BIND_EVENT(MousePositionEvent::StaticType(), OnMouseMoved)
 }
