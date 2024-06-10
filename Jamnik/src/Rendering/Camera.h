@@ -21,7 +21,7 @@ class Camera
     int width = 1920;
     int height = 1080;
     
-    float speed = 0.01f;
+    float speed = 0.1f;
     float sensitivity = 100.0f;
 
     float FOVdeg = 120;

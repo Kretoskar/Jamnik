@@ -9,6 +9,7 @@
 #include "Shaders/Shader.h"
 
 #include<glm/glm.hpp>
+#include "UserInterface.h"
 #include<glm/gtc/matrix_transform.hpp>
 #include<glm/gtc/type_ptr.hpp>
 #include<glm/gtx/rotate_vector.hpp>
@@ -64,6 +65,9 @@ void Camera::Init()
 {
     width = window->GetWidth();
     height = window->GetHeight();
+
+    window->GetUserInterface()->RegisterCameraSpeedVarPtr(&speed);
+    window->GetUserInterface()->RegisterCameraSensitivityVarPtr(&sensitivity);
     
     JAMNIK_BIND_EVENT(MouseButtonEvent::StaticType(GLFW_MOUSE_BUTTON_RIGHT, GLFW_PRESS), OnRightMouseButtonClick)
     JAMNIK_BIND_EVENT(MouseButtonEvent::StaticType(GLFW_MOUSE_BUTTON_RIGHT, GLFW_RELEASE), OnRightMouseButtonRelease)

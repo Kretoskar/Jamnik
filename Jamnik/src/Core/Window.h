@@ -24,6 +24,8 @@ namespace Jamnik
 
         int GetWidth() const { return width; }
         int GetHeight() const { return height; }
+
+        UserInterface* GetUserInterface() const { return _ui.get(); }
         
     private:
         void BindWindowEvents();

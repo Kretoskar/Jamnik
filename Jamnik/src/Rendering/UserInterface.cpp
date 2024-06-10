@@ -57,6 +57,16 @@ void UserInterface::CreateFrame()
         ImGui::End();
     }
 
+    ImGuiWindowFlags flags = 0;
+    ImGui::Begin("Camera", nullptr, flags);
+
+    if (cameraSpeed)
+    {
+        ImGui::SliderFloat("Speed", cameraSpeed, 0.01f, 0.2f);
+        ImGui::SliderFloat("Sensitivity", cameraSensitivity, 10, 200);
+    }
+    
+    ImGui::End();
 }
 
 void UserInterface::Render()
@@ -70,4 +80,14 @@ void UserInterface::Cleanup()
     ImGui_ImplOpenGL3_Shutdown();
     ImGui_ImplGlfw_Shutdown();
     ImGui::DestroyContext();
+}
+
+void UserInterface::RegisterCameraSpeedVarPtr(float* speed)
+{
+    cameraSpeed = speed;
+}
+
+void UserInterface::RegisterCameraSensitivityVarPtr(float* sensitivity)
+{
+    cameraSensitivity = sensitivity;
 }
