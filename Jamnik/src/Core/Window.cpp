@@ -21,7 +21,7 @@ bool Jamnik::Window::Init()
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
     
-    _GLFWWindow = glfwCreateWindow(1920, 1080, "Jamnik", NULL, NULL);
+    _GLFWWindow = glfwCreateWindow(width, height, "Jamnik", NULL, NULL);
     
     if (!_GLFWWindow)
     {
@@ -40,7 +40,7 @@ bool Jamnik::Window::Init()
         return false;
     }
 
-    glViewport(0, 0, 1920, 1080);
+    glViewport(0, 0, width, height);
     glClearColor(0.15f, 0.5f, 1.0f, 1.0f);
     
     JAMNIK_LOG_MESSAGE("Window successfully initialized")

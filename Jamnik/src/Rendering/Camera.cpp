@@ -62,6 +62,9 @@ glm::vec3 Camera::GetVelocity() const
 
 void Camera::Init()
 {
+    width = window->GetWidth();
+    height = window->GetHeight();
+    
     JAMNIK_BIND_EVENT(MouseButtonEvent::StaticType(GLFW_MOUSE_BUTTON_RIGHT, GLFW_PRESS), OnRightMouseButtonClick)
     JAMNIK_BIND_EVENT(MouseButtonEvent::StaticType(GLFW_MOUSE_BUTTON_RIGHT, GLFW_RELEASE), OnRightMouseButtonRelease)
     

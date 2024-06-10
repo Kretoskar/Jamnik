@@ -13,13 +13,17 @@ namespace Jamnik
     class Window
     {
     public:
-
-        //TODO: width, height
+        Window(int width, int height)
+            : width(width), height(height) {}
+        
         bool Init();
         void MainLoop();
         void ShutDown();
 
         GLFWwindow* GetGLFWWindow() const { return _GLFWWindow; }
+
+        int GetWidth() const { return width; }
+        int GetHeight() const { return height; }
         
     private:
         void BindWindowEvents();
@@ -38,5 +42,7 @@ namespace Jamnik
 
         std::unique_ptr<UserInterface> _ui;
         std::unique_ptr<Renderer> _renderer;
+
+        int width, height;
     };
 }

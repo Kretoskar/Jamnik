@@ -3,7 +3,7 @@
 
 int main()
 {
-    Jamnik::Window window {};
+    Jamnik::Window window {1080, 720};
     
     if (!window.Init())
     {
