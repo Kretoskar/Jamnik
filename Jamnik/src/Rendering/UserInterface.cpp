@@ -45,9 +45,18 @@ void UserInterface::CreateFrame()
             }
         
             ImGui::Text(Jamnik::Logger::logLines[i].c_str());
+
+            
+            
+            ImGui::SetScrollFromPosY(-999);
             ImGui::PopStyleColor();
         }
 
+        if (ImGui::GetScrollY() >= ImGui::GetScrollMaxY())
+        {
+            ImGui::SetScrollHereY(0.0f);
+        }
+        
         ImGui::End();
     }
 
