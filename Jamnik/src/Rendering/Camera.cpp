@@ -71,22 +71,20 @@ void Camera::Init()
     
     JAMNIK_BIND_EVENT(MouseButtonEvent::Type(GLFW_MOUSE_BUTTON_RIGHT, GLFW_PRESS, 0), OnRightMouseButtonClick)
     JAMNIK_BIND_EVENT(MouseButtonEvent::Type(GLFW_MOUSE_BUTTON_RIGHT, GLFW_RELEASE, 0), OnRightMouseButtonRelease)
+
+    JAMNIK_BIND_EVENT(MousePositionEvent::Type(), OnMouseMoved)
     
-    //JAMNIK_BIND_EVENT(MouseButtonEvent::StaticType(GLFW_MOUSE_BUTTON_RIGHT, GLFW_RELEASE), OnRightMouseButtonRelease)
+    JAMNIK_BIND_EVENT(KeyboardEvent::Type(GLFW_KEY_W, GLFW_PRESS, 0), OnForwardPressed)
+    JAMNIK_BIND_EVENT(KeyboardEvent::Type(GLFW_KEY_W, GLFW_RELEASE, 0), OnForwardReleased)
     
-   //JAMNIK_BIND_EVENT(KeyboardEvent::StaticType(GLFW_KEY_W, GLFW_PRESS), OnForwardPressed)
-   //JAMNIK_BIND_EVENT(KeyboardEvent::StaticType(GLFW_KEY_W, GLFW_RELEASE), OnForwardReleased)
-
-   //JAMNIK_BIND_EVENT(KeyboardEvent::StaticType(GLFW_KEY_S, GLFW_PRESS), OnBackwardPressed)
-   //JAMNIK_BIND_EVENT(KeyboardEvent::StaticType(GLFW_KEY_S, GLFW_RELEASE), OnBackwardReleased)
-
-   //JAMNIK_BIND_EVENT(KeyboardEvent::StaticType(GLFW_KEY_D, GLFW_PRESS), OnRightPressed)
-   //JAMNIK_BIND_EVENT(KeyboardEvent::StaticType(GLFW_KEY_D, GLFW_RELEASE), OnRightReleased)
-
-   //JAMNIK_BIND_EVENT(KeyboardEvent::StaticType(GLFW_KEY_A, GLFW_PRESS), OnLeftPressed)
-   //JAMNIK_BIND_EVENT(KeyboardEvent::StaticType(GLFW_KEY_A, GLFW_RELEASE), OnLeftReleased)
-
-   //JAMNIK_BIND_EVENT(MousePositionEvent::StaticType(), OnMouseMoved)
+    JAMNIK_BIND_EVENT(KeyboardEvent::Type(GLFW_KEY_S, GLFW_PRESS, 0), OnBackwardPressed)
+    JAMNIK_BIND_EVENT(KeyboardEvent::Type(GLFW_KEY_S, GLFW_RELEASE, 0), OnBackwardReleased)
+    
+    JAMNIK_BIND_EVENT(KeyboardEvent::Type(GLFW_KEY_D, GLFW_PRESS, 0), OnRightPressed)
+    JAMNIK_BIND_EVENT(KeyboardEvent::Type(GLFW_KEY_D, GLFW_RELEASE, 0), OnRightReleased)
+    
+    JAMNIK_BIND_EVENT(KeyboardEvent::Type(GLFW_KEY_A, GLFW_PRESS, 0), OnLeftPressed)
+    JAMNIK_BIND_EVENT(KeyboardEvent::Type(GLFW_KEY_A, GLFW_RELEASE, 0), OnLeftReleased)
 }
 
 glm::vec3 Camera::GetRightVector() const
@@ -109,57 +107,17 @@ void Camera::OnRightMouseButtonRelease(void* event)
     glfwSetInputMode(window->GetGLFWWindow(), GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 }
 
-/*
-
-void Camera::OnForwardPressed(const Event& event)
+void Camera::OnMouseMoved(void* payload)
 {
-    bMovingForward = true;
-}
+    const int posX = *static_cast<int*>(payload);
+    const int posY = *reinterpret_cast<int*>(static_cast<char*>(payload) + sizeof(int));
 
-void Camera::OnForwardReleased(const Event& event)
-{
-    bMovingForward = false;
-}
-
-void Camera::OnBackwardPressed(const Event& event)
-{
-    bMovingBackward = true;
-}
-
-void Camera::OnBackwardReleased(const Event& event)
-{
-    bMovingBackward = false;
-}
-
-void Camera::OnRightPressed(const Event& event)
-{
-    bMovingRight = true;
-}
-
-void Camera::OnRightReleased(const Event& event)
-{
-    bMovingRight = false;
-}
-
-void Camera::OnLeftPressed(const Event& event)
-{
-    bMovingLeft = true;
-}
-
-void Camera::OnLeftReleased(const Event& event)
-{
-    bMovingLeft = false;
-}
-
-void Camera::OnMouseMoved(const Event& event)
-{
     if (!bCanLook) return;
-    
-    const MousePositionEvent* mouseEvent = dynamic_cast<const MousePositionEvent*>(&event);
-    float rotX = sensitivity * (float)(mouseEvent->GetPosY() - (height / 2)) / height;
-    float rotY = sensitivity * (float)(mouseEvent->GetPosX() - (width / 2)) / width;
 
-    glm::vec3 newOrientation = glm::rotate(Orientation, glm::radians(-rotX), glm::normalize(glm::cross(Orientation, Up)));
+    const float rotX = sensitivity * static_cast<float>(posY - (height / 2)) / height;
+    const float rotY = sensitivity * static_cast<float>(posX - (width / 2)) / width;
+
+    const glm::vec3 newOrientation = glm::rotate(Orientation, glm::radians(-rotX), glm::normalize(glm::cross(Orientation, Up)));
 
     // Decides whether or not the next vertical Orientation is legal or not
     if (abs(glm::angle(newOrientation, Up) - glm::radians(90.0f)) <= glm::radians(85.0f))
@@ -172,4 +130,43 @@ void Camera::OnMouseMoved(const Event& event)
 
     glfwSetCursorPos(window->GetGLFWWindow(), (width / 2), (height / 2));
 }
-*/
+
+void Camera::OnForwardPressed(void* payload)
+{
+    bMovingForward = true;
+}
+
+void Camera::OnForwardReleased(void* payload)
+{
+    bMovingForward = false;
+}
+
+void Camera::OnBackwardPressed(void* payload)
+{
+    bMovingBackward = true;
+}
+
+void Camera::OnBackwardReleased(void* payload)
+{
+    bMovingBackward = false;
+}
+
+void Camera::OnRightPressed(void* payload)
+{
+    bMovingRight = true;
+}
+
+void Camera::OnRightReleased(void* payload)
+{
+    bMovingRight = false;
+}
+
+void Camera::OnLeftPressed(void* payload)
+{
+    bMovingLeft = true;
+}
+
+void Camera::OnLeftReleased(void* payload)
+{
+    bMovingLeft = false;
+}

@@ -49,19 +49,19 @@ public:
     void OnRightMouseButtonClick(void* event);
     void OnRightMouseButtonRelease(void* event);
     
-    //void OnForwardPressed(const Event& event);
-    //void OnForwardReleased(const Event& event);
-//
-    //void OnBackwardPressed(const Event& event);
-    //void OnBackwardReleased(const Event& event);
-//
-    //void OnRightPressed(const Event& event);
-    //void OnRightReleased(const Event& event);
-//
-    //void OnLeftPressed(const Event& event);
-    //void OnLeftReleased(const Event& event);
-//
-    //void OnMouseMoved(const Event& event);
+    void OnForwardPressed(void* payload);
+    void OnForwardReleased(void* payload);
+
+    void OnBackwardPressed(void* payload);
+    void OnBackwardReleased(void* payload);
+
+    void OnRightPressed(void* payload);
+    void OnRightReleased(void* payload);
+
+    void OnLeftPressed(void* payload);
+    void OnLeftReleased(void* payload);
+
+    void OnMouseMoved(void* payload);
     
     // Updates and exports the camera matrix to the Vertex Shader
     void SetVPMatricesInShader(Jamnik::Shader& shader);

@@ -12,6 +12,9 @@ Dispatcher::GetInstance().Subscribe(type, \
 event(std::forward<decltype(PH1)>(PH1)); \
 });
 
+#define JAMNIK_POST_EVENT(type, payload) \
+Dispatcher::GetInstance().Post(type, payload);
+
 class Dispatcher
 {
     Dispatcher() {}
@@ -36,22 +39,6 @@ private:
 
 namespace MouseButtonEvent
 {
-    struct MouseButtonEventPayload
-    {
-        int button, action, mods;
-    };
-    
-    static std::string Type(void* payload)
-    {
-        const int button = *reinterpret_cast<int*>(static_cast<char*>(payload));
-        const int action = *reinterpret_cast<int*>(static_cast<char*>(payload) + sizeof(int));
-        const int mods = *reinterpret_cast<int*>(static_cast<char*>(payload) + 2 * sizeof(int));
-        
-        char buffer[100];
-        int size = sprintf_s(buffer, "MouseButton%i%i%i", button, action, mods);
-        return buffer;
-    }
-
     static std::string Type(int button, int action, int mods)
     {
         char buffer[100];
@@ -59,3 +46,26 @@ namespace MouseButtonEvent
         return buffer;
     }
 };
+
+namespace KeyboardEvent
+{
+    static std::string Type(int key, int action, int mods)
+    {
+        char buffer[100];
+        int size = sprintf_s(buffer, "Key%i%i%i", key, action, mods);
+        return buffer;
+    }
+};
+
+namespace MousePositionEvent
+{
+    struct MousePositionEventPayload
+    {
+        int posX, posY;
+    };
+
+    static std::string Type()
+    {
+        return "MousePos";
+    }
+}
