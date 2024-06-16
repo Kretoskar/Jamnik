@@ -69,22 +69,24 @@ void Camera::Init()
     window->GetUserInterface()->RegisterCameraSpeedVarPtr(&speed);
     window->GetUserInterface()->RegisterCameraSensitivityVarPtr(&sensitivity);
     
-    JAMNIK_BIND_EVENT(MouseButtonEvent::StaticType(GLFW_MOUSE_BUTTON_RIGHT, GLFW_PRESS), OnRightMouseButtonClick)
-    JAMNIK_BIND_EVENT(MouseButtonEvent::StaticType(GLFW_MOUSE_BUTTON_RIGHT, GLFW_RELEASE), OnRightMouseButtonRelease)
+    JAMNIK_BIND_EVENT(MouseButtonEvent::Type(GLFW_MOUSE_BUTTON_RIGHT, GLFW_PRESS, 0), OnRightMouseButtonClick)
+    JAMNIK_BIND_EVENT(MouseButtonEvent::Type(GLFW_MOUSE_BUTTON_RIGHT, GLFW_RELEASE, 0), OnRightMouseButtonRelease)
     
-    JAMNIK_BIND_EVENT(KeyboardEvent::StaticType(GLFW_KEY_W, GLFW_PRESS), OnForwardPressed)
-    JAMNIK_BIND_EVENT(KeyboardEvent::StaticType(GLFW_KEY_W, GLFW_RELEASE), OnForwardReleased)
+    //JAMNIK_BIND_EVENT(MouseButtonEvent::StaticType(GLFW_MOUSE_BUTTON_RIGHT, GLFW_RELEASE), OnRightMouseButtonRelease)
+    
+   //JAMNIK_BIND_EVENT(KeyboardEvent::StaticType(GLFW_KEY_W, GLFW_PRESS), OnForwardPressed)
+   //JAMNIK_BIND_EVENT(KeyboardEvent::StaticType(GLFW_KEY_W, GLFW_RELEASE), OnForwardReleased)
 
-    JAMNIK_BIND_EVENT(KeyboardEvent::StaticType(GLFW_KEY_S, GLFW_PRESS), OnBackwardPressed)
-    JAMNIK_BIND_EVENT(KeyboardEvent::StaticType(GLFW_KEY_S, GLFW_RELEASE), OnBackwardReleased)
+   //JAMNIK_BIND_EVENT(KeyboardEvent::StaticType(GLFW_KEY_S, GLFW_PRESS), OnBackwardPressed)
+   //JAMNIK_BIND_EVENT(KeyboardEvent::StaticType(GLFW_KEY_S, GLFW_RELEASE), OnBackwardReleased)
 
-    JAMNIK_BIND_EVENT(KeyboardEvent::StaticType(GLFW_KEY_D, GLFW_PRESS), OnRightPressed)
-    JAMNIK_BIND_EVENT(KeyboardEvent::StaticType(GLFW_KEY_D, GLFW_RELEASE), OnRightReleased)
+   //JAMNIK_BIND_EVENT(KeyboardEvent::StaticType(GLFW_KEY_D, GLFW_PRESS), OnRightPressed)
+   //JAMNIK_BIND_EVENT(KeyboardEvent::StaticType(GLFW_KEY_D, GLFW_RELEASE), OnRightReleased)
 
-    JAMNIK_BIND_EVENT(KeyboardEvent::StaticType(GLFW_KEY_A, GLFW_PRESS), OnLeftPressed)
-    JAMNIK_BIND_EVENT(KeyboardEvent::StaticType(GLFW_KEY_A, GLFW_RELEASE), OnLeftReleased)
+   //JAMNIK_BIND_EVENT(KeyboardEvent::StaticType(GLFW_KEY_A, GLFW_PRESS), OnLeftPressed)
+   //JAMNIK_BIND_EVENT(KeyboardEvent::StaticType(GLFW_KEY_A, GLFW_RELEASE), OnLeftReleased)
 
-    JAMNIK_BIND_EVENT(MousePositionEvent::StaticType(), OnMouseMoved)
+   //JAMNIK_BIND_EVENT(MousePositionEvent::StaticType(), OnMouseMoved)
 }
 
 glm::vec3 Camera::GetRightVector() const
@@ -92,7 +94,7 @@ glm::vec3 Camera::GetRightVector() const
     return glm::normalize(glm::cross(Orientation, Up));
 }
 
-void Camera::OnRightMouseButtonClick(const Event& event)
+void Camera::OnRightMouseButtonClick(void* event)
 {
     bCanMove = true;
     bCanLook = true;
@@ -100,12 +102,14 @@ void Camera::OnRightMouseButtonClick(const Event& event)
     glfwSetInputMode(window->GetGLFWWindow(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 }
 
-void Camera::OnRightMouseButtonRelease(const Event& event)
+void Camera::OnRightMouseButtonRelease(void* event)
 {
     bCanMove = false;
     bCanLook = false;
     glfwSetInputMode(window->GetGLFWWindow(), GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 }
+
+/*
 
 void Camera::OnForwardPressed(const Event& event)
 {
@@ -168,3 +172,4 @@ void Camera::OnMouseMoved(const Event& event)
 
     glfwSetCursorPos(window->GetGLFWWindow(), (width / 2), (height / 2));
 }
+*/

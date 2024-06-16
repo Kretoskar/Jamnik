@@ -190,8 +190,6 @@ void Jamnik::Window::HandleKeyEvents(int key, int scancode, int action, int mods
         actionName = "invalid";
         break;
     }
-
-    Dispatcher::GetInstance().Post(KeyboardEvent(key,action,mods));
     
     const char *keyName = glfwGetKeyName(key, 0);
     JAMNIK_LOG_MESSAGE("key %s (key %i, scancode %i) %s", keyName, key, scancode, actionName.c_str())
@@ -233,14 +231,15 @@ void Jamnik::Window::HandleMouseButtonEvents(int button, int action, int mods)
         break;
     }
 
-    Dispatcher::GetInstance().Post(MouseButtonEvent(button,action,mods));
+    MouseButtonEvent::MouseButtonEventPayload payload = {button,action,mods};
+    Dispatcher::GetInstance().Post(MouseButtonEvent::Type(&payload), &payload);
     
     JAMNIK_LOG_MESSAGE("%s mouse button (%i) %s with mod %i", mouseButtonName.c_str(), button, actionName.c_str(), mods)
 }
 
 void Jamnik::Window::HandleMousePositionEvents(double xpos, double ypos)
 {
-    Dispatcher::GetInstance().Post(MousePositionEvent(xpos, ypos));
+   // Dispatcher::GetInstance().Post(MousePositionEvent(xpos, ypos));
 }
 
 void Jamnik::Window::HandleMouseEnterLeaveEvents(int enter)

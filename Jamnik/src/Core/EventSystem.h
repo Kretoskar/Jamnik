@@ -12,17 +12,6 @@ Dispatcher::GetInstance().Subscribe(type, \
 event(std::forward<decltype(PH1)>(PH1)); \
 });
 
-class Event
-{
-public:
-    virtual ~Event() = default;
-    
-private:
-    virtual std::string Type() const = 0;
-
-    friend class Dispatcher;
-};
-
 class Dispatcher
 {
     Dispatcher() {}
@@ -37,77 +26,36 @@ public:
         return instance;
     }
     
-    void Subscribe(std::string Type, std::function<void(const Event&)>&& Slot);
+    void Subscribe(std::string Type, std::function<void(void*)>&& Func);
     
-    void Post(const Event& Event) const;
+    void Post(std::string Type, void* Payload) const;
 
 private:
-    std::map<std::string, std::vector<std::function<void(const Event&)>>> _observers;
+    std::map<std::string, std::vector<std::function<void(void*)>>> _observers;
 };
 
-class MouseButtonEvent : public Event
+namespace MouseButtonEvent
 {
-    int button, action, mods;
-    
-public:
-    MouseButtonEvent(int inButton, int inAction, int inMods)
-        : button(inButton), action(inAction), mods(inMods) {}
-
-    MouseButtonEvent(int inButton, int inAction)
-        : button(inButton), action(inAction), mods(0) {}
-
-    static std::string StaticType(int button, int action, int mods);
-
-    static std::string StaticType(int button, int action);
-
-
-    int GetButton() const { return button; }
-    int GetAction() const { return action; }
-    int GetMods() const { return mods; }
-
-private:
-    std::string Type() const override;
-};
-
-class KeyboardEvent : public Event
-{
-    int key, action, mods;
-
-public:
-    KeyboardEvent(int inKey, int inAction, int inMods)
-        : key(inKey), action(inAction), mods(inMods) {}
-
-    KeyboardEvent(int inKey, int inAction)
-        : key(inKey), action(inAction), mods(0) {}
-    
-    static std::string StaticType(int key, int action, int mods);
-
-    static std::string StaticType(int key, int action);
-
-    int GetKey() const { return key; }
-    int GetAction() const { return action; }
-    int GetMods() const { return mods; }
-
-private:
-    std::string Type() const override;
-};
-
-class MousePositionEvent : public Event
-{
-    double posX, posY;
-
-public:
-    MousePositionEvent(double posX, double posY)
-        : posX(posX), posY(posY) {}
-    
-    static std::string StaticType()
+    struct MouseButtonEventPayload
     {
-        return "MousePos";
+        int button, action, mods;
+    };
+    
+    static std::string Type(void* payload)
+    {
+        const int button = *reinterpret_cast<int*>(static_cast<char*>(payload));
+        const int action = *reinterpret_cast<int*>(static_cast<char*>(payload) + sizeof(int));
+        const int mods = *reinterpret_cast<int*>(static_cast<char*>(payload) + 2 * sizeof(int));
+        
+        char buffer[100];
+        int size = sprintf_s(buffer, "MouseButton%i%i%i", button, action, mods);
+        return buffer;
     }
 
-    double GetPosX() const { return posX; }
-    double GetPosY() const { return posY; }
-
-private:
-    std::string Type() const override;
+    static std::string Type(int button, int action, int mods)
+    {
+        char buffer[100];
+        int size = sprintf_s(buffer, "MouseButton%i%i%i", button, action, mods);
+        return buffer;
+    }
 };
