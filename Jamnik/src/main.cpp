@@ -1,5 +1,7 @@
+#include "Core/JString.h"
 #include "Core/Logger.h"
 #include "Core/Window.h"
+
 
 int main()
 {
@@ -12,6 +14,7 @@ int main()
     }
 
     window.MainLoop();
+    
     window.ShutDown();
     
     return 0;
