@@ -2,6 +2,8 @@
 
 #include "Logger.h"
 
+#define FIND_HASH_CONFLICTS true
+
 class JString
 {
 public:
@@ -33,9 +35,32 @@ private:
 
         h %= hashTableSize;
 
-        if (hashTable[h] != nullptr)
+        if (FIND_HASH_CONFLICTS)
         {
-            JAMNIK_LOG_ERROR("HASH CONFLICT")
+            if (hashTable[h] != nullptr)
+            {
+                int jump = 0;
+                
+                do
+                {
+                    char c1 = *(hashTable[h] + jump);
+                    char c2 = *(s - size + jump);
+                
+                    if (c1 != c2)
+                    {
+                        JAMNIK_LOG_ERROR("HASH CONFLICT")
+                        // TODO: assert
+                        return 0;
+                    }
+    
+                    if (c1 == '\0')
+                    {
+                        break;
+                    }
+                
+                    jump++;
+                } while (true);
+            }
         }
         
         hashTable[h] = s - size;
@@ -51,3 +76,5 @@ private:
         return other.hash == hash;
     }
 };
+
+#undef FIND_HASH_CONFLICTS
