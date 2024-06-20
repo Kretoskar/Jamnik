@@ -8,6 +8,9 @@
 class JString
 {
 public:
+    JString()
+        : hash(hashTableSize+1) {}
+    
     JString(const char* s)
         : hash(Hash(s)) {}
 
@@ -41,7 +44,7 @@ private:
 #ifdef SPOT_REHASHING
         if (hashTable[h][0] != '\0')
         {
-            JAMNIK_LOG_ERROR("REHASHING SPOTTED")
+            JAMNIK_LOG_WARNING("REHASHING SPOTTED")
         }
 #endif
 
@@ -82,9 +85,15 @@ private:
     static constexpr unsigned hashTableMaxStringLenght = 256;
     static char hashTable[hashTableSize][hashTableMaxStringLenght];
 
+public:
     bool operator==(JString&& other) const
     {
         return other.hash == hash;
+    }
+
+    bool operator<(const JString other) const
+    {
+        return hash < other.hash;
     }
 };
 

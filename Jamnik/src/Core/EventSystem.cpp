@@ -1,11 +1,11 @@
 #include "EventSystem.h"
 
-void Dispatcher::Subscribe(std::string Type,  std::function<void(void*)>&& Func)
+void Dispatcher::Subscribe(JString Type,  std::function<void(void*)>&& Func)
 {
     _observers[Type].push_back(Func);
 }
 
-void Dispatcher::Post(std::string Type, void* Payload) const
+void Dispatcher::Post(JString Type, void* Payload) const
 {
     if( _observers.find(Type) == _observers.end() )
     {

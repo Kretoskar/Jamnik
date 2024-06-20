@@ -5,6 +5,8 @@
 #include <string>
 #include <vector>
 
+#include "JString.h"
+
 #define JAMNIK_BIND_EVENT(type, event) \
 Dispatcher::GetInstance().Subscribe(type, \
 [this](auto&& PH1) \
@@ -29,31 +31,49 @@ public:
         return instance;
     }
     
-    void Subscribe(std::string Type, std::function<void(void*)>&& Func);
+    void Subscribe(JString Type, std::function<void(void*)>&& Func);
     
-    void Post(std::string Type, void* Payload) const;
+    void Post(JString Type, void* Payload) const;
 
 private:
-    std::map<std::string, std::vector<std::function<void(void*)>>> _observers;
+    std::map<JString, std::vector<std::function<void(void*)>>> _observers;
 };
 
 namespace MouseButtonEvent
 {
-    static std::string Type(int button, int action, int mods)
+    static JString Type(int button, int action, int mods)
     {
-        char buffer[100];
-        int size = sprintf_s(buffer, "MouseButton%i%i%i", button, action, mods);
-        return buffer;
+        static std::map<unsigned, JString> lookupMap;
+
+        const unsigned lookupKey = button * 100 + action * 10 + mods;
+        if (lookupMap.count(lookupKey) == 0)
+        {
+            char buffer[100];
+            int size = sprintf_s(buffer, "MouseButton%i%i%i", button, action, mods);
+            lookupMap[lookupKey] = buffer;
+        }
+        
+
+        return lookupMap[lookupKey];
     }
 };
 
 namespace KeyboardEvent
 {
-    static std::string Type(int key, int action, int mods)
+    static JString Type(int key, int action, int mods)
     {
-        char buffer[100];
-        int size = sprintf_s(buffer, "Key%i%i%i", key, action, mods);
-        return buffer;
+        static std::map<unsigned, JString> lookupMap;
+        
+        const unsigned lookupKey = key * 100 + action * 10 + mods;
+        if (lookupMap.count(lookupKey) == 0)
+        {
+            char buffer[100];
+            int size = sprintf_s(buffer, "Key%i%i%i", key, action, mods);
+            lookupMap[lookupKey] = buffer;
+        }
+        
+
+        return lookupMap[lookupKey];
     }
 };
 
@@ -64,8 +84,9 @@ namespace MousePositionEvent
         int posX, posY;
     };
 
-    static std::string Type()
+    static JString Type()
     {
-        return "MousePos";
+        static JString type = JString("MousePos");
+        return type;
     }
 }
