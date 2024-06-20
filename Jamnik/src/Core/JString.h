@@ -2,7 +2,7 @@
 
 #include "Logger.h"
 
-#define FIND_HASH_CONFLICTS true
+//#define FIND_HASH_CONFLICTS
 
 class JString
 {
@@ -35,34 +35,32 @@ private:
 
         h %= hashTableSize;
 
-        if (FIND_HASH_CONFLICTS)
+#if defined FIND_HASH_CONFLICTS
+        if (hashTable[h] != nullptr)
         {
-            if (hashTable[h] != nullptr)
+            unsigned i = 0;
+            
+            do
             {
-                int jump = 0;
-                
-                do
+                char c1 = *(hashTable[h] + i);
+                char c2 = *(s - size + i);
+            
+                if (c1 != c2)
                 {
-                    char c1 = *(hashTable[h] + jump);
-                    char c2 = *(s - size + jump);
-                
-                    if (c1 != c2)
-                    {
-                        JAMNIK_LOG_ERROR("HASH CONFLICT")
-                        // TODO: assert
-                        return 0;
-                    }
+                    JAMNIK_LOG_ERROR("HASH CONFLICT")
+                    // TODO: assert
+                    return 0;
+                }
     
-                    if (c1 == '\0')
-                    {
-                        break;
-                    }
-                
-                    jump++;
-                } while (true);
-            }
+                if (c1 == '\0')
+                {
+                    break;
+                }
+            
+                i++;
+            } while (true);
         }
-        
+#endif
         hashTable[h] = s - size;
         
         return h;
