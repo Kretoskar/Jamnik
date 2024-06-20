@@ -1,3 +1,3 @@
 ﻿#include "JString.h"
 
-const char* JString::hashTable[JString::hashTableSize] = {nullptr};
+char JString::hashTable[JString::hashTableSize][hashTableMaxStringLenght] = {{'\0'}};

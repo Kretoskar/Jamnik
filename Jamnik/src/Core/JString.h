@@ -2,7 +2,8 @@
 
 #include "Logger.h"
 
-//#define FIND_HASH_CONFLICTS
+#define FIND_HASH_CONFLICTS
+#define SPOT_REHASHING
 
 class JString
 {
@@ -35,39 +36,51 @@ private:
 
         h %= hashTableSize;
 
-#if defined FIND_HASH_CONFLICTS
-        if (hashTable[h] != nullptr)
+        s = s-size;
+
+#ifdef SPOT_REHASHING
+        if (hashTable[h][0] != '\0')
         {
-            unsigned i = 0;
-            
-            do
+            JAMNIK_LOG_ERROR("REHASHING SPOTTED")
+        }
+#endif
+
+#ifdef FIND_HASH_CONFLICTS
+        if (hashTable[h][0] != '\0')
+        {
+            for (unsigned i = 0; i < hashTableMaxStringLenght; i++)
             {
-                char c1 = *(hashTable[h] + i);
-                char c2 = *(s - size + i);
-            
-                if (c1 != c2)
-                {
-                    JAMNIK_LOG_ERROR("HASH CONFLICT")
-                    // TODO: assert
-                    return 0;
-                }
-    
-                if (c1 == '\0')
+                const char existingChar = hashTable[h][i];
+                const char newChar = *(s+i);
+                
+                if (existingChar == newChar == '\0')
                 {
                     break;
                 }
-            
-                i++;
-            } while (true);
+                
+                if (existingChar != newChar)
+                {
+                    JAMNIK_LOG_ERROR("HASH CONFLICT")
+                }
+            }
         }
 #endif
-        hashTable[h] = s - size;
+
+        unsigned i = 0;
+        
+        while (*s)
+        {
+            hashTable[h][i] = *s;
+            i++;
+            s++;
+        }
         
         return h;
     }
     
     static constexpr unsigned hashTableSize = 65536;
-    static const char* hashTable[hashTableSize];
+    static constexpr unsigned hashTableMaxStringLenght = 256;
+    static char hashTable[hashTableSize][hashTableMaxStringLenght];
 
     bool operator==(JString&& other) const
     {
