@@ -58,7 +58,7 @@ void Jamnik::Renderer::Init(Window* inWindow)
     camera = std::make_unique<Camera>(window, glm::vec3(0.0f, 0.0f, 2.0f));
     camera->Init();
 
-    debugRenderer = std::make_unique<DebugRenderer>();
+    debugRenderer = std::make_unique<DebugRenderer>(camera.get());
     debugRenderer->Init();
     
     glEnable(GL_DEPTH_TEST);
@@ -74,15 +74,14 @@ void Jamnik::Renderer::Render()
     glm::mat4 model = glm::mat4(1.0f);
     model = glm::rotate(model, glm::radians(rot), glm::vec3(0.0f, 1.0f, 0.0f));
     
-    shader->SetModelMatrix(model);
-    camera->SetVPMatricesInShader(*shader);
-    
     shader->Bind();
     texture->Bind();
     vao->Bind();
+
+    shader->SetModelMatrix(model);
+    camera->SetVPMatricesInShader(*shader);
     glDrawElements(GL_TRIANGLES, sizeof(indices) / sizeof(int), GL_UNSIGNED_INT, 0);
 
-    shader->SetModelMatrix(glm::mat4(1.0f));
     debugRenderer->Render();
 }
 

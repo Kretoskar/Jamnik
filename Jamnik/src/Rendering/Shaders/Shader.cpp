@@ -30,53 +30,63 @@ void Jamnik::Shader::Delete()
 
 void Jamnik::Shader::SetUniform4f(const std::string& name, float v0, float v1, float v2, float v3)
 {
+    Bind();
     glUniform4f(GetUniformLocation(name), v0, v1, v2, v3);
 }
 
 void Jamnik::Shader::SetUniform1f(const std::string& name, float v0)
 {
+    Bind();
     glUniform1f(GetUniformLocation(name), v0);
 }
 
 void Jamnik::Shader::SetUniform2f(const std::string& name, float v0, float v1)
 {
+    Bind();
     glUniform2f(GetUniformLocation(name), v0, v1);
 }
 
 void Jamnik::Shader::SetUniform1i(const std::string& name, int v0)
 {
+    Bind();
     glUniform1f(GetUniformLocation(name), v0);
 }
 
 void Jamnik::Shader::SetUniformMat4f(const std::string& name, const glm::mat4& mat)
 {
+    Bind();
     // pass with no transpose bcs both glm and opengl use column major matrices
     glUniformMatrix4fv(GetUniformLocation(name), 1, GL_FALSE, &mat[0][0]);   
 }
 
 void Jamnik::Shader::AssignBaseTexture(Texture& texture)
 {
+    Bind();
     texture.Bind();
     SetUniform1i("tex0", 0);
 }
 
 void Jamnik::Shader::SetModelMatrix(glm::mat4 m)
 {
+    Bind();
     SetUniformMat4f("model", m);
 }
 
 void Jamnik::Shader::SetViewMatrix(glm::mat4 m)
 {
+    Bind();
     SetUniformMat4f("view", m);
 }
 
 void Jamnik::Shader::SetProjectionMatrix(glm::mat4 m)
 {
+    Bind();
     SetUniformMat4f("proj", m);
 }
 
 int Jamnik::Shader::GetUniformLocation(const std::string& name)
 {
+    Bind();
     if (_uniformLocationCache.find(name) != _uniformLocationCache.end())
     {
         return _uniformLocationCache[name];

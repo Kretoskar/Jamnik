@@ -136,6 +136,8 @@
   <ItemGroup>
     <Content Include="src\Rendering\Shaders\basic.frag" />
     <Content Include="src\Rendering\Shaders\basic.vert" />
+    <Content Include="src\Rendering\Shaders\debug.frag" />
+    <Content Include="src\Rendering\Shaders\debug.vert" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
