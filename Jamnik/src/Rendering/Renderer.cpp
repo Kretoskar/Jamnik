@@ -5,6 +5,7 @@
 #include<glm/gtc/matrix_transform.hpp>
 #include<glm/gtc/type_ptr.hpp>
 
+#include "DebugRenderer.h"
 #include "Core/EventSystem.h"
 #include "Core/Logger.h"
 
@@ -16,37 +17,6 @@ float vertices[] =
      0.5f, 0.0f, -0.5f,     0.83f, 0.70f, 0.44f,	0.0f, 0.0f,
      0.5f, 0.0f,  0.5f,     0.83f, 0.70f, 0.44f,	5.0f, 0.0f,
      0.0f, 0.8f,  0.0f,     0.92f, 0.86f, 0.76f,	2.5f, 5.0f
-};
-
-float lineVertices[] =
-{
-    -10.0f, 0.0f,  0.0f,     0.83f, 0.70f, 0.44f, 	0.0f, 0.0f,
-    10.0f, 0.0f,  0.0f,     0.83f, 0.70f, 0.44f, 	0.0f, 0.0f,
-    
-    -10.0f, 0.0f,  1.0f,     0.83f, 0.70f, 0.44f, 	0.0f, 0.0f,
-    10.0f, 0.0f,  1.0f,     0.83f, 0.70f, 0.44f, 	0.0f, 0.0f,
-    
-    -10.0f, 0.0f,  -1.0f,     0.83f, 0.70f, 0.44f, 	0.0f, 0.0f,
-    10.0f, 0.0f,  -1.0f,     0.83f, 0.70f, 0.44f, 	0.0f, 0.0f,
-
-    0.0f, 0.0f,  -10.0f,     0.83f, 0.70f, 0.44f, 	0.0f, 0.0f,
-    0.0f, 0.0f,  10.0f,     0.83f, 0.70f, 0.44f, 	0.0f, 0.0f,
-
-    1.0f, 0.0f,  -10.0f,     0.83f, 0.70f, 0.44f, 	0.0f, 0.0f,
-    1.0f, 0.0f,  10.0f,     0.83f, 0.70f, 0.44f, 	0.0f, 0.0f,
-
-    -1.0f, 0.0f,  -10.0f,     0.83f, 0.70f, 0.44f, 	0.0f, 0.0f,
-    -1.0f, 0.0f,  10.0f,     0.83f, 0.70f, 0.44f, 	0.0f, 0.0f,
-};
-
-unsigned lineIndices[]
-{
-    0,1,
-    2,3,
-    4,5,
-    6,7,
-    8,9,
-    10,11
 };
 
 // Indices for vertices order
@@ -70,18 +40,6 @@ void Jamnik::Renderer::Init(Window* inWindow)
     shader = std::make_unique<Shader>("src/Rendering/Shaders/basic.frag", "src/Rendering/Shaders/basic.vert");
     shader->Bind();
     shader->AssignBaseTexture(*texture);
-
-    lineVao = std::make_unique<VAO>();
-    lineVao->Bind();
-    lineVbo = std::make_unique<VBO>(lineVertices, sizeof(lineVertices));
-    lineEbo = std::make_unique<EBO>(lineIndices, sizeof(lineIndices));
-    // position
-    lineVao->LinkAttrib(*lineVbo, 0, 3, GL_FLOAT, 8 * sizeof(float), (void*)0);
-    // color
-    lineVao->LinkAttrib(*lineVbo, 1, 3, GL_FLOAT, 8 * sizeof(float), (void*)(3 * sizeof(float)));
-    // UV
-    lineVao->LinkAttrib(*lineVbo, 2, 2, GL_FLOAT, 8 * sizeof(float), (void*)(6 * sizeof(float)));
-    
     
     vao = std::make_unique<VAO>();
     vao->Bind();
@@ -99,6 +57,9 @@ void Jamnik::Renderer::Init(Window* inWindow)
 
     camera = std::make_unique<Camera>(window, glm::vec3(0.0f, 0.0f, 2.0f));
     camera->Init();
+
+    debugRenderer = std::make_unique<DebugRenderer>();
+    debugRenderer->Init();
     
     glEnable(GL_DEPTH_TEST);
 }
@@ -122,8 +83,7 @@ void Jamnik::Renderer::Render()
     glDrawElements(GL_TRIANGLES, sizeof(indices) / sizeof(int), GL_UNSIGNED_INT, 0);
 
     shader->SetModelMatrix(glm::mat4(1.0f));
-    lineVao->Bind();
-    glDrawElements(GL_LINES, sizeof(lineIndices) / sizeof(int), GL_UNSIGNED_INT, 0);
+    debugRenderer->Render();
 }
 
 void Jamnik::Renderer::Cleanup()

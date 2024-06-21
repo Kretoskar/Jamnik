@@ -90,6 +90,7 @@
     <ClCompile Include="src\Core\Window.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\Rendering\Camera.cpp" />
+    <ClCompile Include="src\Rendering\DebugRenderer.cpp" />
     <ClCompile Include="src\Rendering\EBO.cpp" />
     <ClCompile Include="src\Rendering\Renderer.cpp" />
     <ClCompile Include="src\Rendering\Shaders\Shader.cpp" />
@@ -113,6 +114,7 @@
     <ClInclude Include="src\Core\Logger.h" />
     <ClInclude Include="src\Core\Window.h" />
     <ClInclude Include="src\Rendering\Camera.h" />
+    <ClInclude Include="src\Rendering\DebugRenderer.h" />
     <ClInclude Include="src\Rendering\EBO.h" />
     <ClInclude Include="src\Rendering\Renderer.h" />
     <ClInclude Include="src\Rendering\Shaders\Shader.h" />
