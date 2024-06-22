@@ -60,7 +60,8 @@ void Jamnik::Renderer::Init(Window* inWindow)
 
     debugRenderer = std::make_unique<DebugRenderer>(camera.get());
     debugRenderer->Init();
-    
+
+    glClearColor(0,0,0,0);
     glEnable(GL_DEPTH_TEST);
 }
 

@@ -8,6 +8,17 @@
 #include "VBO.h"
 #include "Shaders/Shader.h"
 
+struct LineVertex
+{
+    LineVertex(glm::vec3 pos, glm::vec3 color)
+        : x(pos.x), y(pos.y), z(pos.z), r(color.r), g(color.g), b(color.b) {}
+    LineVertex(float x, float y, float z, float r, float g, float b)
+        : x(x), y(y), z(z), r(r), g(g), b(b) {}
+    
+    float x, y, z;
+    float r, g, b;
+};
+
 class DebugRenderer
 {
 public:
@@ -21,26 +32,26 @@ public:
     std::unique_ptr<VBO> lineVbo;
     std::unique_ptr<EBO> lineEbo;
     std::unique_ptr<VAO> lineVao;
-
-    float lineVertices[96] =
+    
+    LineVertex lineVertices[12] =
     {
-        -10.0f, 0.0f,  0.0f,     0.83f, 0.70f, 0.44f,
-        10.0f, 0.0f,  0.0f,     0.83f, 0.70f, 0.44f,
+        {-10.0f, 0.0f,  0.0f,     0.83f, 0.70f, 0.44f},
+        {10.0f, 0.0f,  0.0f,     0.83f, 0.70f, 0.44f},
     
-        -10.0f, 0.0f,  1.0f,     0.83f, 0.70f, 0.44f,
-        10.0f, 0.0f,  1.0f,     0.83f, 0.70f, 0.44f,
+        {-10.0f, 0.0f,  1.0f,     0.83f, 0.70f, 0.44f},
+        {10.0f, 0.0f,  1.0f,     0.83f, 0.70f, 0.44f},
     
-        -10.0f, 0.0f,  -1.0f,     0.83f, 0.70f, 0.44f,
-        10.0f, 0.0f,  -1.0f,     0.83f, 0.70f, 0.44f,
+        {-10.0f, 0.0f,  -1.0f,     0.83f, 0.70f, 0.44f},
+        {10.0f, 0.0f,  -1.0f,     0.83f, 0.70f, 0.44f},
 
-        0.0f, 0.0f,  -10.0f,     0.83f, 0.70f, 0.44f,
-        0.0f, 0.0f,  10.0f,     0.83f, 0.70f, 0.44f,
+        {0.0f, 0.0f,  -10.0f,     0.83f, 0.70f, 0.44f},
+        {0.0f, 0.0f,  10.0f,     0.83f, 0.70f, 0.44f},
 
-        1.0f, 0.0f,  -10.0f,     0.83f, 0.70f, 0.44f,
-        1.0f, 0.0f,  10.0f,     0.83f, 0.70f, 0.44f,
+        {1.0f, 0.0f,  -10.0f,     0.83f, 0.70f, 0.44f},
+        {1.0f, 0.0f,  10.0f,     0.83f, 0.70f, 0.44f},
 
-        -1.0f, 0.0f,  -10.0f,     0.83f, 0.70f, 0.44f,
-        -1.0f, 0.0f,  10.0f,     0.83f, 0.70f, 0.44f,
+        {-1.0f, 0.0f,  -10.0f,     0.83f, 0.70f, 0.44f},
+        {-1.0f, 0.0f,  10.0f,     0.83f, 0.70f, 0.44f}
     };
     
    unsigned lineIndices[12] =

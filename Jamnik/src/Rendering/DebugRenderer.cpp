@@ -17,7 +17,7 @@ void DebugRenderer::Init()
     
     lineVao = std::make_unique<VAO>();
     lineVao->Bind();
-    lineVbo = std::make_unique<VBO>(lineVertices, sizeof(lineVertices));
+    lineVbo = std::make_unique<VBO>((float*)lineVertices, sizeof(lineVertices));
     lineEbo = std::make_unique<EBO>(lineIndices, sizeof(lineIndices));
     // position
     lineVao->LinkAttrib(*lineVbo, 0, 3, GL_FLOAT, 6 * sizeof(float), (void*)0);
