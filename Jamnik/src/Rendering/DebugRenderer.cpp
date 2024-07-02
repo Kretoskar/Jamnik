@@ -53,14 +53,6 @@ void DebugRenderer::AddLine(glm::vec3 start, glm::vec3 end, glm::vec3 color)
     lineIndices[lineCount * 2 + 1] = lineCount * 2 + 1;
     
     lineCount++;
-
-    lineVao->Bind();
-    lineVbo->Init((float*)lineVertices, lineCount * 2 * 6 * 4);
-    lineEbo->Init(lineIndices, MAX_LINE_COUNT * 2 * 4);
-    // position
-    lineVao->LinkAttrib(*lineVbo, 0, 3, GL_FLOAT, 6 * sizeof(float), (void*)0);
-    // color
-    lineVao->LinkAttrib(*lineVbo, 1, 3, GL_FLOAT, 6 * sizeof(float), (void*)(3 * sizeof(float)));
 }
 
 void DebugRenderer::DrawNet(unsigned count, float stride, float size, glm::vec3 color)
@@ -71,4 +63,12 @@ void DebugRenderer::DrawNet(unsigned count, float stride, float size, glm::vec3 
         AddLine(glm::vec3(size/2, 0.0f, i * stride - count * stride / 2), glm::vec3(-size/2, 0.0f, i*stride - count * stride / 2), color);
         AddLine(glm::vec3(i * stride - count * stride / 2, 0.0f, size/2), glm::vec3(i*stride - count * stride / 2, 0.0f, -size/2), color);
     }
+
+    lineVao->Bind();
+    lineVbo->Init((float*)lineVertices, lineCount * 2 * 6 * 4);
+    lineEbo->Init(lineIndices, MAX_LINE_COUNT * 2 * 4);
+    // position
+    lineVao->LinkAttrib(*lineVbo, 0, 3, GL_FLOAT, 6 * sizeof(float), (void*)0);
+    // color
+    lineVao->LinkAttrib(*lineVbo, 1, 3, GL_FLOAT, 6 * sizeof(float), (void*)(3 * sizeof(float)));
 }
