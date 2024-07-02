@@ -30,31 +30,73 @@ unsigned indices[] =
     3, 0, 4
 };
 
+float lightVertices[] =
+{ //     COORDINATES     //
+    -0.1f, -0.1f,  0.1f,
+    -0.1f, -0.1f, -0.1f,
+     0.1f, -0.1f, -0.1f,
+     0.1f, -0.1f,  0.1f,
+    -0.1f,  0.1f,  0.1f,
+    -0.1f,  0.1f, -0.1f,
+     0.1f,  0.1f, -0.1f,
+     0.1f,  0.1f,  0.1f
+};
+
+unsigned lightIndices[] =
+{
+    0, 1, 2,
+    0, 2, 3,
+    0, 4, 7,
+    0, 7, 3,
+    3, 7, 6,
+    3, 6, 2,
+    2, 6, 5,
+    2, 5, 1,
+    1, 5, 4,
+    1, 4, 0,
+    4, 5, 6,
+    4, 6, 7
+};
+
 void Jamnik::Renderer::Init(Window* inWindow)
 {
     window = inWindow;
-    
-    texture = std::make_unique<Texture>("content/base.png", GL_TEXTURE0, GL_RGB);
-    texture->Bind();
-    
-    shader = std::make_unique<Shader>("src/Rendering/Shaders/basic.frag", "src/Rendering/Shaders/basic.vert");
-    shader->Bind();
-    shader->AssignBaseTexture(*texture);
-    
-    vao = std::make_unique<VAO>();
-    vao->Bind();
-    
-    vbo = std::make_unique<VBO>(vertices, sizeof(vertices));
-    ebo = std::make_unique<EBO>(indices, sizeof(indices));
 
+    {
+        meshTexture = std::make_unique<Texture>("content/base.png", GL_TEXTURE0, GL_RGB);
+        meshTexture->Bind();
     
-    // position
-    vao->LinkAttrib(*vbo, 0, 3, GL_FLOAT, 8 * sizeof(float), (void*)0);
-    // color
-    vao->LinkAttrib(*vbo, 1, 3, GL_FLOAT, 8 * sizeof(float), (void*)(3 * sizeof(float)));
-    // UV
-    vao->LinkAttrib(*vbo, 2, 2, GL_FLOAT, 8 * sizeof(float), (void*)(6 * sizeof(float)));
+        meshShader = std::make_unique<Shader>("src/Rendering/Shaders/basic.frag", "src/Rendering/Shaders/basic.vert");
+        meshShader->Bind();
+        meshShader->AssignBaseTexture(*meshTexture);
+    
+        meshVao = std::make_unique<VAO>();
+        meshVao->Bind();
+    
+        meshVbo = std::make_unique<VBO>(vertices, sizeof(vertices));
+        meshEbo = std::make_unique<EBO>(indices, sizeof(indices));
+    
+        // position
+        meshVao->LinkAttrib(*meshVbo, 0, 3, GL_FLOAT, 8 * sizeof(float), (void*)0);
+        // color
+        meshVao->LinkAttrib(*meshVbo, 1, 3, GL_FLOAT, 8 * sizeof(float), (void*)(3 * sizeof(float)));
+        // UV
+        meshVao->LinkAttrib(*meshVbo, 2, 2, GL_FLOAT, 8 * sizeof(float), (void*)(6 * sizeof(float)));
+    }
 
+    {
+        lightShader = std::make_unique<Shader>("src/Rendering/Shaders/light.frag", "src/Rendering/Shaders/light.vert");
+        lightShader->Bind();
+    
+        lightVao = std::make_unique<VAO>();
+        lightVao->Bind();
+    
+        lightVbo = std::make_unique<VBO>(lightVertices, sizeof(lightVertices));
+        lightEbo = std::make_unique<EBO>(lightIndices, sizeof(lightIndices));
+
+        lightVao->LinkAttrib(*lightVbo, 0, 3, GL_FLOAT, 3 * sizeof(float), (void*)0);
+    }
+    
     camera = std::make_unique<Camera>(window, glm::vec3(0.0f, 0.0f, 2.0f));
     camera->Init();
 
@@ -73,23 +115,32 @@ void Jamnik::Renderer::Render()
     rot += 2;
     
     glm::mat4 model = glm::mat4(1.0f);
-    model = glm::rotate(model, glm::radians(rot), glm::vec3(0.0f, 1.0f, 0.0f));
+    model = scale(model, glm::vec3(1.0f, 3.0f, 1.0f));
     
-    shader->Bind();
-    texture->Bind();
-    vao->Bind();
+    meshShader->Bind();
+    meshTexture->Bind();
+    meshVao->Bind();
 
-    shader->SetModelMatrix(model);
-    camera->SetVPMatricesInShader(*shader);
+    meshShader->SetModelMatrix(model);
+    camera->SetVPMatricesInShader(*meshShader);
     glDrawElements(GL_TRIANGLES, sizeof(indices) / sizeof(int), GL_UNSIGNED_INT, 0);
 
+    model = translate(model, glm::vec3(1,2,1));
+    
+    lightShader->Bind();
+    lightVao->Bind();
+
+    lightShader->SetModelMatrix(model);
+    camera->SetVPMatricesInShader(*lightShader);
+    glDrawElements(GL_TRIANGLES, sizeof(lightIndices) / sizeof(int), GL_UNSIGNED_INT, 0);
+    
     debugRenderer->Render();
 }
 
 void Jamnik::Renderer::Cleanup()
 {
-    vao->Delete();
-    vbo->Delete();
-    ebo->Delete();
-    shader->Delete();
+    meshVao->Delete();
+    meshVbo->Delete();
+    meshEbo->Delete();
+    meshShader->Delete();
 }

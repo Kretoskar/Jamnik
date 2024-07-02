@@ -20,13 +20,18 @@ namespace Jamnik
         void Render();
         void Cleanup();
 
-        std::unique_ptr<Shader> shader;
+        std::unique_ptr<Shader> meshShader;
+        std::unique_ptr<Shader> lightShader;
 
-        std::unique_ptr<VBO> vbo;
-        std::unique_ptr<EBO> ebo;
-        std::unique_ptr<VAO> vao;
+        std::unique_ptr<VBO> meshVbo;
+        std::unique_ptr<EBO> meshEbo;
+        std::unique_ptr<VAO> meshVao;
+
+        std::unique_ptr<VBO> lightVbo;
+        std::unique_ptr<EBO> lightEbo;
+        std::unique_ptr<VAO> lightVao;
         
-        std::unique_ptr<Texture> texture;
+        std::unique_ptr<Texture> meshTexture;
         std::unique_ptr<Camera> camera;
         std::unique_ptr<DebugRenderer> debugRenderer;
 
