@@ -17,19 +17,13 @@
 
 void Camera::SetVPMatricesInShader(Jamnik::Shader& shader)
 {
-    glm::mat4 view = glm::mat4(1.0f);
-    glm::mat4 projection = glm::mat4(1.0f);
-
-    // TODO: delta time 
-   
-    Position += GetVelocity();
-    
-    view = glm::lookAt(Position, Position + Orientation, Up);
-
-    projection = glm::perspective(glm::radians(FOVdeg), static_cast<float>(width) / static_cast<float>(height), nearPlane, farPlane);
-
     shader.SetViewMatrix(view);
     shader.SetProjectionMatrix(projection);
+}
+
+void Camera::SetCameraPosInShader(Jamnik::Shader& shader)
+{
+    shader.SetCameraPosition(Position);
 }
 
 glm::vec3 Camera::GetVelocity() const
@@ -85,6 +79,14 @@ void Camera::Init()
     
     JAMNIK_BIND_EVENT(KeyboardEvent::Type(GLFW_KEY_A, GLFW_PRESS, 0), OnLeftPressed)
     JAMNIK_BIND_EVENT(KeyboardEvent::Type(GLFW_KEY_A, GLFW_RELEASE, 0), OnLeftReleased)
+}
+
+void Camera::Tick()
+{
+    Position += GetVelocity();
+
+    view = glm::lookAt(Position, Position + Orientation, Up);
+    projection = glm::perspective(glm::radians(FOVdeg), static_cast<float>(width) / static_cast<float>(height), nearPlane, farPlane);
 }
 
 glm::vec3 Camera::GetRightVector() const

@@ -17,6 +17,9 @@ class Camera
     glm::vec3 Position;
     glm::vec3 Orientation = glm::vec3(0.0f, 0.0f, -1.0f);
     glm::vec3 Up = glm::vec3(0.0f, 1.0f, 0.0f);
+
+    glm::mat4 view = glm::mat4(1.0f);
+    glm::mat4 projection = glm::mat4(1.0f);
     
     int width = 1920;
     int height = 1080;
@@ -43,7 +46,8 @@ public:
     Camera(Jamnik::Window* inWindow, glm::vec3 position)
         : window(inWindow), Position(position) {}
     void Init();
-
+    void Tick();
+    
     glm::vec3 GetRightVector() const;
     
     void OnRightMouseButtonClick(void* event);
@@ -65,4 +69,6 @@ public:
     
     // Updates and exports the camera matrix to the Vertex Shader
     void SetVPMatricesInShader(Jamnik::Shader& shader);
+
+    void SetCameraPosInShader(Jamnik::Shader& shader);
 };

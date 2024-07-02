@@ -30,6 +30,8 @@ namespace Jamnik
         std::unique_ptr<VBO> lightVbo;
         std::unique_ptr<EBO> lightEbo;
         std::unique_ptr<VAO> lightVao;
+
+        glm::vec4 lightColor = { 1.0f, 1.0f, 1.0f, 1.0f };
         
         std::unique_ptr<Texture> meshTexture;
         std::unique_ptr<Camera> camera;

@@ -46,6 +46,12 @@ void Jamnik::Shader::SetUniform2f(const std::string& name, float v0, float v1)
     glUniform2f(GetUniformLocation(name), v0, v1);
 }
 
+void Jamnik::Shader::SetUniform3f(const std::string& name, float v0, float v1, float v2)
+{
+    Bind();
+    glUniform3f(GetUniformLocation(name), v0, v1, v2);
+}
+
 void Jamnik::Shader::SetUniform1i(const std::string& name, int v0)
 {
     Bind();
@@ -82,6 +88,18 @@ void Jamnik::Shader::SetProjectionMatrix(glm::mat4 m)
 {
     Bind();
     SetUniformMat4f("proj", m);
+}
+
+void Jamnik::Shader::SetCameraPosition(glm::vec3 pos)
+{
+    Bind();
+    SetUniform3f("cameraPos", pos.x, pos.y, pos.z);
+}
+
+void Jamnik::Shader::SetLightPosition(glm::vec3 pos)
+{
+    Bind();
+    SetUniform3f("lightPos", pos.x, pos.y, pos.z);
 }
 
 int Jamnik::Shader::GetUniformLocation(const std::string& name)

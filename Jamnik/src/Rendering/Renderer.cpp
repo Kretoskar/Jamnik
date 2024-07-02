@@ -11,23 +11,38 @@
 
 // Vertices coordinates
 float vertices[] =
-{
-    -0.5f, 0.0f,  0.5f,     0.83f, 0.70f, 0.44f,	0.0f, 0.0f,
-    -0.5f, 0.0f, -0.5f,     0.83f, 0.70f, 0.44f,	5.0f, 0.0f,
-     0.5f, 0.0f, -0.5f,     0.83f, 0.70f, 0.44f,	0.0f, 0.0f,
-     0.5f, 0.0f,  0.5f,     0.83f, 0.70f, 0.44f,	5.0f, 0.0f,
-     0.0f, 0.8f,  0.0f,     0.92f, 0.86f, 0.76f,	2.5f, 5.0f
+{ //     COORDINATES     /        COLORS          /    TexCoord   /        NORMALS       //
+    -0.5f, 0.0f,  0.5f,     0.83f, 0.70f, 0.44f, 	 0.0f, 0.0f,      0.0f, -1.0f, 0.0f, // Bottom side
+    -0.5f, 0.0f, -0.5f,     0.83f, 0.70f, 0.44f,	 0.0f, 5.0f,      0.0f, -1.0f, 0.0f, // Bottom side
+     0.5f, 0.0f, -0.5f,     0.83f, 0.70f, 0.44f,	 5.0f, 5.0f,      0.0f, -1.0f, 0.0f, // Bottom side
+     0.5f, 0.0f,  0.5f,     0.83f, 0.70f, 0.44f,	 5.0f, 0.0f,      0.0f, -1.0f, 0.0f, // Bottom side
+
+    -0.5f, 0.0f,  0.5f,     0.83f, 0.70f, 0.44f, 	 0.0f, 0.0f,     -0.8f, 0.5f,  0.0f, // Left Side
+    -0.5f, 0.0f, -0.5f,     0.83f, 0.70f, 0.44f,	 5.0f, 0.0f,     -0.8f, 0.5f,  0.0f, // Left Side
+     0.0f, 0.8f,  0.0f,     0.92f, 0.86f, 0.76f,	 2.5f, 5.0f,     -0.8f, 0.5f,  0.0f, // Left Side
+
+    -0.5f, 0.0f, -0.5f,     0.83f, 0.70f, 0.44f,	 5.0f, 0.0f,      0.0f, 0.5f, -0.8f, // Non-facing side
+     0.5f, 0.0f, -0.5f,     0.83f, 0.70f, 0.44f,	 0.0f, 0.0f,      0.0f, 0.5f, -0.8f, // Non-facing side
+     0.0f, 0.8f,  0.0f,     0.92f, 0.86f, 0.76f,	 2.5f, 5.0f,      0.0f, 0.5f, -0.8f, // Non-facing side
+
+     0.5f, 0.0f, -0.5f,     0.83f, 0.70f, 0.44f,	 0.0f, 0.0f,      0.8f, 0.5f,  0.0f, // Right side
+     0.5f, 0.0f,  0.5f,     0.83f, 0.70f, 0.44f,	 5.0f, 0.0f,      0.8f, 0.5f,  0.0f, // Right side
+     0.0f, 0.8f,  0.0f,     0.92f, 0.86f, 0.76f,	 2.5f, 5.0f,      0.8f, 0.5f,  0.0f, // Right side
+
+     0.5f, 0.0f,  0.5f,     0.83f, 0.70f, 0.44f,	 5.0f, 0.0f,      0.0f, 0.5f,  0.8f, // Facing side
+    -0.5f, 0.0f,  0.5f,     0.83f, 0.70f, 0.44f, 	 0.0f, 0.0f,      0.0f, 0.5f,  0.8f, // Facing side
+     0.0f, 0.8f,  0.0f,     0.92f, 0.86f, 0.76f,	 2.5f, 5.0f,      0.0f, 0.5f,  0.8f  // Facing side
 };
 
 // Indices for vertices order
 unsigned indices[] =
 {
-    0, 1, 2,
-    0, 2, 3,
-    0, 1, 4,
-    1, 2, 4,
-    2, 3, 4,
-    3, 0, 4
+    0, 1, 2, // Bottom side
+    0, 2, 3, // Bottom side
+    4, 6, 5, // Left side
+    7, 9, 8, // Non-facing side
+    10, 12, 11, // Right side
+    13, 15, 14 // Facing side
 };
 
 float lightVertices[] =
@@ -77,11 +92,13 @@ void Jamnik::Renderer::Init(Window* inWindow)
         meshEbo = std::make_unique<EBO>(indices, sizeof(indices));
     
         // position
-        meshVao->LinkAttrib(*meshVbo, 0, 3, GL_FLOAT, 8 * sizeof(float), (void*)0);
+        meshVao->LinkAttrib(*meshVbo, 0, 3, GL_FLOAT, 11 * sizeof(float), (void*)0);
         // color
-        meshVao->LinkAttrib(*meshVbo, 1, 3, GL_FLOAT, 8 * sizeof(float), (void*)(3 * sizeof(float)));
+        meshVao->LinkAttrib(*meshVbo, 1, 3, GL_FLOAT, 11 * sizeof(float), (void*)(3 * sizeof(float)));
         // UV
-        meshVao->LinkAttrib(*meshVbo, 2, 2, GL_FLOAT, 8 * sizeof(float), (void*)(6 * sizeof(float)));
+        meshVao->LinkAttrib(*meshVbo, 2, 2, GL_FLOAT, 11 * sizeof(float), (void*)(6 * sizeof(float)));
+        //normals
+        meshVao->LinkAttrib(*meshVbo, 3, 3, GL_FLOAT, 11 * sizeof(float), (void*)(8 * sizeof(float)));
     }
 
     {
@@ -110,29 +127,34 @@ void Jamnik::Renderer::Init(Window* inWindow)
 void Jamnik::Renderer::Render()
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+    //TODO: This shouldn't be in renderer
+    camera->Tick();
     
-    static float rot = 0;
-    rot += 2;
+    glm::mat4 lightModelMat = glm::mat4(1.0f);
+    glm::vec3 lightPos = glm::vec3(0.5f,0.5f,0.5f);
+    lightModelMat = translate(lightModelMat, lightPos);
+
+    lightShader->Bind();
+    lightVao->Bind();
+
+    lightShader->SetModelMatrix(lightModelMat);
+    lightShader->SetUniform4f("lightColor", lightColor.x, lightColor.y, lightColor.z, lightColor.w);
+    camera->SetVPMatricesInShader(*lightShader);
+    glDrawElements(GL_TRIANGLES, sizeof(lightIndices) / sizeof(int), GL_UNSIGNED_INT, 0);
     
-    glm::mat4 model = glm::mat4(1.0f);
-    model = scale(model, glm::vec3(1.0f, 3.0f, 1.0f));
     
     meshShader->Bind();
     meshTexture->Bind();
     meshVao->Bind();
 
-    meshShader->SetModelMatrix(model);
+    glm::mat4 meshModelMat = glm::mat4(1.0f);
+    meshShader->SetModelMatrix(meshModelMat);
+    meshShader->SetUniform4f("lightColor", lightColor.x, lightColor.y, lightColor.z, lightColor.w);
+    meshShader->SetUniform3f("lightPos", lightPos.x, lightPos.y, lightPos.z);
     camera->SetVPMatricesInShader(*meshShader);
+    camera->SetCameraPosInShader(*meshShader);
     glDrawElements(GL_TRIANGLES, sizeof(indices) / sizeof(int), GL_UNSIGNED_INT, 0);
-
-    model = translate(model, glm::vec3(1,2,1));
-    
-    lightShader->Bind();
-    lightVao->Bind();
-
-    lightShader->SetModelMatrix(model);
-    camera->SetVPMatricesInShader(*lightShader);
-    glDrawElements(GL_TRIANGLES, sizeof(lightIndices) / sizeof(int), GL_UNSIGNED_INT, 0);
     
     debugRenderer->Render();
 }

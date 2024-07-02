@@ -28,6 +28,7 @@ namespace Jamnik
         void SetUniform4f(const std::string& name, float v0, float v1, float v2, float v3);
         void SetUniform1f(const std::string& name, float v0);
         void SetUniform2f(const std::string& name, float v0, float v1);
+        void SetUniform3f(const std::string& name, float v0, float v1, float v2);
         void SetUniform1i(const std::string& name, int v0);
 
         void SetUniformMat4f(const std::string& name, const glm::mat4& mat);
@@ -38,6 +39,8 @@ namespace Jamnik
         void SetModelMatrix(glm::mat4 m);
         void SetViewMatrix(glm::mat4 m);
         void SetProjectionMatrix(glm::mat4 m);
+        void SetCameraPosition(glm::vec3 pos);
+        void SetLightPosition(glm::vec3 pos);
         
     private:
         int GetUniformLocation(const std::string& name);
