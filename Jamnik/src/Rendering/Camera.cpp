@@ -129,7 +129,7 @@ void Camera::OnMouseMoved(void* payload)
 
     // Rotates the Orientation left and right
     Orientation = glm::rotate(Orientation, glm::radians(-rotY), Up);
-
+    
     glfwSetCursorPos(window->GetGLFWWindow(), (width / 2), (height / 2));
 }
 

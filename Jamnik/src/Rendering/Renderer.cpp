@@ -114,7 +114,7 @@ void Jamnik::Renderer::Init(Window* inWindow)
         lightVao->LinkAttrib(*lightVbo, 0, 3, GL_FLOAT, 3 * sizeof(float), (void*)0);
     }
     
-    camera = std::make_unique<Camera>(window, glm::vec3(0.0f, 0.0f, 2.0f));
+    camera = std::make_unique<Camera>(window, glm::vec3(1.0f, 1.0f, 1.0f));
     camera->Init();
 
     debugRenderer = std::make_unique<DebugRenderer>(camera.get());
@@ -132,8 +132,9 @@ void Jamnik::Renderer::Render()
     camera->Tick();
     
     glm::mat4 lightModelMat = glm::mat4(1.0f);
-    glm::vec3 lightPos = glm::vec3(0.5f,0.5f,0.5f);
+    glm::vec3 lightPos = glm::vec3(0.4f,0.4f,0.4f);
     lightModelMat = translate(lightModelMat, lightPos);
+    lightModelMat = scale(lightModelMat, glm::vec3(0.1f, 0.1f, 0.1f));
 
     lightShader->Bind();
     lightVao->Bind();
