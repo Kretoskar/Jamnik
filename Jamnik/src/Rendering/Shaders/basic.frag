@@ -13,14 +13,20 @@ uniform vec4 lightColor;
 uniform vec3 lightPos;
 uniform vec3 cameraPos;
 
-void main()
+vec4 PointLight()
 {
+    vec3 lightVec = lightPos - pos;
+    float dist = length(lightVec);
+    float quadraticTerm = 0.001f;
+    float linearTerm = 0.005f;
+    float lightIntensity = 1.0f / (quadraticTerm * dist * dist + linearTerm * dist + 1.0f);
+    
     // ambient lighting
     float ambient = 0.20f;
 
     // diffuse lighting
     vec3 normal = normalize(normal);
-    vec3 lightDirection = normalize(lightPos - pos);
+    vec3 lightDirection = normalize(lightVec);
     float diffuse = max(dot(normal, lightDirection), 0.0f);
 
     // specular lighting
@@ -31,5 +37,10 @@ void main()
     float specular = specAmount * specularLight;
 
     // outputs final color
-    FragColor = (texture(diffuseMap, texUV) * (diffuse + ambient) + texture(specularMap, texUV).r * specular) * lightColor;
+    return (texture(diffuseMap, texUV) * (diffuse * lightIntensity + ambient) + texture(specularMap, texUV).r * specular * lightIntensity) * lightColor;
+}
+
+void main()
+{
+    FragColor = PointLight();
 }
