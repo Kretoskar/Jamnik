@@ -31,5 +31,5 @@ void main()
     float specular = specAmount * specularLight;
 
     // outputs final color
-    FragColor = texture(specularMap, texUV) * texture(diffuseMap, texUV) * lightColor * (diffuse + ambient + specular);
+    FragColor = (texture(diffuseMap, texUV) * (diffuse + ambient) + texture(specularMap, texUV).r * specular) * lightColor;
 }

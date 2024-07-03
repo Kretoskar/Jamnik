@@ -78,9 +78,9 @@ void Jamnik::Renderer::Init(Window* inWindow)
     window = inWindow;
 
     {
-        meshDiffuseMap = std::make_unique<Texture>("content/base.png", 0, GL_RGB);
+        meshDiffuseMap = std::make_unique<Texture>("content/diffuse.png", 0, GL_RGB);
         meshDiffuseMap->Bind();
-        meshSpecularMap = std::make_unique<Texture>("content/pop_cat.png", 1, GL_RED);
+        meshSpecularMap = std::make_unique<Texture>("content/specular.png", 1, GL_RED);
         meshSpecularMap->Bind();
     
         meshShader = std::make_unique<Shader>("src/Rendering/Shaders/basic.frag", "src/Rendering/Shaders/basic.vert");
