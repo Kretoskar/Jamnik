@@ -17,8 +17,8 @@ vec4 PointLight()
 {
     vec3 lightVec = lightPos - pos;
     float dist = length(lightVec);
-    float quadraticTerm = 0.001f;
-    float linearTerm = 0.005f;
+    float quadraticTerm = 3.0f;
+    float linearTerm = 0.7f;
     float lightIntensity = 1.0f / (quadraticTerm * dist * dist + linearTerm * dist + 1.0f);
     
     // ambient lighting
@@ -31,14 +31,13 @@ vec4 PointLight()
 
     // specular lighting
     float specular = 0.0f;
-    if (diffuse > 0.0f)
+    if (diffuse != 0.0f)
     {
         float specularLight = 0.50f;
         vec3 viewDirection = normalize(cameraPos - pos);
-        vec3 reflectionDirection = reflect(-lightDirection, normal);
         vec3 halfwayVec = normalize(viewDirection + lightDirection);
-        float specAmount = pow(max(dot(viewDirection, halfwayVec), 0.0f), 8);
-        float specular = specAmount * specularLight;
+        float specAmount = pow(max(dot(normal, halfwayVec), 0.0f), 16);
+        specular = specAmount * specularLight;
     }
 
     // outputs final color
