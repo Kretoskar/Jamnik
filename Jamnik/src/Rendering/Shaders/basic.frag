@@ -30,11 +30,16 @@ vec4 PointLight()
     float diffuse = max(dot(normal, lightDirection), 0.0f);
 
     // specular lighting
-    float specularLight = 0.50f;
-    vec3 viewDirection = normalize(cameraPos - pos);
-    vec3 reflectionDirection = reflect(-lightDirection, normal);
-    float specAmount = pow(max(dot(viewDirection, reflectionDirection), 0.0f), 8);
-    float specular = specAmount * specularLight;
+    float specular = 0.0f;
+    if (diffuse > 0.0f)
+    {
+        float specularLight = 0.50f;
+        vec3 viewDirection = normalize(cameraPos - pos);
+        vec3 reflectionDirection = reflect(-lightDirection, normal);
+        vec3 halfwayVec = normalize(viewDirection + lightDirection);
+        float specAmount = pow(max(dot(viewDirection, halfwayVec), 0.0f), 8);
+        float specular = specAmount * specularLight;
+    }
 
     // outputs final color
     return (texture(diffuseMap, texUV) * (diffuse * lightIntensity + ambient) + texture(specularMap, texUV).r * specular * lightIntensity) * lightColor;
