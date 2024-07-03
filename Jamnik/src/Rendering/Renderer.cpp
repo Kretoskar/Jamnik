@@ -78,12 +78,15 @@ void Jamnik::Renderer::Init(Window* inWindow)
     window = inWindow;
 
     {
-        meshTexture = std::make_unique<Texture>("content/base.png", GL_TEXTURE0, GL_RGB);
-        meshTexture->Bind();
+        meshDiffuseMap = std::make_unique<Texture>("content/base.png", 0, GL_RGB);
+        meshDiffuseMap->Bind();
+        meshSpecularMap = std::make_unique<Texture>("content/pop_cat.png", 1, GL_RED);
+        meshSpecularMap->Bind();
     
         meshShader = std::make_unique<Shader>("src/Rendering/Shaders/basic.frag", "src/Rendering/Shaders/basic.vert");
         meshShader->Bind();
-        meshShader->AssignBaseTexture(*meshTexture);
+        meshShader->AssignBaseTexture(*meshDiffuseMap);
+        meshShader->AssignSpecularTexture(*meshSpecularMap);
     
         meshVao = std::make_unique<VAO>();
         meshVao->Bind();
@@ -146,7 +149,8 @@ void Jamnik::Renderer::Render()
     
     
     meshShader->Bind();
-    meshTexture->Bind();
+    meshDiffuseMap->Bind();
+    meshSpecularMap->Bind();
     meshVao->Bind();
 
     glm::mat4 meshModelMat = glm::mat4(1.0f);

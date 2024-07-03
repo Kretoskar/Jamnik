@@ -55,7 +55,7 @@ void Jamnik::Shader::SetUniform3f(const std::string& name, float v0, float v1, f
 void Jamnik::Shader::SetUniform1i(const std::string& name, int v0)
 {
     Bind();
-    glUniform1f(GetUniformLocation(name), v0);
+    glUniform1i(GetUniformLocation(name), v0);
 }
 
 void Jamnik::Shader::SetUniformMat4f(const std::string& name, const glm::mat4& mat)
@@ -69,7 +69,14 @@ void Jamnik::Shader::AssignBaseTexture(Texture& texture)
 {
     Bind();
     texture.Bind();
-    SetUniform1i("tex0", 0);
+    SetUniform1i("diffuseMap", 0);
+}
+
+void Jamnik::Shader::AssignSpecularTexture(Texture& texture)
+{
+    Bind();
+    texture.Bind();
+    SetUniform1i("specularMap", 1);
 }
 
 void Jamnik::Shader::SetModelMatrix(glm::mat4 m)

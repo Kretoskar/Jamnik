@@ -34,6 +34,7 @@ namespace Jamnik
         void SetUniformMat4f(const std::string& name, const glm::mat4& mat);
 
         void AssignBaseTexture(Texture& texture);
+        void AssignSpecularTexture(Texture& texture);
         // TODO: Add the same for normal, specular etc.
 
         void SetModelMatrix(glm::mat4 m);

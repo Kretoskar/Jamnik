@@ -6,7 +6,9 @@ in vec2 texUV;
 in vec3 normal;
 in vec3 pos;
 
-uniform sampler2D tex0;
+uniform sampler2D diffuseMap;
+uniform sampler2D specularMap;
+
 uniform vec4 lightColor;
 uniform vec3 lightPos;
 uniform vec3 cameraPos;
@@ -29,5 +31,5 @@ void main()
     float specular = specAmount * specularLight;
 
     // outputs final color
-    FragColor = texture(tex0, texUV) * lightColor * (diffuse + ambient + specular);
+    FragColor = texture(specularMap, texUV) * texture(diffuseMap, texUV) * lightColor * (diffuse + ambient + specular);
 }

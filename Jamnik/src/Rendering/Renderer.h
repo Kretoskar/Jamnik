@@ -33,7 +33,8 @@ namespace Jamnik
 
         glm::vec4 lightColor = { 1.0f, 1.0f, 1.0f, 1.0f };
         
-        std::unique_ptr<Texture> meshTexture;
+        std::unique_ptr<Texture> meshDiffuseMap;
+        std::unique_ptr<Texture> meshSpecularMap;
         std::unique_ptr<Camera> camera;
         std::unique_ptr<DebugRenderer> debugRenderer;
 
