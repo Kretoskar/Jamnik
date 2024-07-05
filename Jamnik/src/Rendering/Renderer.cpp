@@ -9,52 +9,30 @@
 #include "Core/EventSystem.h"
 #include "Core/Logger.h"
 
-// Vertices coordinates
-float vertices[] =
-{ //     COORDINATES     /        COLORS          /    TexCoord   /        NORMALS       //
-    -0.5f, 0.0f,  0.5f,     0.83f, 0.70f, 0.44f, 	 0.0f, 0.0f,      0.0f, -1.0f, 0.0f, // Bottom side
-    -0.5f, 0.0f, -0.5f,     0.83f, 0.70f, 0.44f,	 0.0f, 5.0f,      0.0f, -1.0f, 0.0f, // Bottom side
-     0.5f, 0.0f, -0.5f,     0.83f, 0.70f, 0.44f,	 5.0f, 5.0f,      0.0f, -1.0f, 0.0f, // Bottom side
-     0.5f, 0.0f,  0.5f,     0.83f, 0.70f, 0.44f,	 5.0f, 0.0f,      0.0f, -1.0f, 0.0f, // Bottom side
-
-    -0.5f, 0.0f,  0.5f,     0.83f, 0.70f, 0.44f, 	 0.0f, 0.0f,     -0.8f, 0.5f,  0.0f, // Left Side
-    -0.5f, 0.0f, -0.5f,     0.83f, 0.70f, 0.44f,	 5.0f, 0.0f,     -0.8f, 0.5f,  0.0f, // Left Side
-     0.0f, 0.8f,  0.0f,     0.92f, 0.86f, 0.76f,	 2.5f, 5.0f,     -0.8f, 0.5f,  0.0f, // Left Side
-
-    -0.5f, 0.0f, -0.5f,     0.83f, 0.70f, 0.44f,	 5.0f, 0.0f,      0.0f, 0.5f, -0.8f, // Non-facing side
-     0.5f, 0.0f, -0.5f,     0.83f, 0.70f, 0.44f,	 0.0f, 0.0f,      0.0f, 0.5f, -0.8f, // Non-facing side
-     0.0f, 0.8f,  0.0f,     0.92f, 0.86f, 0.76f,	 2.5f, 5.0f,      0.0f, 0.5f, -0.8f, // Non-facing side
-
-     0.5f, 0.0f, -0.5f,     0.83f, 0.70f, 0.44f,	 0.0f, 0.0f,      0.8f, 0.5f,  0.0f, // Right side
-     0.5f, 0.0f,  0.5f,     0.83f, 0.70f, 0.44f,	 5.0f, 0.0f,      0.8f, 0.5f,  0.0f, // Right side
-     0.0f, 0.8f,  0.0f,     0.92f, 0.86f, 0.76f,	 2.5f, 5.0f,      0.8f, 0.5f,  0.0f, // Right side
-
-     0.5f, 0.0f,  0.5f,     0.83f, 0.70f, 0.44f,	 5.0f, 0.0f,      0.0f, 0.5f,  0.8f, // Facing side
-    -0.5f, 0.0f,  0.5f,     0.83f, 0.70f, 0.44f, 	 0.0f, 0.0f,      0.0f, 0.5f,  0.8f, // Facing side
-     0.0f, 0.8f,  0.0f,     0.92f, 0.86f, 0.76f,	 2.5f, 5.0f,      0.0f, 0.5f,  0.8f  // Facing side
+Vertex vertices[] =
+{ 
+    Vertex{glm::vec3(-1.0f, 0.0f,  1.0f), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f), glm::vec2(0.0f, 0.0f)},
+    Vertex{glm::vec3(-1.0f, 0.0f, -1.0f), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f), glm::vec2(0.0f, 1.0f)},
+    Vertex{glm::vec3( 1.0f, 0.0f, -1.0f), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f), glm::vec2(1.0f, 1.0f)},
+    Vertex{glm::vec3( 1.0f, 0.0f,  1.0f), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f), glm::vec2(1.0f, 0.0f)}
 };
 
-// Indices for vertices order
 unsigned indices[] =
 {
-    0, 1, 2, // Bottom side
-    0, 2, 3, // Bottom side
-    4, 6, 5, // Left side
-    7, 9, 8, // Non-facing side
-    10, 12, 11, // Right side
-    13, 15, 14 // Facing side
+    0, 1, 2,
+    0, 2, 3
 };
 
-float lightVertices[] =
-{ //     COORDINATES     //
-    -0.1f, -0.1f,  0.1f,
-    -0.1f, -0.1f, -0.1f,
-     0.1f, -0.1f, -0.1f,
-     0.1f, -0.1f,  0.1f,
-    -0.1f,  0.1f,  0.1f,
-    -0.1f,  0.1f, -0.1f,
-     0.1f,  0.1f, -0.1f,
-     0.1f,  0.1f,  0.1f
+Vertex lightVertices[] =
+{
+    Vertex{glm::vec3(-0.1f, -0.1f,  0.1f)},
+    Vertex{glm::vec3(-0.1f, -0.1f, -0.1f)},
+    Vertex{glm::vec3(0.1f, -0.1f, -0.1f)},
+    Vertex{glm::vec3(0.1f, -0.1f,  0.1f)},
+    Vertex{glm::vec3(-0.1f,  0.1f,  0.1f)},
+    Vertex{glm::vec3(-0.1f,  0.1f, -0.1f)},
+    Vertex{glm::vec3(0.1f,  0.1f, -0.1f)},
+    Vertex{glm::vec3(0.1f,  0.1f,  0.1f)}
 };
 
 unsigned lightIndices[] =
@@ -82,34 +60,21 @@ void Jamnik::Renderer::Init(Window* inWindow)
         meshSpecularMap = std::make_unique<Texture>("content/specular.png", 1, GL_RED);
         meshShader = std::make_unique<Shader>("src/Rendering/Shaders/basic.frag", "src/Rendering/Shaders/basic.vert");
         meshMaterial = std::make_unique<Material>(meshDiffuseMap.get(), meshSpecularMap.get(), *meshShader);
-    
-        meshVao = std::make_unique<VAO>();
-        meshVao->Bind();
-    
-        meshVbo = std::make_unique<VBO>(vertices, sizeof(vertices));
-        meshEbo = std::make_unique<EBO>(indices, sizeof(indices));
-    
-        // position
-        meshVao->LinkAttrib(*meshVbo, 0, 3, GL_FLOAT, 11 * sizeof(float), (void*)0);
-        // color
-        meshVao->LinkAttrib(*meshVbo, 1, 3, GL_FLOAT, 11 * sizeof(float), (void*)(3 * sizeof(float)));
-        // UV
-        meshVao->LinkAttrib(*meshVbo, 2, 2, GL_FLOAT, 11 * sizeof(float), (void*)(6 * sizeof(float)));
-        //normals
-        meshVao->LinkAttrib(*meshVbo, 3, 3, GL_FLOAT, 11 * sizeof(float), (void*)(8 * sizeof(float)));
+
+        std::vector <Vertex> verts(vertices, vertices + sizeof(vertices) / sizeof(Vertex));
+        std::vector <unsigned> ind(indices, indices + sizeof(indices) / sizeof(GLuint));
+        
+        mesh = std::make_unique<Mesh>(verts, ind, meshMaterial.get());
     }
 
     {
         lightShader = std::make_unique<Shader>("src/Rendering/Shaders/light.frag", "src/Rendering/Shaders/light.vert");
         lightMaterial = std::make_unique<Material>(nullptr, nullptr, *lightShader);
     
-        lightVao = std::make_unique<VAO>();
-        lightVao->Bind();
-    
-        lightVbo = std::make_unique<VBO>(lightVertices, sizeof(lightVertices));
-        lightEbo = std::make_unique<EBO>(lightIndices, sizeof(lightIndices));
-
-        lightVao->LinkAttrib(*lightVbo, 0, 3, GL_FLOAT, 3 * sizeof(float), (void*)0);
+        std::vector <Vertex> verts(lightVertices, lightVertices + sizeof(lightVertices) / sizeof(Vertex));
+        std::vector <unsigned> ind(lightIndices, lightIndices + sizeof(lightIndices) / sizeof(GLuint));
+        
+        lightMesh = std::make_unique<Mesh>(verts, ind, lightMaterial.get());
     }
     
     camera = std::make_unique<Camera>(window, glm::vec3(1.0f, 1.0f, 1.0f));
@@ -135,32 +100,28 @@ void Jamnik::Renderer::Render()
     lightModelMat = scale(lightModelMat, glm::vec3(0.1f, 0.1f, 0.1f));
 
     lightMaterial->Bind();
-    lightVao->Bind();
 
     lightShader->SetModelMatrix(lightModelMat);
     lightShader->SetUniform4f("lightColor", lightColor.x, lightColor.y, lightColor.z, lightColor.w);
     camera->SetVPMatricesInShader(*lightShader);
-    glDrawElements(GL_TRIANGLES, sizeof(lightIndices) / sizeof(int), GL_UNSIGNED_INT, 0);
+    lightMesh->Draw();
     
     meshMaterial->Bind();
-    meshVao->Bind();
 
     glm::mat4 meshModelMat = glm::mat4(1.0f);
+    meshModelMat = translate(meshModelMat, glm::vec3(0.0f, 0.1f, 0.0f));
     meshShader->SetModelMatrix(meshModelMat);
     meshShader->SetUniform4f("lightColor", lightColor.x, lightColor.y, lightColor.z, lightColor.w);
     meshShader->SetUniform3f("lightPos", lightPos.x, lightPos.y, lightPos.z);
     camera->SetVPMatricesInShader(*meshShader);
     camera->SetCameraPosInShader(*meshShader);
-    glDrawElements(GL_TRIANGLES, sizeof(indices) / sizeof(int), GL_UNSIGNED_INT, 0);
+    mesh->Draw();
     
     debugRenderer->Render();
 }
 
 void Jamnik::Renderer::Cleanup()
 {
-    meshVao->Delete();
-    meshVbo->Delete();
-    meshEbo->Delete();
     meshShader->Delete();
     lightShader->Delete();
 }
