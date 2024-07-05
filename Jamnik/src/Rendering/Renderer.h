@@ -4,6 +4,7 @@
 #include "Camera.h"
 #include "DebugRenderer.h"
 #include "EBO.h"
+#include "Material.h"
 #include "Texture.h"
 #include "VAO.h"
 #include "VBO.h"
@@ -35,6 +36,10 @@ namespace Jamnik
         
         std::unique_ptr<Texture> meshDiffuseMap;
         std::unique_ptr<Texture> meshSpecularMap;
+
+        std::unique_ptr<Material> meshMaterial;
+        std::unique_ptr<Material> lightMaterial;
+        
         std::unique_ptr<Camera> camera;
         std::unique_ptr<DebugRenderer> debugRenderer;
 

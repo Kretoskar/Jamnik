@@ -65,14 +65,14 @@ void Jamnik::Shader::SetUniformMat4f(const std::string& name, const glm::mat4& m
     glUniformMatrix4fv(GetUniformLocation(name), 1, GL_FALSE, &mat[0][0]);   
 }
 
-void Jamnik::Shader::AssignBaseTexture(Texture& texture)
+void Jamnik::Shader::AssignDiffuseMap(Texture& texture)
 {
     Bind();
     texture.Bind();
     SetUniform1i("diffuseMap", 0);
 }
 
-void Jamnik::Shader::AssignSpecularTexture(Texture& texture)
+void Jamnik::Shader::AssignSpecularMap(Texture& texture)
 {
     Bind();
     texture.Bind();

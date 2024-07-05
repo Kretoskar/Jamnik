@@ -79,14 +79,9 @@ void Jamnik::Renderer::Init(Window* inWindow)
 
     {
         meshDiffuseMap = std::make_unique<Texture>("content/diffuse.png", 0, GL_RGB);
-        meshDiffuseMap->Bind();
         meshSpecularMap = std::make_unique<Texture>("content/specular.png", 1, GL_RED);
-        meshSpecularMap->Bind();
-    
         meshShader = std::make_unique<Shader>("src/Rendering/Shaders/basic.frag", "src/Rendering/Shaders/basic.vert");
-        meshShader->Bind();
-        meshShader->AssignBaseTexture(*meshDiffuseMap);
-        meshShader->AssignSpecularTexture(*meshSpecularMap);
+        meshMaterial = std::make_unique<Material>(meshDiffuseMap.get(), meshSpecularMap.get(), *meshShader);
     
         meshVao = std::make_unique<VAO>();
         meshVao->Bind();
@@ -106,7 +101,7 @@ void Jamnik::Renderer::Init(Window* inWindow)
 
     {
         lightShader = std::make_unique<Shader>("src/Rendering/Shaders/light.frag", "src/Rendering/Shaders/light.vert");
-        lightShader->Bind();
+        lightMaterial = std::make_unique<Material>(nullptr, nullptr, *lightShader);
     
         lightVao = std::make_unique<VAO>();
         lightVao->Bind();
@@ -139,7 +134,7 @@ void Jamnik::Renderer::Render()
     lightModelMat = translate(lightModelMat, lightPos);
     lightModelMat = scale(lightModelMat, glm::vec3(0.1f, 0.1f, 0.1f));
 
-    lightShader->Bind();
+    lightMaterial->Bind();
     lightVao->Bind();
 
     lightShader->SetModelMatrix(lightModelMat);
@@ -147,10 +142,7 @@ void Jamnik::Renderer::Render()
     camera->SetVPMatricesInShader(*lightShader);
     glDrawElements(GL_TRIANGLES, sizeof(lightIndices) / sizeof(int), GL_UNSIGNED_INT, 0);
     
-    
-    meshShader->Bind();
-    meshDiffuseMap->Bind();
-    meshSpecularMap->Bind();
+    meshMaterial->Bind();
     meshVao->Bind();
 
     glm::mat4 meshModelMat = glm::mat4(1.0f);
@@ -170,4 +162,5 @@ void Jamnik::Renderer::Cleanup()
     meshVbo->Delete();
     meshEbo->Delete();
     meshShader->Delete();
+    lightShader->Delete();
 }
