@@ -54,25 +54,21 @@ bool Jamnik::Window::Init()
 
     _renderer = std::make_unique<Renderer>();
     _renderer->Init(this);
+
+    // force VSYNC
+    glfwSwapInterval(1);
     
     return true;
 }
 
 void Jamnik::Window::MainLoop()
 {
-    // force VSYNC
-    glfwSwapInterval(1);
+    _renderer->Render();
+    _ui->CreateFrame();
+    _ui->Render();
     
-    while (!glfwWindowShouldClose(_GLFWWindow))
-    {
-        _renderer->Render();
-        
-        _ui->CreateFrame();
-        _ui->Render();
-        
-        glfwSwapBuffers(_GLFWWindow);
-        glfwPollEvents();   
-    }
+    glfwSwapBuffers(_GLFWWindow);
+    glfwPollEvents();   
 }
 
 void Jamnik::Window::ShutDown()
@@ -80,6 +76,11 @@ void Jamnik::Window::ShutDown()
     _ui->Cleanup();
     _renderer->Cleanup();
     glfwTerminate();
+}
+
+bool Jamnik::Window::GetShouldClose()
+{
+    return glfwWindowShouldClose(_GLFWWindow);
 }
 
 void Jamnik::Window::BindWindowEvents()

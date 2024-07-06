@@ -26,6 +26,8 @@ namespace Jamnik
         int GetHeight() const { return height; }
 
         UserInterface* GetUserInterface() const { return _ui.get(); }
+
+        bool GetShouldClose();
         
     private:
         void BindWindowEvents();
