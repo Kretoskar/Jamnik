@@ -85,6 +85,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\Core\Color.cpp" />
+    <ClCompile Include="src\Core\ECS\SimpleECS.cpp" />
     <ClCompile Include="src\Core\EventSystem.cpp" />
     <ClCompile Include="src\Core\JString.cpp" />
     <ClCompile Include="src\Core\Logger.cpp" />
@@ -113,6 +114,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Core\Color.h" />
+    <ClInclude Include="src\Core\ECS\SimpleECS.h" />
     <ClInclude Include="src\Core\EventSystem.h" />
     <ClInclude Include="src\Core\JString.h" />
     <ClInclude Include="src\Core\Logger.h" />

@@ -11,7 +11,7 @@ class Mesh
 {
 public:
     std::vector<Vertex> vertices;
-    std::vector <unsigned> indices;
+    std::vector<unsigned> indices;
     Jamnik::Material* material;
 
     // Initializes the mesh
