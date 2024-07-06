@@ -25,8 +25,6 @@ namespace Jamnik
         int GetWidth() const { return width; }
         int GetHeight() const { return height; }
 
-        UserInterface* GetUserInterface() const { return _ui.get(); }
-
         bool GetShouldClose();
         
     private:
@@ -43,8 +41,6 @@ namespace Jamnik
         void HandleMouseEnterLeaveEvents(int enter);
         
         GLFWwindow* _GLFWWindow = nullptr;
-
-        std::unique_ptr<UserInterface> _ui;
 
         int width, height;
     };

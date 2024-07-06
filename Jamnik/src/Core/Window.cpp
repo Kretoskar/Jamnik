@@ -45,13 +45,6 @@ bool Jamnik::Window::Init()
     
     JAMNIK_LOG_MESSAGE("Window successfully initialized")
 
-    _ui = std::make_unique<UserInterface>();
-    if (!_ui->Init(_GLFWWindow))
-    {
-        JAMNIK_LOG_ERROR("Failed to initialize user interface")
-        return false;
-    }
-
     // force VSYNC
     glfwSwapInterval(1);
     
@@ -60,16 +53,12 @@ bool Jamnik::Window::Init()
 
 void Jamnik::Window::Update()
 {
-    _ui->CreateFrame();
-    _ui->Render();
-    
     glfwSwapBuffers(_GLFWWindow);
     glfwPollEvents();   
 }
 
 void Jamnik::Window::ShutDown()
 {
-    _ui->Cleanup();
     glfwTerminate();
 }
 

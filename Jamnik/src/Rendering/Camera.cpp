@@ -15,6 +15,8 @@
 #include<glm/gtx/rotate_vector.hpp>
 #include<glm/gtx/vector_angle.hpp>
 
+#include "Core/JamnikEngine.h"
+
 void Camera::SetVPMatricesInShader(Jamnik::Shader& shader)
 {
     shader.SetViewMatrix(view);
@@ -60,8 +62,8 @@ void Camera::Init()
     width = window->GetWidth();
     height = window->GetHeight();
 
-    window->GetUserInterface()->RegisterCameraSpeedVarPtr(&speed);
-    window->GetUserInterface()->RegisterCameraSensitivityVarPtr(&sensitivity);
+    Jamnik::JamnikEngine::GetInstance().GetUI()->RegisterCameraSpeedVarPtr(&speed);
+    Jamnik::JamnikEngine::GetInstance().GetUI()->RegisterCameraSensitivityVarPtr(&sensitivity);
     
     JAMNIK_BIND_EVENT(MouseButtonEvent::Type(GLFW_MOUSE_BUTTON_RIGHT, GLFW_PRESS, 0), OnRightMouseButtonClick)
     JAMNIK_BIND_EVENT(MouseButtonEvent::Type(GLFW_MOUSE_BUTTON_RIGHT, GLFW_RELEASE, 0), OnRightMouseButtonRelease)

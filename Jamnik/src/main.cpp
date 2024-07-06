@@ -2,15 +2,13 @@
 
 int main()
 {
-    Jamnik::JamnikEngine jamnik;
-
-    if (!jamnik.Init())
+    if (!Jamnik::JamnikEngine::GetInstance().Init())
     {
         return -1;
     }
 
-    jamnik.Loop();
-    jamnik.Exit();
+    Jamnik::JamnikEngine::GetInstance().Loop();
+    Jamnik::JamnikEngine::GetInstance().Exit();
 
     return 0;
 }

@@ -9,7 +9,7 @@
 
 bool Jamnik::JamnikEngine::Init()
 {
-    // TODO: Move inits to constructors
+    // Init window
     _window = std::make_shared<Window>(WINDOW_WIDTH, WINDOW_HEIGHT);
     if (!_window->Init())
     {
@@ -17,6 +17,15 @@ bool Jamnik::JamnikEngine::Init()
         return false;
     }
 
+    // Init UI
+    _ui = std::make_shared<UserInterface>();
+    if (!_ui->Init(_window->GetGLFWWindow()))
+    {
+        JAMNIK_LOG_ERROR("Failed to create user interface")
+        return false;
+    }
+    
+    // Init renderer
     _renderer = std::make_shared<Renderer>();
     _renderer->Init(_window.get());
 
@@ -28,13 +37,15 @@ void Jamnik::JamnikEngine::Loop()
     while (!_window->GetShouldClose())
     {
         _renderer->Render();
-        
+        _ui->CreateFrame();
+        _ui->Render();
         _window->Update();
     }
 }
 
 void Jamnik::JamnikEngine::Exit()
 {
+    _ui->Cleanup();
     _renderer->Cleanup();
     _window->ShutDown();
 }
