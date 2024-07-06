@@ -27,7 +27,7 @@ public:
     T* Add(Entity entity)
     {
         components[entity] = T();
-        return components[entity];
+        return &components[entity];
     }
     
     std::unordered_map<Entity, T> components;
@@ -42,7 +42,7 @@ public:
         const char* typeName = typeid(T).name();
         assert(ComponentMap.find(typeName) == ComponentMap.end() && "Registering component more than once");
         ComponentMap.insert({typeName, componentTypesCount});
-        ComponentArrays.insert({componentTypesCount, ComponentArray<T>()});
+        ComponentArrays.insert({componentTypesCount, std::make_shared<ComponentArray<T>>()});
         componentTypesCount++;
     }
 
@@ -71,11 +71,22 @@ public:
         return Entities[entity][ComponentMap[typeName]];
     }
     
-    static Entity NewEntity();
-    
-private:
+    static Entity NewEntity()
+    {
+        static Entity EntityCount = 0;
+        
+        if (EntityCount >= MAX_ENTITIES)
+        {
+            JAMNIK_LOG_ERROR("Reached maximum number of entities. Expect unexpected behaviour :)")
+            return MAX_ENTITIES;
+        }
+
+        EntityCount++;
+        return EntityCount - 1;
+    }
+
     template<typename T>
-    ComponentArray<T>* GetComponentArray()
+    std:: shared_ptr<ComponentArray<T>> GetComponentArray()
     {
         const char* typeName = typeid(T).name();
         if (ComponentMap.find(typeName) == ComponentMap.end())
@@ -87,10 +98,10 @@ private:
         return std::static_pointer_cast<ComponentArray<T>>(ComponentArrays[ComponentMap[typeName]]);
     }
     
-    static Entity EntityCount;
-    static void* Entities[MAX_ENTITIES][MAX_COMPONENTS];
+private:
+    void* Entities[MAX_ENTITIES][MAX_COMPONENTS];
 
-    std::unordered_map<ComponentType, IComponentArray> ComponentArrays;
+    std::unordered_map<ComponentType, std::shared_ptr<IComponentArray>> ComponentArrays;
     std::unordered_map<const char*, ComponentType> ComponentMap;
     
     ComponentType componentTypesCount = 0;
