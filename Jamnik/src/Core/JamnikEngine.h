@@ -4,6 +4,7 @@
 namespace Jamnik
 {
     class Window;
+    class Renderer;
     
     class JamnikEngine
     {
@@ -13,7 +14,8 @@ namespace Jamnik
         void Exit();
 
     private:
-        std::shared_ptr<Window> window;
+        std::shared_ptr<Window> _window;
+        std::shared_ptr<Renderer> _renderer;
     };
    
 }

@@ -9,23 +9,32 @@
 
 bool Jamnik::JamnikEngine::Init()
 {
-    window = std::make_shared<Window>(WINDOW_WIDTH, WINDOW_HEIGHT);
-    if (!window->Init())
+    // TODO: Move inits to constructors
+    _window = std::make_shared<Window>(WINDOW_WIDTH, WINDOW_HEIGHT);
+    if (!_window->Init())
     {
         JAMNIK_LOG_ERROR("Failed to initialize window")
         return false;
     }
+
+    _renderer = std::make_shared<Renderer>();
+    _renderer->Init(_window.get());
+
+    return true;
 }
 
 void Jamnik::JamnikEngine::Loop()
 {
-    while (!window->GetShouldClose())
+    while (!_window->GetShouldClose())
     {
-        window->MainLoop();
+        _renderer->Render();
+        
+        _window->Update();
     }
 }
 
 void Jamnik::JamnikEngine::Exit()
 {
-    window->ShutDown();
+    _renderer->Cleanup();
+    _window->ShutDown();
 }

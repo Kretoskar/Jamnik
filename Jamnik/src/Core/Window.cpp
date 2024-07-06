@@ -52,18 +52,14 @@ bool Jamnik::Window::Init()
         return false;
     }
 
-    _renderer = std::make_unique<Renderer>();
-    _renderer->Init(this);
-
     // force VSYNC
     glfwSwapInterval(1);
     
     return true;
 }
 
-void Jamnik::Window::MainLoop()
+void Jamnik::Window::Update()
 {
-    _renderer->Render();
     _ui->CreateFrame();
     _ui->Render();
     
@@ -74,7 +70,6 @@ void Jamnik::Window::MainLoop()
 void Jamnik::Window::ShutDown()
 {
     _ui->Cleanup();
-    _renderer->Cleanup();
     glfwTerminate();
 }
 
