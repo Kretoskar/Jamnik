@@ -6,7 +6,9 @@
 #include<glm/gtc/type_ptr.hpp>
 
 #include "DebugRenderer.h"
+#include "Core/AssetsRegistry.h"
 #include "Core/EventSystem.h"
+#include "Core/JamnikEngine.h"
 #include "Core/Logger.h"
 
 Vertex vertices[] =
@@ -56,10 +58,11 @@ void Jamnik::Renderer::Init(Window* inWindow)
     window = inWindow;
 
     {
-        meshDiffuseMap = std::make_unique<Texture>("content/diffuse.png", 0, GL_RGB);
-        meshSpecularMap = std::make_unique<Texture>("content/specular.png", 1, GL_RED);
-        meshShader = std::make_unique<Shader>("src/Rendering/Shaders/basic.frag", "src/Rendering/Shaders/basic.vert");
-        meshMaterial = std::make_unique<Material>(meshDiffuseMap.get(), meshSpecularMap.get(), *meshShader);
+        
+        meshMaterial = std::make_unique<Material>(
+            Jamnik::JamnikEngine::GetInstance().GetAssetsRegistry()->meshDiffuseMap.get(),
+            Jamnik::JamnikEngine::GetInstance().GetAssetsRegistry()->meshSpecularMap.get(),
+            *Jamnik::JamnikEngine::GetInstance().GetAssetsRegistry()->meshShader);
 
         std::vector <Vertex> verts(vertices, vertices + sizeof(vertices) / sizeof(Vertex));
         std::vector <unsigned> ind(indices, indices + sizeof(indices) / sizeof(GLuint));
@@ -68,8 +71,7 @@ void Jamnik::Renderer::Init(Window* inWindow)
     }
 
     {
-        lightShader = std::make_unique<Shader>("src/Rendering/Shaders/light.frag", "src/Rendering/Shaders/light.vert");
-        lightMaterial = std::make_unique<Material>(nullptr, nullptr, *lightShader);
+        lightMaterial = std::make_unique<Material>(nullptr, nullptr, *Jamnik::JamnikEngine::GetInstance().GetAssetsRegistry()->lightShader);
     
         std::vector <Vertex> verts(lightVertices, lightVertices + sizeof(lightVertices) / sizeof(Vertex));
         std::vector <unsigned> ind(lightIndices, lightIndices + sizeof(lightIndices) / sizeof(GLuint));
@@ -101,27 +103,21 @@ void Jamnik::Renderer::Render()
 
     lightMaterial->Bind();
 
-    lightShader->SetModelMatrix(lightModelMat);
-    lightShader->SetUniform4f("lightColor", lightColor.x, lightColor.y, lightColor.z, lightColor.w);
-    camera->SetVPMatricesInShader(*lightShader);
+    Jamnik::JamnikEngine::GetInstance().GetAssetsRegistry()->lightShader->SetModelMatrix(lightModelMat);
+    Jamnik::JamnikEngine::GetInstance().GetAssetsRegistry()->lightShader->SetUniform4f("lightColor", lightColor.x, lightColor.y, lightColor.z, lightColor.w);
+    camera->SetVPMatricesInShader(*Jamnik::JamnikEngine::GetInstance().GetAssetsRegistry()->lightShader);
     lightMesh->Draw();
     
     meshMaterial->Bind();
 
     glm::mat4 meshModelMat = glm::mat4(1.0f);
     meshModelMat = translate(meshModelMat, glm::vec3(0.0f, 0.1f, 0.0f));
-    meshShader->SetModelMatrix(meshModelMat);
-    meshShader->SetUniform4f("lightColor", lightColor.x, lightColor.y, lightColor.z, lightColor.w);
-    meshShader->SetUniform3f("lightPos", lightPos.x, lightPos.y, lightPos.z);
-    camera->SetVPMatricesInShader(*meshShader);
-    camera->SetCameraPosInShader(*meshShader);
+    Jamnik::JamnikEngine::GetInstance().GetAssetsRegistry()->meshShader->SetModelMatrix(meshModelMat);
+    Jamnik::JamnikEngine::GetInstance().GetAssetsRegistry()->meshShader->SetUniform4f("lightColor", lightColor.x, lightColor.y, lightColor.z, lightColor.w);
+    Jamnik::JamnikEngine::GetInstance().GetAssetsRegistry()->meshShader->SetUniform3f("lightPos", lightPos.x, lightPos.y, lightPos.z);
+    camera->SetVPMatricesInShader(*Jamnik::JamnikEngine::GetInstance().GetAssetsRegistry()->meshShader);
+    camera->SetCameraPosInShader(*Jamnik::JamnikEngine::GetInstance().GetAssetsRegistry()->meshShader);
     mesh->Draw();
     
     debugRenderer->Render();
-}
-
-void Jamnik::Renderer::Cleanup()
-{
-    meshShader->Delete();
-    lightShader->Delete();
 }

@@ -2,6 +2,11 @@
 
 #include <memory>
 
+namespace Jamnik
+{
+    class AssetsRegistry;
+}
+
 class UserInterface;
 
 namespace Jamnik
@@ -28,11 +33,13 @@ namespace Jamnik
         void Exit();
 
         std::shared_ptr<UserInterface> GetUI() const { return _ui; }
+        std::shared_ptr<AssetsRegistry> GetAssetsRegistry() const { return _assetsRegistry; }
         
     private:
         std::shared_ptr<Window> _window;
         std::shared_ptr<Renderer> _renderer;
         std::shared_ptr<UserInterface> _ui;
+        std::shared_ptr<AssetsRegistry> _assetsRegistry;
 
         static JamnikEngine* Instance;
     };

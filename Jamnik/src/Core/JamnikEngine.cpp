@@ -2,6 +2,7 @@
 
 #include <memory>
 
+#include "AssetsRegistry.h"
 #include "Logger.h"
 #include "JamnikSettings.h"
 #include "Window.h"
@@ -24,6 +25,10 @@ bool Jamnik::JamnikEngine::Init()
         JAMNIK_LOG_ERROR("Failed to create user interface")
         return false;
     }
+
+    // Init assets
+    _assetsRegistry = std::make_shared<AssetsRegistry>();
+    _assetsRegistry->Init();
     
     // Init renderer
     _renderer = std::make_shared<Renderer>();
@@ -46,6 +51,6 @@ void Jamnik::JamnikEngine::Loop()
 void Jamnik::JamnikEngine::Exit()
 {
     _ui->Cleanup();
-    _renderer->Cleanup();
+    _assetsRegistry->Cleanup();
     _window->ShutDown();
 }

@@ -84,6 +84,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Core\AssetsRegistry.cpp" />
     <ClCompile Include="src\Core\Color.cpp" />
     <ClCompile Include="src\Core\EventSystem.cpp" />
     <ClCompile Include="src\Core\JamnikEngine.cpp" />
@@ -113,6 +114,7 @@
     <ClCompile Include="vendor\stb_image.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Core\AssetsRegistry.h" />
     <ClInclude Include="src\Core\Color.h" />
     <ClInclude Include="src\Core\ECS\SimpleECS.h" />
     <ClInclude Include="src\Core\EventSystem.h" />
