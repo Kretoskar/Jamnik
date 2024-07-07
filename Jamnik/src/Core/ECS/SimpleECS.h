@@ -11,13 +11,6 @@ constexpr Entity MAX_ENTITIES = 100;
 using ComponentType = unsigned;
 constexpr ComponentType MAX_COMPONENTS = 32;
 
-struct Transform
-{
-    glm::vec3 position;
-    glm::quat quat;
-    glm::vec3 scale;
-};
-
 class IComponentArray {};
 
 template <typename T>
@@ -35,40 +28,65 @@ public:
 
 class ECS
 {
+    ECS() {}
+    
+    ECS(ECS const&) = delete;
+    void operator=(ECS const &) = delete;
+    
+    static ECS& GetInstance()
+    {
+        static ECS instance;
+        return instance;
+    }
+    
 public:
     template<typename T>
-    void RegisterComponent()
+    static void RegisterComponent()
     {
         const char* typeName = typeid(T).name();
-        assert(ComponentMap.find(typeName) == ComponentMap.end() && "Registering component more than once");
-        ComponentMap.insert({typeName, componentTypesCount});
-        ComponentArrays.insert({componentTypesCount, std::make_shared<ComponentArray<T>>()});
-        componentTypesCount++;
+        assert(GetInstance().ComponentMap.find(typeName) == GetInstance().ComponentMap.end() && "Registering component more than once");
+        GetInstance().ComponentMap.insert({typeName, GetInstance().componentTypesCount});
+        GetInstance().ComponentArrays.insert({GetInstance().componentTypesCount, std::make_shared<ComponentArray<T>>()});
+        GetInstance().componentTypesCount++;
     }
 
     template<typename T>
-    void AddComponent(Entity entity)
+    static T* AddComponent(Entity entity)
     {
         const char* typeName = typeid(T).name();
-        if (ComponentMap.find(typeName) == ComponentMap.end())
+        if (GetInstance().ComponentMap.find(typeName) == GetInstance().ComponentMap.end())
         {
             RegisterComponent<T>();
         }
 
-        Entities[entity][ComponentMap[typeName]] = GetComponentArray<T>()->Add(entity);
+        GetInstance().Entities[entity][GetInstance().ComponentMap[typeName]] = GetComponentArray<T>()->Add(entity);
+        return static_cast<T*>(GetInstance().Entities[entity][GetInstance().ComponentMap[typeName]]);
     }
 
     template<typename T>
-    bool HasComponent(Entity entity)
+    static bool HasComponent(Entity entity)
     {
         const char* typeName = typeid(T).name();
-        if (ComponentMap.find(typeName) == ComponentMap.end())
+        if (GetInstance().ComponentMap.find(typeName) == GetInstance().ComponentMap.end())
         {
             JAMNIK_LOG_ERROR("Looking for non existent component")
             return false;
         }
 
-        return Entities[entity][ComponentMap[typeName]];
+        return GetInstance().Entities[entity][GetInstance().ComponentMap[typeName]];
+    }
+
+    template<typename T>
+    static T* GetComponent(Entity entity)
+    {
+        const char* typeName = typeid(T).name();
+        if (GetInstance().ComponentMap.find(typeName) == GetInstance().ComponentMap.end())
+        {
+            JAMNIK_LOG_ERROR("Looking for non existent component")
+            return nullptr;
+        }
+
+        return static_cast<T*>(GetInstance().Entities[entity][GetInstance().ComponentMap[typeName]]);
     }
     
     static Entity NewEntity()
@@ -86,16 +104,16 @@ public:
     }
 
     template<typename T>
-    std:: shared_ptr<ComponentArray<T>> GetComponentArray()
+    static std:: shared_ptr<ComponentArray<T>> GetComponentArray()
     {
         const char* typeName = typeid(T).name();
-        if (ComponentMap.find(typeName) == ComponentMap.end())
+        if (GetInstance().ComponentMap.find(typeName) == GetInstance().ComponentMap.end())
         {
             JAMNIK_LOG_ERROR("Trying to find non existent component array")
             return nullptr;
         }
 
-        return std::static_pointer_cast<ComponentArray<T>>(ComponentArrays[ComponentMap[typeName]]);
+        return std::static_pointer_cast<ComponentArray<T>>(GetInstance().ComponentArrays[GetInstance().ComponentMap[typeName]]);
     }
     
 private:

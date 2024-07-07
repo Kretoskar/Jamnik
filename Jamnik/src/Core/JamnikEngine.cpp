@@ -27,8 +27,7 @@ bool Jamnik::JamnikEngine::Init()
     }
 
     // Init assets
-    _assetsRegistry = std::make_shared<AssetsRegistry>();
-    _assetsRegistry->Init();
+    AssetsRegistry::GetInstance().Init();
 
     // Init camera
     _camera = std::make_shared<Camera>(_window.get(), glm::vec3(1.0f, 1.0f, 1.0f));
@@ -42,6 +41,10 @@ bool Jamnik::JamnikEngine::Init()
     _renderer = std::make_shared<Renderer>();
     _renderer->Init(_window.get(), _camera);
 
+    // Init game
+    _game = std::make_shared<JamnikGame>();
+    _game->Init();
+    
     return true;
 }
 
@@ -64,6 +67,6 @@ void Jamnik::JamnikEngine::Loop()
 void Jamnik::JamnikEngine::Exit()
 {
     _ui->Cleanup();
-    _assetsRegistry->Cleanup();
+    AssetsRegistry::GetInstance().Cleanup();
     _window->ShutDown();
 }

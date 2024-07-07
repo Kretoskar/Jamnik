@@ -2,6 +2,8 @@
 
 #include <memory>
 
+#include "Game/JamnikGame.h"
+
 class DebugRenderer;
 class Camera;
 
@@ -36,7 +38,6 @@ namespace Jamnik
         void Exit();
 
         std::shared_ptr<UserInterface> GetUI() const { return _ui; }
-        std::shared_ptr<AssetsRegistry> GetAssetsRegistry() const { return _assetsRegistry; }
         
     private:
         // unique ptrs?
@@ -44,10 +45,8 @@ namespace Jamnik
         std::shared_ptr<Renderer> _renderer;
         std::shared_ptr<DebugRenderer> _debugRenderer;
         std::shared_ptr<UserInterface> _ui;
-        std::shared_ptr<AssetsRegistry> _assetsRegistry;
         std::shared_ptr<Camera> _camera;
-
-        static JamnikEngine* Instance;
+        std::shared_ptr<JamnikGame> _game;
     };
    
 }

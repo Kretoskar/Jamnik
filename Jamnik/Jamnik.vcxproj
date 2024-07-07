@@ -86,11 +86,13 @@
   <ItemGroup>
     <ClCompile Include="src\Core\AssetsRegistry.cpp" />
     <ClCompile Include="src\Core\Color.cpp" />
+    <ClCompile Include="src\Core\ECS\Components.cpp" />
     <ClCompile Include="src\Core\EventSystem.cpp" />
     <ClCompile Include="src\Core\JamnikEngine.cpp" />
     <ClCompile Include="src\Core\JString.cpp" />
     <ClCompile Include="src\Core\Logger.cpp" />
     <ClCompile Include="src\Core\Window.cpp" />
+    <ClCompile Include="src\Game\JamnikGame.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\Rendering\Camera.cpp" />
     <ClCompile Include="src\Rendering\DebugRenderer.cpp" />
@@ -116,6 +118,7 @@
   <ItemGroup>
     <ClInclude Include="src\Core\AssetsRegistry.h" />
     <ClInclude Include="src\Core\Color.h" />
+    <ClInclude Include="src\Core\ECS\Components.h" />
     <ClInclude Include="src\Core\ECS\SimpleECS.h" />
     <ClInclude Include="src\Core\EventSystem.h" />
     <ClInclude Include="src\Core\JamnikEngine.h" />
@@ -123,6 +126,7 @@
     <ClInclude Include="src\Core\JString.h" />
     <ClInclude Include="src\Core\Logger.h" />
     <ClInclude Include="src\Core\Window.h" />
+    <ClInclude Include="src\Game\JamnikGame.h" />
     <ClInclude Include="src\Rendering\Camera.h" />
     <ClInclude Include="src\Rendering\DebugRenderer.h" />
     <ClInclude Include="src\Rendering\EBO.h" />
