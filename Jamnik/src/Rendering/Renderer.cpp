@@ -53,7 +53,7 @@ unsigned lightIndices[] =
     4, 6, 7
 };
 
-void Jamnik::Renderer::Init(Window* inWindow)
+void Jamnik::Renderer::Init(Window* inWindow, std::shared_ptr<Camera> inCamera)
 {
     window = inWindow;
 
@@ -79,8 +79,7 @@ void Jamnik::Renderer::Init(Window* inWindow)
         lightMesh = std::make_unique<Mesh>(verts, ind, lightMaterial.get());
     }
     
-    camera = std::make_unique<Camera>(window, glm::vec3(1.0f, 1.0f, 1.0f));
-    camera->Init();
+    camera = inCamera;
 
     debugRenderer = std::make_unique<DebugRenderer>(camera.get());
     debugRenderer->Init();

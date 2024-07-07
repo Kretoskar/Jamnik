@@ -18,7 +18,7 @@ namespace Jamnik
     class Renderer
     {
     public:
-        void Init(Window* inWindow);
+        void Init(Window* inWindow, std::shared_ptr<Camera> inCamera);
         void Render();
 
         std::unique_ptr<Mesh> mesh;
@@ -28,8 +28,8 @@ namespace Jamnik
 
         std::unique_ptr<Material> meshMaterial;
         std::unique_ptr<Material> lightMaterial;
-        
-        std::unique_ptr<Camera> camera;
+
+        std::shared_ptr<Camera> camera;
         std::unique_ptr<DebugRenderer> debugRenderer;
 
         Window* window;

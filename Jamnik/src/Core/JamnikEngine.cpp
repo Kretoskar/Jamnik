@@ -29,10 +29,14 @@ bool Jamnik::JamnikEngine::Init()
     // Init assets
     _assetsRegistry = std::make_shared<AssetsRegistry>();
     _assetsRegistry->Init();
+
+    // Init camera
+    _camera = std::make_shared<Camera>(_window.get(), glm::vec3(1.0f, 1.0f, 1.0f));
+    _camera->Init();
     
     // Init renderer
     _renderer = std::make_shared<Renderer>();
-    _renderer->Init(_window.get());
+    _renderer->Init(_window.get(), _camera);
 
     return true;
 }

@@ -2,6 +2,8 @@
 
 #include <memory>
 
+class Camera;
+
 namespace Jamnik
 {
     class AssetsRegistry;
@@ -40,6 +42,7 @@ namespace Jamnik
         std::shared_ptr<Renderer> _renderer;
         std::shared_ptr<UserInterface> _ui;
         std::shared_ptr<AssetsRegistry> _assetsRegistry;
+        std::shared_ptr<Camera> _camera;
 
         static JamnikEngine* Instance;
     };
