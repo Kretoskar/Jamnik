@@ -83,7 +83,7 @@ void Camera::Init()
     JAMNIK_BIND_EVENT(KeyboardEvent::Type(GLFW_KEY_A, GLFW_RELEASE, 0), OnLeftReleased)
 }
 
-void Camera::Tick()
+void Camera::Update()
 {
     Position += GetVelocity();
 

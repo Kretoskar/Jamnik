@@ -30,7 +30,6 @@ namespace Jamnik
         std::unique_ptr<Material> lightMaterial;
 
         std::shared_ptr<Camera> camera;
-        std::unique_ptr<DebugRenderer> debugRenderer;
 
         Window* window;
     };

@@ -46,7 +46,7 @@ public:
     Camera(Jamnik::Window* inWindow, glm::vec3 position)
         : window(inWindow), Position(position) {}
     void Init();
-    void Tick();
+    void Update();
     
     glm::vec3 GetRightVector() const;
     

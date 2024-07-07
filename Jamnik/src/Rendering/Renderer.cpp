@@ -81,9 +81,6 @@ void Jamnik::Renderer::Init(Window* inWindow, std::shared_ptr<Camera> inCamera)
     
     camera = inCamera;
 
-    debugRenderer = std::make_unique<DebugRenderer>(camera.get());
-    debugRenderer->Init();
-
     glClearColor(0,0,0,0);
     glEnable(GL_DEPTH_TEST);
 }
@@ -91,9 +88,6 @@ void Jamnik::Renderer::Init(Window* inWindow, std::shared_ptr<Camera> inCamera)
 void Jamnik::Renderer::Render()
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-    //TODO: This shouldn't be in renderer
-    camera->Tick();
     
     glm::mat4 lightModelMat = glm::mat4(1.0f);
     glm::vec3 lightPos = glm::vec3(0.4f,0.4f,0.4f);
@@ -117,6 +111,4 @@ void Jamnik::Renderer::Render()
     camera->SetVPMatricesInShader(*Jamnik::JamnikEngine::GetInstance().GetAssetsRegistry()->meshShader);
     camera->SetCameraPosInShader(*Jamnik::JamnikEngine::GetInstance().GetAssetsRegistry()->meshShader);
     mesh->Draw();
-    
-    debugRenderer->Render();
 }

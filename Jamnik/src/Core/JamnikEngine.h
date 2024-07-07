@@ -2,6 +2,7 @@
 
 #include <memory>
 
+class DebugRenderer;
 class Camera;
 
 namespace Jamnik
@@ -38,8 +39,10 @@ namespace Jamnik
         std::shared_ptr<AssetsRegistry> GetAssetsRegistry() const { return _assetsRegistry; }
         
     private:
+        // unique ptrs?
         std::shared_ptr<Window> _window;
         std::shared_ptr<Renderer> _renderer;
+        std::shared_ptr<DebugRenderer> _debugRenderer;
         std::shared_ptr<UserInterface> _ui;
         std::shared_ptr<AssetsRegistry> _assetsRegistry;
         std::shared_ptr<Camera> _camera;

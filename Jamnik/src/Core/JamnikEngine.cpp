@@ -33,6 +33,10 @@ bool Jamnik::JamnikEngine::Init()
     // Init camera
     _camera = std::make_shared<Camera>(_window.get(), glm::vec3(1.0f, 1.0f, 1.0f));
     _camera->Init();
+
+    // Init debug renderer
+    _debugRenderer = std::make_shared<DebugRenderer>(_camera.get());
+    _debugRenderer->Init();
     
     // Init renderer
     _renderer = std::make_shared<Renderer>();
@@ -45,9 +49,14 @@ void Jamnik::JamnikEngine::Loop()
 {
     while (!_window->GetShouldClose())
     {
+        _camera->Update();
+        
         _renderer->Render();
+        _debugRenderer->Render();
+        
         _ui->CreateFrame();
         _ui->Render();
+        
         _window->Update();
     }
 }
