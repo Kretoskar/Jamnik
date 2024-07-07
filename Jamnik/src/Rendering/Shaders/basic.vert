@@ -11,8 +11,7 @@ out vec3 color;
 out vec2 texUV;
 
 uniform mat4 model;
-uniform mat4 view;
-uniform mat4 proj;
+uniform mat4 viewProj;
 
 void main()
 {
@@ -21,5 +20,5 @@ void main()
     color = aColor;
     texUV = aTexUV;
 
-    gl_Position = proj * view * vec4(pos, 1.0f);
+    gl_Position = viewProj * vec4(pos, 1.0f);
 }

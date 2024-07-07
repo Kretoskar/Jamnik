@@ -56,9 +56,9 @@ unsigned lightIndices[] =
 void Jamnik::Renderer::Init(Window* inWindow, std::shared_ptr<Camera> inCamera)
 {
     window = inWindow;
-
+    camera = inCamera;
+    
     {
-        
         meshMaterial = std::make_unique<Material>(
             Jamnik::JamnikEngine::GetInstance().GetAssetsRegistry()->meshDiffuseMap.get(),
             Jamnik::JamnikEngine::GetInstance().GetAssetsRegistry()->meshSpecularMap.get(),
@@ -78,8 +78,6 @@ void Jamnik::Renderer::Init(Window* inWindow, std::shared_ptr<Camera> inCamera)
         
         lightMesh = std::make_unique<Mesh>(verts, ind, lightMaterial.get());
     }
-    
-    camera = inCamera;
 
     glClearColor(0,0,0,0);
     glEnable(GL_DEPTH_TEST);
@@ -95,20 +93,21 @@ void Jamnik::Renderer::Render()
     lightModelMat = scale(lightModelMat, glm::vec3(0.1f, 0.1f, 0.1f));
 
     lightMaterial->Bind();
-
-    Jamnik::JamnikEngine::GetInstance().GetAssetsRegistry()->lightShader->SetModelMatrix(lightModelMat);
-    Jamnik::JamnikEngine::GetInstance().GetAssetsRegistry()->lightShader->SetUniform4f("lightColor", lightColor.x, lightColor.y, lightColor.z, lightColor.w);
-    camera->SetVPMatricesInShader(*Jamnik::JamnikEngine::GetInstance().GetAssetsRegistry()->lightShader);
+    
+    lightMaterial->Shader->SetModelMatrix(lightModelMat);
+    lightMaterial->Shader->SetLightColor(lightColor);
+    lightMaterial->Shader->SetVPMatrix(camera->GetVPMatrix());
     lightMesh->Draw();
     
     meshMaterial->Bind();
 
     glm::mat4 meshModelMat = glm::mat4(1.0f);
     meshModelMat = translate(meshModelMat, glm::vec3(0.0f, 0.1f, 0.0f));
-    Jamnik::JamnikEngine::GetInstance().GetAssetsRegistry()->meshShader->SetModelMatrix(meshModelMat);
-    Jamnik::JamnikEngine::GetInstance().GetAssetsRegistry()->meshShader->SetUniform4f("lightColor", lightColor.x, lightColor.y, lightColor.z, lightColor.w);
-    Jamnik::JamnikEngine::GetInstance().GetAssetsRegistry()->meshShader->SetUniform3f("lightPos", lightPos.x, lightPos.y, lightPos.z);
-    camera->SetVPMatricesInShader(*Jamnik::JamnikEngine::GetInstance().GetAssetsRegistry()->meshShader);
-    camera->SetCameraPosInShader(*Jamnik::JamnikEngine::GetInstance().GetAssetsRegistry()->meshShader);
+    meshMaterial->Shader->SetModelMatrix(meshModelMat);
+    meshMaterial->Shader->SetLightColor(lightColor);
+    meshMaterial->Shader->SetLightPosition(lightPos);
+    meshMaterial->Shader->SetVPMatrix(camera->GetVPMatrix());
+    meshMaterial->Shader->SetCameraPosition(camera->GetPosition());
+    
     mesh->Draw();
 }

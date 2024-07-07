@@ -67,8 +67,7 @@ public:
 
     void OnMouseMoved(void* payload);
     
-    // Updates and exports the camera matrix to the Vertex Shader
-    void SetVPMatricesInShader(Jamnik::Shader& shader);
+    glm::mat4 GetVPMatrix() const { return projection * view; }
 
-    void SetCameraPosInShader(Jamnik::Shader& shader);
+    glm::vec3 GetPosition() const { return Position; }
 };

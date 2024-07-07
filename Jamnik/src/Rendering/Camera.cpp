@@ -17,17 +17,6 @@
 
 #include "Core/JamnikEngine.h"
 
-void Camera::SetVPMatricesInShader(Jamnik::Shader& shader)
-{
-    shader.SetViewMatrix(view);
-    shader.SetProjectionMatrix(projection);
-}
-
-void Camera::SetCameraPosInShader(Jamnik::Shader& shader)
-{
-    shader.SetCameraPosition(Position);
-}
-
 glm::vec3 Camera::GetVelocity() const
 {
     glm::vec3 retVelocity = glm::vec3(0.0f, 0.0f, 0.0f);

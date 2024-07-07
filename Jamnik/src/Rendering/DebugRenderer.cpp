@@ -32,7 +32,8 @@ void DebugRenderer::Init()
 void DebugRenderer::Render()
 {
     shader->Bind();
-    camera->SetVPMatricesInShader(*shader);
+    shader->SetVPMatrix(camera->GetVPMatrix());
+    
     shader->SetModelMatrix(1.0f);
     lineVao->Bind();
     glDrawElements(GL_LINES, sizeof(lineIndices) / sizeof(int), GL_UNSIGNED_INT, 0);

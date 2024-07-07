@@ -37,10 +37,10 @@ namespace Jamnik
         void AssignSpecularMap(Texture& texture);
 
         void SetModelMatrix(glm::mat4 m);
-        void SetViewMatrix(glm::mat4 m);
-        void SetProjectionMatrix(glm::mat4 m);
+        void SetVPMatrix(glm::mat4 m);
         void SetCameraPosition(glm::vec3 pos);
         void SetLightPosition(glm::vec3 pos);
+        void SetLightColor(glm::vec4 color);
         
     private:
         int GetUniformLocation(const std::string& name);

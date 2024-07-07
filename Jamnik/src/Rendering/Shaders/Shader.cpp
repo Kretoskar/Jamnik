@@ -85,16 +85,10 @@ void Jamnik::Shader::SetModelMatrix(glm::mat4 m)
     SetUniformMat4f("model", m);
 }
 
-void Jamnik::Shader::SetViewMatrix(glm::mat4 m)
+void Jamnik::Shader::SetVPMatrix(glm::mat4 m)
 {
     Bind();
-    SetUniformMat4f("view", m);
-}
-
-void Jamnik::Shader::SetProjectionMatrix(glm::mat4 m)
-{
-    Bind();
-    SetUniformMat4f("proj", m);
+    SetUniformMat4f("viewProj", m);
 }
 
 void Jamnik::Shader::SetCameraPosition(glm::vec3 pos)
@@ -107,6 +101,12 @@ void Jamnik::Shader::SetLightPosition(glm::vec3 pos)
 {
     Bind();
     SetUniform3f("lightPos", pos.x, pos.y, pos.z);
+}
+
+void Jamnik::Shader::SetLightColor(glm::vec4 color)
+{
+    Bind();
+    SetUniform4f("lightColor", color.x, color.y, color.z, color.w);
 }
 
 int Jamnik::Shader::GetUniformLocation(const std::string& name)
