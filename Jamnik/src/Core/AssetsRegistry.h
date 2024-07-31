@@ -1,5 +1,8 @@
 ﻿#pragma once
 #include <memory>
+#include <string>
+
+#include "Rendering/Model.h"
 
 class Mesh;
 class Texture;
@@ -22,6 +25,8 @@ namespace Jamnik
             static AssetsRegistry instance;
             return instance;
         }
+
+        static std::string ReadFile(const char* filename);
         
         void Init();
         void Cleanup();
@@ -37,5 +42,7 @@ namespace Jamnik
 
         std::shared_ptr<Material> meshMaterial;
         std::shared_ptr<Material> lightMaterial;
+
+        std::shared_ptr<Model> model;
     };
 }

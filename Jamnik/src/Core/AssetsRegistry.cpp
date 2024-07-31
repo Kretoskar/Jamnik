@@ -1,5 +1,7 @@
 ﻿#include "AssetsRegistry.h"
 
+#include <fstream>
+
 #include "Rendering/Mesh.h"
 #include "Rendering/Texture.h"
 #include "Rendering/Shaders/Shader.h"
@@ -50,8 +52,26 @@ unsigned lightIndices[] =
     4, 6, 7
 };
 
+std::string Jamnik::AssetsRegistry::ReadFile(const char* filename)
+{
+    std::ifstream in(filename, std::ios::binary);
+    if (in)
+    {
+        std::string contents;
+        in.seekg(0, std::ios::end);
+        contents.resize(in.tellg());
+        in.seekg(0, std::ios::beg);
+        in.read(&contents[0], contents.size());
+        in.close();
+        return(contents);
+    }
+    throw(errno);
+}
+
 void Jamnik::AssetsRegistry::Init()
 {
+    model = std::make_shared<Model>("content/sword/scene.gltf");
+    
     meshDiffuseMap = std::make_shared<Texture>("content/diffuse.png", 0, GL_RGB);
     meshSpecularMap = std::make_shared<Texture>("content/specular.png", 1, GL_RED);
     meshShader = std::make_shared<Shader>("src/Rendering/Shaders/basic.frag", "src/Rendering/Shaders/basic.vert");
@@ -61,10 +81,11 @@ void Jamnik::AssetsRegistry::Init()
     meshDiffuseMap.get(),
     meshSpecularMap.get(),
     *meshShader);
-        
+    
+    
     mesh = std::make_shared<Mesh>(
-        std::vector <Vertex>(vertices, vertices + sizeof(vertices) / sizeof(Vertex)),
-        std::vector <unsigned> (indices, indices + sizeof(indices) / sizeof(GLuint)),
+        model->meshes[0].vertices,
+        model->meshes[0].indices,
         meshMaterial.get());
 
     lightMaterial = std::make_unique<Material>(nullptr, nullptr, *lightShader);
