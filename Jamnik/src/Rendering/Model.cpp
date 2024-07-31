@@ -70,7 +70,7 @@ std::vector<unsigned> Model::GetIndices(json accessor)
 
     // Get properties from the bufferView
     json bufferView = JSON["bufferViews"][buffViewInd];
-    unsigned int byteOffset = bufferView["byteOffset"];
+    unsigned int byteOffset = bufferView.value("byteOffset", 0);
 
     // Get indices with regards to their type: unsigned int, unsigned short, or short
     unsigned int beginningOfData = byteOffset + accByteOffset;
