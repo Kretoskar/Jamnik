@@ -4,23 +4,23 @@
 #include<glm/gtc/matrix_transform.hpp>
 #include<glm/gtc/type_ptr.hpp>
 #include "json.h"
+#include "Material.h"
+#include "Texture.h"
 #include "Vertex.h"
 
 using json = nlohmann::json;
 
-struct SimpleMesh
-{
-    std::vector<Vertex> vertices;
-    std::vector<unsigned> indices;
-};
+class Mesh;
 
-class Model
+class GLTFLoader
 {
 public:
-    Model(const char* file);
-    
-    std::vector<SimpleMesh> meshes;
+    GLTFLoader(const char* file);
 
+    //TODO: Static func for loading instead?
+    
+    std::vector<Mesh> meshes;
+    
 private:
     std::vector<float> GetFloats(json accessor);
     std::vector<unsigned> GetIndices(json accessor);

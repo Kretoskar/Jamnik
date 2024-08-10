@@ -1,12 +1,13 @@
-﻿#include "Model.h"
+﻿#include "GLTFLoader.h"
 
+#include "Mesh.h"
 #include "Core/AssetsRegistry.h"
 
-Model::Model(const char* file)
+GLTFLoader::GLTFLoader(const char* file)
 {
     std::string text = Jamnik::AssetsRegistry::ReadFile(file);
     JSON = json::parse(text);
-    Model::file = file;
+    GLTFLoader::file = file;
     
     std::string bytesText;
     std::string uri = JSON["buffers"][0]["uri"];
@@ -22,7 +23,7 @@ Model::Model(const char* file)
 	TraverseNode(0);
 }
 
-std::vector<float> Model::GetFloats(json accessor)
+std::vector<float> GLTFLoader::GetFloats(json accessor)
 {
     std::vector<float> floatVec;
 
@@ -58,7 +59,7 @@ std::vector<float> Model::GetFloats(json accessor)
     return floatVec;
 }
 
-std::vector<unsigned> Model::GetIndices(json accessor)
+std::vector<unsigned> GLTFLoader::GetIndices(json accessor)
 {
     std::vector<unsigned> indices;
 
@@ -108,7 +109,7 @@ std::vector<unsigned> Model::GetIndices(json accessor)
     return indices;
 }
 
-void Model::TraverseNode(unsigned nextNode, glm::mat4 matrix)
+void GLTFLoader::TraverseNode(unsigned nextNode, glm::mat4 matrix)
 {
     	// Current node
 	json node = JSON["nodes"][nextNode];
@@ -186,7 +187,7 @@ void Model::TraverseNode(unsigned nextNode, glm::mat4 matrix)
 	}
 }
 
-std::vector<Vertex> Model::AssembleVertices(std::vector<glm::vec3> positions, std::vector<glm::vec3> normals,
+std::vector<Vertex> GLTFLoader::AssembleVertices(std::vector<glm::vec3> positions, std::vector<glm::vec3> normals,
                                             std::vector<glm::vec2> texUVs)
 {
     std::vector<Vertex> vertices;
@@ -206,7 +207,7 @@ std::vector<Vertex> Model::AssembleVertices(std::vector<glm::vec3> positions, st
     return vertices;
 }
 
-void Model::LoadMesh(unsigned indMesh)
+void GLTFLoader::LoadMesh(unsigned indMesh)
 {
     // Get all accessor indices
     unsigned int posAccInd = JSON["meshes"][indMesh]["primitives"][0]["attributes"]["POSITION"];
@@ -228,10 +229,11 @@ void Model::LoadMesh(unsigned indMesh)
     //std::vector<Texture> textures = getTextures();
 
     // Combine the vertices, indices, and textures into a mesh
-    meshes.push_back({vertices, indices});
+	// TODO: optimize this shit
+    meshes.push_back(Mesh(vertices, indices, nullptr));
 }
 
-std::vector<glm::vec2> Model::GroupFloatsVec2(std::vector<float> floatVec)
+std::vector<glm::vec2> GLTFLoader::GroupFloatsVec2(std::vector<float> floatVec)
 {
     std::vector<glm::vec2> vectors;
     for (int i = 0; i < floatVec.size(); i)
@@ -241,7 +243,7 @@ std::vector<glm::vec2> Model::GroupFloatsVec2(std::vector<float> floatVec)
     return vectors;
 }
 
-std::vector<glm::vec3> Model::GroupFloatsVec3(std::vector<float> floatVec)
+std::vector<glm::vec3> GLTFLoader::GroupFloatsVec3(std::vector<float> floatVec)
 {
     std::vector<glm::vec3> vectors;
     for (int i = 0; i < floatVec.size(); i)
@@ -251,7 +253,7 @@ std::vector<glm::vec3> Model::GroupFloatsVec3(std::vector<float> floatVec)
     return vectors;
 }
 
-std::vector<glm::vec4> Model::GroupFloatsVec4(std::vector<float> floatVec)
+std::vector<glm::vec4> GLTFLoader::GroupFloatsVec4(std::vector<float> floatVec)
 {
     std::vector<glm::vec4> vectors;
     for (int i = 0; i < floatVec.size(); i)

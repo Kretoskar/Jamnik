@@ -10,6 +10,7 @@ void JamnikGame::Init()
     auto* meshEntityMeshComponent = ECS::AddComponent<MeshComponent>(meshEntity);
 
     meshEntityTransformComponent->Move(glm::vec3(0.0f, 0.1f, 0.0f));
+    meshEntityTransformComponent->Scale(glm::vec3(0.1f, 0.1f, 0.1f));
     meshEntityMeshComponent->material = Jamnik::AssetsRegistry::GetInstance().meshMaterial.get();
     meshEntityMeshComponent->mesh = Jamnik::AssetsRegistry::GetInstance().mesh.get();
 

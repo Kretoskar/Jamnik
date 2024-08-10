@@ -2,7 +2,7 @@
 #include <memory>
 #include <string>
 
-#include "Rendering/Model.h"
+#include "Rendering/GLTFLoader.h"
 
 class Mesh;
 class Texture;
@@ -43,6 +43,6 @@ namespace Jamnik
         std::shared_ptr<Material> meshMaterial;
         std::shared_ptr<Material> lightMaterial;
 
-        std::shared_ptr<Model> model;
+        std::shared_ptr<GLTFLoader> model;
     };
 }
