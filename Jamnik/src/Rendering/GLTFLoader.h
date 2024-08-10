@@ -5,6 +5,7 @@
 #include<glm/gtc/type_ptr.hpp>
 #include "json.h"
 #include "Material.h"
+#include "Model.h"
 #include "Texture.h"
 #include "Vertex.h"
 
@@ -17,7 +18,8 @@ class GLTFLoader
 public:
     GLTFLoader(const char* file);
 
-    //TODO: Static func for loading instead?
+    // static wrapper, maybe move everything to static?
+    static Model Load(const char* file);
     
     std::vector<Mesh> meshes;
     

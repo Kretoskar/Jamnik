@@ -70,7 +70,7 @@ std::string Jamnik::AssetsRegistry::ReadFile(const char* filename)
 
 void Jamnik::AssetsRegistry::Init()
 {
-    model = std::make_shared<GLTFLoader>("content/crow/scene.gltf");
+    model = std::make_shared<Model>(GLTFLoader::Load("content/crow/scene.gltf"));
     
     meshDiffuseMap = std::make_shared<Texture>("content/diffuse.png", 0, GL_RGB);
     meshSpecularMap = std::make_shared<Texture>("content/specular.png", 1, GL_RED);

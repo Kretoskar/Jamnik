@@ -23,6 +23,15 @@ GLTFLoader::GLTFLoader(const char* file)
 	TraverseNode(0);
 }
 
+Model GLTFLoader::Load(const char* file)
+{
+	const GLTFLoader loader(file);
+
+	// TODO: error handling
+	
+	return {loader.meshes};
+}
+
 std::vector<float> GLTFLoader::GetFloats(json accessor)
 {
     std::vector<float> floatVec;

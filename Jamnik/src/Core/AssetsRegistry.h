@@ -43,6 +43,6 @@ namespace Jamnik
         std::shared_ptr<Material> meshMaterial;
         std::shared_ptr<Material> lightMaterial;
 
-        std::shared_ptr<GLTFLoader> model;
+        std::shared_ptr<Model> model;
     };
 }
