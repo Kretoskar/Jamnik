@@ -48,13 +48,32 @@ void Jamnik::Renderer::Render()
         auto* transformComponent = ECS::GetComponent<TransformComponent>(e);
         auto* meshComponent = ECS::GetComponent<MeshComponent>(e);
 
-        meshComponent->material->Bind();
-        meshComponent->material->Shader->SetModelMatrix(transformComponent->GetModelMatrix());
-        meshComponent->material->Shader->SetLightColor(lightColor);
-        meshComponent->material->Shader->SetLightPosition(lightPosition);
-        meshComponent->material->Shader->SetVPMatrix(camera->GetVPMatrix());
-        meshComponent->material->Shader->SetCameraPosition(camera->GetPosition());
+        if (meshComponent)
+        {
+            meshComponent->material->Bind();
+            meshComponent->material->Shader->SetModelMatrix(transformComponent->GetModelMatrix());
+            meshComponent->material->Shader->SetLightColor(lightColor);
+            meshComponent->material->Shader->SetLightPosition(lightPosition);
+            meshComponent->material->Shader->SetVPMatrix(camera->GetVPMatrix());
+            meshComponent->material->Shader->SetCameraPosition(camera->GetPosition());
 
-        meshComponent->mesh->Draw();
+            meshComponent->mesh->Draw();
+        }
+
+        auto* modelComponent = ECS::GetComponent<ModelComponent>(e);
+        if (modelComponent)
+        {
+            for (auto &mesh : modelComponent->model->meshes)
+            {
+                mesh.material->Bind();
+                mesh.material->Shader->SetModelMatrix(transformComponent->GetModelMatrix());
+                mesh.material->Shader->SetLightColor(lightColor);
+                mesh.material->Shader->SetLightPosition(lightPosition);
+                mesh.material->Shader->SetVPMatrix(camera->GetVPMatrix());
+                mesh.material->Shader->SetCameraPosition(camera->GetPosition());
+
+                mesh.Draw();
+            }
+        }
     }
 }

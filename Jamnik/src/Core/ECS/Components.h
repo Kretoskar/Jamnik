@@ -2,6 +2,8 @@
 #include <glm/fwd.hpp>
 #include<glm/gtc/matrix_transform.hpp>
 
+#include "Rendering/Model.h"
+
 namespace Jamnik
 {
     struct Material;
@@ -33,4 +35,9 @@ struct MeshComponent
 struct LightComponent
 {
     glm::vec4 lightColor;
+};
+
+struct ModelComponent
+{
+    Model* model;
 };
